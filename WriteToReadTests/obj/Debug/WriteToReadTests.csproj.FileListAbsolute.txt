@@ -1,0 +1,7 @@
+D:\Projects\CQRS\WriteToReadTests\obj\Debug\WriteToReadTests.csprojResolveAssemblyReference.cache
+D:\Projects\CQRS\WriteToReadTests\bin\Debug\Tests.WriteToReadTests.dll
+D:\Projects\CQRS\WriteToReadTests\bin\Debug\Tests.WriteToReadTests.pdb
+D:\Projects\CQRS\WriteToReadTests\obj\Debug\Tests.WriteToReadTests.dll
+D:\Projects\CQRS\WriteToReadTests\obj\Debug\Tests.WriteToReadTests.pdb
+D:\Projects\CQRS\WriteToReadTests\bin\Debug\NSubstitute.dll
+D:\Projects\CQRS\WriteToReadTests\bin\Debug\NSubstitute.xml

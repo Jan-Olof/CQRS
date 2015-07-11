@@ -1,0 +1,16 @@
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\EntityFramework.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\EntityFramework.xml
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\CQRS\Read.Dal.CodeFirst\obj\Debug\Read.Dal.CodeFirst.csprojResolveAssemblyReference.cache
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\DataAccess.Read.Dal.CodeFirst.dll.config
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\DataAccess.Read.Dal.CodeFirst.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\DataAccess.Read.Dal.CodeFirst.pdb
+D:\Projects\CQRS\Read.Dal.CodeFirst\obj\Debug\DataAccess.Read.Dal.CodeFirst.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\obj\Debug\DataAccess.Read.Dal.CodeFirst.pdb
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\Domain.Read.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\Common.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\NLog.dll
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\Domain.Read.pdb
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\Common.pdb
+D:\Projects\CQRS\Read.Dal.CodeFirst\bin\Debug\NLog.xml

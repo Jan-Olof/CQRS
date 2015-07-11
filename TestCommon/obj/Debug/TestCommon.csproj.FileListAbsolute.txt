@@ -1,0 +1,17 @@
+D:\Projects\CQRS\TestCommon\obj\Debug\TestCommon.csprojResolveAssemblyReference.cache
+D:\Projects\CQRS\TestCommon\bin\Debug\Common.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\Common.pdb
+D:\Projects\CQRS\TestCommon\bin\Debug\Tests.TestCommon.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\Tests.TestCommon.pdb
+D:\Projects\CQRS\TestCommon\obj\Debug\Tests.TestCommon.dll
+D:\Projects\CQRS\TestCommon\obj\Debug\Tests.TestCommon.pdb
+D:\Projects\CQRS\TestCommon\bin\Debug\Domain.Write.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\NLog.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\Domain.Write.pdb
+D:\Projects\CQRS\TestCommon\bin\Debug\NLog.xml
+D:\Projects\CQRS\TestCommon\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\CQRS\TestCommon\bin\Debug\EntityFramework.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\EntityFramework.xml
+D:\Projects\CQRS\TestCommon\bin\Debug\Domain.Read.dll
+D:\Projects\CQRS\TestCommon\bin\Debug\Domain.Read.pdb
