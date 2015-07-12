@@ -23,9 +23,17 @@
         }
 
         /// <summary>
+        /// The create payload.
+        /// </summary>
+        public static string CreatePayload()
+        {
+            return "{\"EntityType\": \"Book\",\"Properties\": [{\"Key\": \"Name\",\"Value\": \"Sapiens\"},{\"Key\": \"Author\",\"Value\": \"Yuval Noah Harari\"},{\"Key\": \"Published\",\"Value\": \"2014\"}	]}";
+        }
+
+        /// <summary>
         /// The create strings.
         /// </summary>
-        private static ICollection<KeyValuePair<string, string>> CreateProperties()
+        private static IList<KeyValuePair<string, string>> CreateProperties()
         {
             var keyValuePairs = new Collection<KeyValuePair<string, string>>
                                     {

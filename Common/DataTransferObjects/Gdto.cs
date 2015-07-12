@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// The gdto.
+    /// The gdto is a generic registration dto used in commands.
     /// </summary>
     public class Gdto
     {
@@ -15,6 +15,6 @@
         /// <summary>
         /// Gets or sets the properties.
         /// </summary>
-        public ICollection<KeyValuePair<string, string>> Properties { get; set; }
+        public IList<KeyValuePair<string, string>> Properties { get; set; }
     }
 }

@@ -10,3 +10,15 @@ D:\Projects\CQRS\Common\bin\Debug\EntityFramework.xml
 D:\Projects\CQRS\Common\bin\Debug\EntityFramework.SqlServer.xml
 D:\Projects\CQRS\Common\bin\Debug\NLog.xml
 D:\Projects\CQRS\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\CQRS\Common\bin\Debug\Common.dll.config
+D:\Projects\GitHub\CQRS\Common\bin\Debug\Common.dll
+D:\Projects\GitHub\CQRS\Common\bin\Debug\Common.pdb
+D:\Projects\GitHub\CQRS\Common\bin\Debug\EntityFramework.dll
+D:\Projects\GitHub\CQRS\Common\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\GitHub\CQRS\Common\bin\Debug\NLog.dll
+D:\Projects\GitHub\CQRS\Common\bin\Debug\EntityFramework.xml
+D:\Projects\GitHub\CQRS\Common\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\GitHub\CQRS\Common\bin\Debug\NLog.xml
+D:\Projects\GitHub\CQRS\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\CQRS\Common\obj\Debug\Common.dll
+D:\Projects\GitHub\CQRS\Common\obj\Debug\Common.pdb

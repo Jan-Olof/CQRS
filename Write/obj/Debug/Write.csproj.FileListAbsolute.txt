@@ -11,3 +11,16 @@ D:\Projects\CQRS\Write\obj\Debug\Domain.Write.dll
 D:\Projects\CQRS\Write\obj\Debug\Domain.Write.pdb
 D:\Projects\CQRS\Write\bin\Debug\EntityFramework.dll
 D:\Projects\CQRS\Write\bin\Debug\EntityFramework.xml
+D:\Projects\GitHub\CQRS\Write\bin\Debug\Domain.Write.dll
+D:\Projects\GitHub\CQRS\Write\bin\Debug\Domain.Write.pdb
+D:\Projects\GitHub\CQRS\Write\bin\Debug\Common.dll
+D:\Projects\GitHub\CQRS\Write\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\GitHub\CQRS\Write\bin\Debug\NLog.dll
+D:\Projects\GitHub\CQRS\Write\bin\Debug\EntityFramework.dll
+D:\Projects\GitHub\CQRS\Write\bin\Debug\Common.pdb
+D:\Projects\GitHub\CQRS\Write\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\GitHub\CQRS\Write\bin\Debug\NLog.xml
+D:\Projects\GitHub\CQRS\Write\bin\Debug\EntityFramework.xml
+D:\Projects\GitHub\CQRS\Write\obj\Debug\Write.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\CQRS\Write\obj\Debug\Domain.Write.dll
+D:\Projects\GitHub\CQRS\Write\obj\Debug\Domain.Write.pdb
