@@ -1,5 +1,7 @@
 ﻿namespace Tests.TestCommon.SampleObjects
 {
+    using System.Collections.Generic;
+
     using Domain.Read.Entities;
 
     /// <summary>
@@ -7,6 +9,18 @@
     /// </summary>
     public static class SamplePropertyTypes
     {
+        /// <summary>
+        /// The create property types.
+        /// </summary>
+        public static IList<PropertyType> CreatePropertyTypes()
+        {
+            return new List<PropertyType>
+                       {
+                           CreatePropertyTypeAuthor(),
+                           CreatePropertyTypePublished()
+                       };
+        }
+
         /// <summary>
         /// The create property type author.
         /// </summary>
@@ -28,6 +42,18 @@
                     {
                         Id = 2,
                         Name = "Published",
+                    };
+        }
+
+        /// <summary>
+        /// The create property type size.
+        /// </summary>
+        public static PropertyType CreatePropertyTypeSize()
+        {
+            return new PropertyType
+                    {
+                        Id = 3,
+                        Name = "Size",
                     };
         }
     }
