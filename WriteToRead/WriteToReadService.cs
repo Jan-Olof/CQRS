@@ -1,6 +1,9 @@
 ﻿namespace WriteToRead
 {
     using System;
+    using System.Collections.Generic;
+
+    using Domain.Read.Entities;
 
     using NLog;
 
@@ -22,16 +25,27 @@
         private readonly IWriteEventService writeEventService;
 
         /// <summary>
+        /// The generic registration service.
+        /// </summary>
+        private readonly IGenericRegistrationService genericRegistrationService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteToReadService"/> class.
         /// </summary>
-        public WriteToReadService(IWriteEventService writeEventService)
+        public WriteToReadService(IWriteEventService writeEventService, IGenericRegistrationService genericRegistrationService)
         {
             if (writeEventService == null)
             {
                 throw new ArgumentNullException("writeEventService");
             }
 
+            if (genericRegistrationService == null)
+            {
+                throw new ArgumentNullException("genericRegistrationService");
+            }
+
             this.writeEventService = writeEventService;
+            this.genericRegistrationService = genericRegistrationService;
         }
 
         /// <summary>
@@ -52,7 +66,25 @@
                 {
                     var gdto = this.writeEventService.DeserializeGdto(writeEvent.Payload);
 
-                    // TODO: Continue here.
+                    var registrationTypeId = this.genericRegistrationService.CheckRegistrationType(gdto.EntityType);
+
+                    if (registrationTypeId == 0)
+                    {
+                        registrationTypeId = this.genericRegistrationService.InsertRegistrationType(gdto.EntityType);
+                    }
+
+                    ICollection<RegistrationProperty> registrationProperties;
+                    foreach (var property in gdto.Properties)
+                    {
+                        var propertyTypeId = this.genericRegistrationService.CheckPropertyType(property.Key);
+
+                        if (propertyTypeId == 0)
+                        {
+                            propertyTypeId = this.genericRegistrationService.InsertPropertType(property.Key);
+                        }
+
+                        // TODO: Here
+                    }
                 }
             }
             catch (Exception ex)

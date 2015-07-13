@@ -1,5 +1,7 @@
 ﻿namespace Tests.TestCommon.SampleObjects
 {
+    using System.Collections.Generic;
+
     using Domain.Read.Entities;
 
     /// <summary>
@@ -7,6 +9,18 @@
     /// </summary>
     public static class SampleRegistrationTypes
     {
+        /// <summary>
+        /// The create registration types.
+        /// </summary>
+        public static IList<RegistrationType> CreateRegistrationTypes()
+        {
+            return new List<RegistrationType>
+                       {
+                           CreateRegistrationTypeBook(),
+                           CreateRegistrationTypeMovie()
+                       };
+        }
+
         /// <summary>
         /// The create registration type book.
         /// </summary>
@@ -28,6 +42,18 @@
                         {
                             Id = 2,
                             Name = "Movie"
+                        };
+        }
+
+        /// <summary>
+        /// The create registration type comic.
+        /// </summary>
+        public static RegistrationType CreateRegistrationTypeComic()
+        {
+            return new RegistrationType
+                        {
+                            Id = 3,
+                            Name = "Comic"
                         };
         }
     }
