@@ -11,6 +11,20 @@
     public static class SampleRegistrationProperties
     {
         /// <summary>
+        /// The create registration properties.
+        /// </summary>
+        public static ICollection<RegistrationProperty> CreateRegistrationProperties()
+        {
+            return new Collection<RegistrationProperty>
+                       {
+                           CreateRegistrationPropertyHarari(),
+                           CreateRegistrationProperty2014(),
+                           CreateRegistrationPropertyKubrick(),
+                           CreateRegistrationProperty1968()
+                       };
+        }
+
+        /// <summary>
         /// The create registration properties sapiens.
         /// </summary>
         public static ICollection<RegistrationProperty> CreateRegistrationPropertiesSapiens()

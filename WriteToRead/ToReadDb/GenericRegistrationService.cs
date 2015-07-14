@@ -26,15 +26,22 @@
         private readonly IRepository<RegistrationType> registrationTypeRepository;
 
         /// <summary>
-        /// The registration type repository.
+        /// The property type repository.
         /// </summary>
         private readonly IRepository<PropertyType> propertyTypeRepository;
+
+        /// <summary>
+        /// The property repository.
+        /// </summary>
+        private readonly IRepository<RegistrationProperty> propertyRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericRegistrationService"/> class.
         /// </summary>
         public GenericRegistrationService(
-            IRepository<RegistrationType> registrationTypeRepository, IRepository<PropertyType> propertyTypeRepository)
+            IRepository<RegistrationType> registrationTypeRepository, 
+            IRepository<PropertyType> propertyTypeRepository, 
+            IRepository<RegistrationProperty> propertyRepository)
         {
             if (registrationTypeRepository == null)
             {
@@ -46,8 +53,14 @@
                 throw new ArgumentNullException("propertyTypeRepository");
             }
 
+            if (propertyRepository == null)
+            {
+                throw new ArgumentNullException("propertyRepository");
+            }
+
             this.registrationTypeRepository = registrationTypeRepository;
             this.propertyTypeRepository = propertyTypeRepository;
+            this.propertyRepository = propertyRepository;
         }
 
         /// <summary>
@@ -116,6 +129,11 @@
                 this.logger.Error(ex);
                 throw;
             }
+        }
+
+        public int CheckProperty(string type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -35,9 +35,14 @@
         private IRepository<RegistrationType> registrationTypeRepository;
 
         /// <summary>
-        /// The registration type repository.
+        /// The property type repository.
         /// </summary>
         private IRepository<PropertyType> propertyTypeRepository;
+
+        /// <summary>
+        /// The property repository.
+        /// </summary>
+        private IRepository<RegistrationProperty> propertyRepository;
 
         /// <summary>
         /// The set up.
@@ -47,6 +52,7 @@
         {
             this.registrationTypeRepository = Substitute.For<IRepository<RegistrationType>>();
             this.propertyTypeRepository = Substitute.For<IRepository<PropertyType>>();
+            this.propertyRepository = Substitute.For<IRepository<RegistrationProperty>>();
             
             SystemTime.Set(TimeStamp);
         }
@@ -234,12 +240,63 @@
             MyAssert.Throws<Exception>(() => sut.InsertPropertType("Size"));
         }
 
+        [TestMethod]
+        public void TestShouldCheckProperty()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            this.propertyRepository.GetAll()
+                .Returns(SampleRegistrationProperties.CreateRegistrationProperties().AsQueryable());
+
+            // Act
+            var result = sut.CheckProperty("Stanley Kubrick");
+
+            // Assert
+            Assert.AreEqual(1, result);
+        }
+
+        ///// <summary>
+        ///// The test should check property type and not find any.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestShouldCheckPropertyTypeAndNotFindAny()
+        //{
+        //    // Arrange
+        //    var sut = this.CreateGenericRegistrationService();
+
+        //    this.propertyTypeRepository.GetAll()
+        //        .Returns(SamplePropertyTypes.CreatePropertyTypes().AsQueryable());
+
+        //    // Act
+        //    var result = sut.CheckPropertyType("Autor");
+
+        //    // Assert
+        //    Assert.AreEqual(0, result);
+        //}
+
+        ///// <summary>
+        ///// The test should check property type and throw exception.
+        ///// </summary>
+        //[TestMethod]
+        //public void TestShouldCheckPropertyTypeAndThrowException()
+        //{
+        //    // Arrange
+        //    var sut = this.CreateGenericRegistrationService();
+
+        //    this.propertyTypeRepository.GetAll().Throws<Exception>();
+
+        //    // Act & Assert
+        //    MyAssert.Throws<Exception>(() => sut.CheckPropertyType("Author"));
+        //}
+
+
         /// <summary>
         /// The create generic registration service.
         /// </summary>
         private GenericRegistrationService CreateGenericRegistrationService()
         {
-            return new GenericRegistrationService(this.registrationTypeRepository, this.propertyTypeRepository);
+            return new GenericRegistrationService(this.registrationTypeRepository, this.propertyTypeRepository, this.propertyRepository);
         }
     }
 }

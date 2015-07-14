@@ -1,5 +1,10 @@
 ﻿namespace Domain.Read.Entities
 {
+    using System;
+    using System.Linq;
+
+    using Common.DataAccess;
+
     /// <summary>
     /// The registration property.
     /// </summary>
@@ -42,6 +47,20 @@
         /// Gets or sets the registration.
         /// </summary>
         public virtual Registration Registration { get; set; }
+
+        /// <summary>
+        /// Get property id for a RegistrationProperty.
+        /// </summary>
+        public static int GetPropertyId(IRepository<RegistrationProperty> repository, int typeId, string value)
+        {
+            var registrationProperty = repository.GetAll()
+                .SingleOrDefault(p => p.PropertyTypeId == typeId
+                    && string.Equals(p.Value, value, StringComparison.CurrentCultureIgnoreCase));
+
+            return registrationProperty == null 
+                ? 0 
+                : registrationProperty.Id;
+        }
 
     }
 }

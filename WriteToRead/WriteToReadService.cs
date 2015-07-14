@@ -83,7 +83,10 @@
                             propertyTypeId = this.genericRegistrationService.InsertPropertType(property.Key);
                         }
 
-                        // TODO: Here
+                        if (propertyTypeId > 0)
+                        {
+                            //var x
+                        }
                     }
                 }
             }

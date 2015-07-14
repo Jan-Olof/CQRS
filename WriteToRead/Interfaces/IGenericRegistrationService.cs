@@ -24,5 +24,10 @@
         /// Insert a new PropertyType into the database.
         /// </summary>
         int InsertPropertType(string type);
+
+        /// <summary>
+        /// Check if a property is already registered and return the id.
+        /// </summary>
+        int CheckProperty(string type);
     }
 }
