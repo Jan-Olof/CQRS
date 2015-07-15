@@ -33,5 +33,10 @@
         /// Gets or sets the payload.
         /// </summary>
         string Payload { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sent to read.
+        /// </summary>
+        int SentToRead { get; set; }
     }
 }

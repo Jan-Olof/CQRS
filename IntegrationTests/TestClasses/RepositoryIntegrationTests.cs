@@ -3,6 +3,8 @@
     using System;
     using System.Linq;
 
+    using Domain.Write.Entities;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Tests.IntegrationTests.Initialize;
@@ -15,22 +17,6 @@
     [TestClass]
     public class RepositoryIntegrationTests : BaseTestDb
     {
-        /// <summary>
-        /// The test should insert write event.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldInsertWriteEvent()
-        {
-            // Arrange
-            var sut = Factory.CreateWriteEventRepository();
-
-            // Act
-            var result = sut.Insert(SampleWriteEvents.CreateWriteEvent(0, "Sample payload"));
-
-            // Assert
-            Assert.IsTrue(result.Id > 0);
-        }
-
         /// <summary>
         /// The test should get all write events.
         /// </summary>
@@ -73,6 +59,22 @@
         }
 
         /// <summary>
+        /// The test should insert write event.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldInsertWriteEvent()
+        {
+            // Arrange
+            var sut = Factory.CreateWriteEventRepository();
+
+            // Act
+            var result = sut.Insert(SampleWriteEvents.CreateWriteEvent(0, "Sample payload"));
+
+            // Assert
+            Assert.IsTrue(result.Id > 0);
+        }
+
+        /// <summary>
         /// The test should insert write event and throw argument null exception.
         /// </summary>
         [TestMethod]
@@ -82,7 +84,27 @@
             var sut = Factory.CreateWriteEventRepository();
 
             // Act & Assert
-            MyAssert.Throws<ArgumentNullException>(() => sut.Insert(null));
+            MyAssert.Throws<ArgumentNullException>(() => sut.Insert((WriteEvent)null));
+        }
+
+        /// <summary>
+        /// The test should save all changes.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldSaveAllChanges()
+        {
+            // Arrange
+            var arr = Factory.CreateWriteEventRepository();
+            var writeEvent = arr.Insert(SampleWriteEvents.CreateWriteEvent(0, "Sample payload"));
+            writeEvent.Payload = "Updated payload";
+
+            var sut = Factory.CreateWriteEventRepository();
+
+            // Act
+            var result = sut.SaveAllChanges();
+
+            // Assert
+            Assert.IsTrue(result);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Common.DataAccess
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -22,5 +23,15 @@
         /// Insert one data model object.
         /// </summary>
         T Insert(T dataModel);
+
+        /// <summary>
+        /// Insert a list of data model objects.
+        /// </summary>
+        IList<T> Insert(IList<T> dataModelObjects);
+        
+        /// <summary>
+        /// Save all changes in DbContext to the database
+        /// </summary>
+        bool SaveAllChanges();
     }
 }

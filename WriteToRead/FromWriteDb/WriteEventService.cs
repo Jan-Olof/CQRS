@@ -8,6 +8,7 @@
     using Common.DataTransferObjects;
 
     using Domain.Write.Entities;
+    using Domain.Write.Interfaces;
 
     using Newtonsoft.Json;
 
@@ -52,8 +53,8 @@
             {
                 var writeEvents = WriteEvent.GetWriteEventsNotSentToRead(this.repository, timesSent);
 
-                return writeEvents == null 
-                    ? new List<WriteEvent>() 
+                return writeEvents == null
+                    ? new List<WriteEvent>()
                     : writeEvents.ToList();
             }
             catch (Exception ex)
@@ -71,6 +72,49 @@
             try
             {
                 return JsonConvert.DeserializeObject<Gdto>(payload);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get the value of the name property in a Gdto.
+        /// </summary>
+        public string GetNamePropertyValue(Gdto gdto)
+        {
+            try
+            {
+                if (gdto.Properties == null)
+                {
+                    return string.Empty;
+                }
+
+                var namePropertyValue = gdto.Properties
+                    .SingleOrDefault(p => string.Equals(p.Key, "Name", StringComparison.CurrentCultureIgnoreCase))
+                    .Value;
+
+                return namePropertyValue ?? string.Empty;
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Set sent to read to a new number.
+        /// </summary>
+        public bool SetSentToRead(IWriteEvent writeEvent, int sentToRead)
+        {
+            try
+            {
+                writeEvent.SentToRead = sentToRead;
+
+                return this.repository.SaveAllChanges();
             }
             catch (Exception ex)
             {

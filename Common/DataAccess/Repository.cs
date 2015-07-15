@@ -1,6 +1,7 @@
 ﻿namespace Common.DataAccess
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Core;
     using System.Data.Entity.Infrastructure;
@@ -178,6 +179,114 @@
         }
 
         /// <summary>
+        /// Insert a list of data model objects.
+        /// </summary>
+        public IList<T> Insert(IList<T> dataModelObjects)
+        {
+            var retryCount = 3;
+            while (retryCount > 0)
+            {
+                using (var transaction = DbContext.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        this.AddListToDbSet(dataModelObjects);
+                        this.DbContext.SaveChanges();
+
+                        transaction.Commit();
+                        break;
+                    }
+                    catch (SqlException exception)
+                    {
+                        transaction.Rollback();
+
+                        if (!this.HandleSqlException(exception, ref retryCount))
+                        {
+                            throw;
+                        }
+                    }
+                    catch (DbUpdateException updateException)
+                    {
+                        transaction.Rollback();
+
+                        HandleInnerExceptionDuplicateKey(updateException);
+
+                        throw;
+                    }
+                    catch (DbEntityValidationException vex)
+                    {
+                        transaction.Rollback();
+
+                        this.LogValidationException(vex);
+
+                        this.logger.Error(vex);
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+
+                        this.logger.Error(ex);
+                        throw;
+                    }
+                }
+            }
+
+            return dataModelObjects;
+        }
+        
+        /// <summary>
+        /// Save all changes in DbContext to the database
+        /// </summary>
+        public bool SaveAllChanges()
+        {
+            var result = false;
+            var retryCount = 3;
+            while (retryCount > 0)
+            {
+                using (var transaction = DbContext.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        this.DbContext.SaveChanges();
+
+                        transaction.Commit();
+
+                        result = true;
+                        break;
+                    }
+                    catch (SqlException exception)
+                    {
+                        transaction.Rollback();
+
+                        if (!this.HandleSqlException(exception, ref retryCount))
+                        {
+                            throw;
+                        }
+                    }
+                    catch (DbEntityValidationException vex)
+                    {
+                        transaction.Rollback();
+
+                        this.LogValidationException(vex);
+
+                        this.logger.Error(vex);
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+
+                        this.logger.Error(ex);
+                        throw;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
@@ -268,6 +377,21 @@
 
             Thread.Sleep(1000);
             return true;
+        }
+
+        /// <summary>
+        /// Adds a list of generic objects to DbSet.
+        /// </summary>
+        private void AddListToDbSet(IEnumerable<T> dataModelObjects)
+        {
+            this.DbContext.Configuration.AutoDetectChangesEnabled = false;
+
+            foreach (var dataModelObject in dataModelObjects)
+            {
+                this.DbSet.Add(dataModelObject);
+            }
+
+            this.DbContext.Configuration.AutoDetectChangesEnabled = true;
         }
     }
 }

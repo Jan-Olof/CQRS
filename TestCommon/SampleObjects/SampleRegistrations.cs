@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     using Domain.Read.Entities;
 
@@ -31,7 +32,7 @@
                            Updated = new DateTime(2015, 7, 9, 15, 41, 5),
                            RegistrationTypeId = 1,
                            RegistrationType = SampleRegistrationTypes.CreateRegistrationTypeBook(),
-                           RegistrationProperties = SampleRegistrationProperties.CreateRegistrationPropertiesSapiens()
+                           Properties = SampleProperties.CreatePropertiesSapiens()
                        };
         }
 
@@ -48,14 +49,14 @@
                             Updated = new DateTime(2015, 7, 9, 15, 52, 51),
                             RegistrationTypeId = 2,
                             RegistrationType = SampleRegistrationTypes.CreateRegistrationTypeMovie(),
-                            RegistrationProperties = SampleRegistrationProperties.CreateRegistrationProperties2001()
+                            Properties = SampleProperties.CreateProperties2001()
                         };
         }
 
         /// <summary>
         /// The create registration.
         /// </summary>
-        public static Registration CreateRegistrationSapiensDb()
+        public static Registration CreateRegistrationSapiensDb(Collection<Property> properties)
         {
             return new Registration
                         {
@@ -65,14 +66,14 @@
                             Updated = new DateTime(2015, 7, 9, 15, 41, 5),
                             RegistrationTypeId = 1,
                             RegistrationType = null,
-                            RegistrationProperties = null
+                            Properties = properties
                         };
         }
 
         /// <summary>
         /// The create registration 2001.
         /// </summary>
-        public static Registration CreateRegistration2001Db()
+        public static Registration CreateRegistration2001Db(Collection<Property> properties)
         {
             return new Registration
                         {
@@ -82,7 +83,7 @@
                             Updated = new DateTime(2015, 7, 9, 15, 52, 51),
                             RegistrationTypeId = 2,
                             RegistrationType = null,
-                            RegistrationProperties = null
+                            Properties = properties
                         };
         }
     }

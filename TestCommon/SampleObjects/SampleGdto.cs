@@ -23,6 +23,30 @@
         }
 
         /// <summary>
+        /// The create gdto with published.
+        /// </summary>
+        public static Gdto CreateGdtoWithPublished()
+        {
+            return new Gdto
+                    {
+                        EntityType = "Book",
+                        Properties = CreatePropertiesWithPublished()
+                    };
+        }
+
+        /// <summary>
+        /// The create gdto without name.
+        /// </summary>
+        public static Gdto CreateGdtoWithoutName()
+        {
+            return new Gdto
+                    {
+                        EntityType = "Book",
+                        Properties = CreatePropertiesWithoutName()
+                    };
+        }
+
+        /// <summary>
         /// The create payload.
         /// </summary>
         public static string CreatePayload()
@@ -38,6 +62,35 @@
             var keyValuePairs = new Collection<KeyValuePair<string, string>>
                                     {
                                         new KeyValuePair<string, string>("Name", "Sapiens"),
+                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
+                                    };
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// The create properties with published.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithPublished()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Name", "Sapiens"),
+                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari"),
+                                        new KeyValuePair<string, string>("Published", "2014")
+                                    };
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// The create properties without name.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithoutName()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Published", "2014"),
                                         new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
                                     };
 

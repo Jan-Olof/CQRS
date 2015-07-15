@@ -19,6 +19,10 @@
     using Domain.Write.Entities;
     using Domain.Write.Store;
 
+    using WriteToRead;
+    using WriteToRead.FromWriteDb;
+    using WriteToRead.ToReadDb;
+
     /// <summary>
     /// The factory.
     /// </summary>
@@ -43,6 +47,17 @@
 
             return new Repository<Registration>(readContext);
         }
+
+        /// <summary>
+        /// The create registration type repository.
+        /// </summary>
+        public static Repository<RegistrationType> CreateRegistrationTypeRepository()
+        {
+            var readContext = new ReadContext();
+
+            return new Repository<RegistrationType>(readContext);
+        }
+
 
         /// <summary>
         /// The create command services.
@@ -74,6 +89,12 @@
             controller.Request.RequestUri = new Uri(string.Concat(ConfigurationManager.AppSettings.Get("WebApiAddress"), "/api/"));
 
             return controller;
+        }
+
+        public static WriteToReadService CreateWriteToReadService()
+        {
+           throw new System.NotImplementedException();
+            //return new WriteToReadService(new WriteEventService(CreateWriteEventRepository()),new GenericRegistrationService() );
         }
     }
 }

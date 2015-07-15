@@ -35,14 +35,14 @@
                            Updated = registration.Updated,
                            RegistrationTypeId = registration.RegistrationType.Id,
                            RegistrationTypeName = registration.RegistrationType.Name,
-                           RegistrationProperties = CreateRegistrationPropertiesDtos(registration.RegistrationProperties)
+                           RegistrationProperties = CreateRegistrationPropertiesDtos(registration.Properties)
                        };
         }
 
         /// <summary>
         /// Create registration properties dtos from registration properties.
         /// </summary>
-        private static IList<RegistrationPropertyDto> CreateRegistrationPropertiesDtos(IEnumerable<RegistrationProperty> registrationProperties)
+        private static IList<RegistrationPropertyDto> CreateRegistrationPropertiesDtos(IEnumerable<Property> registrationProperties)
         {
             return registrationProperties
                 .Select(CreateRegistrationPropertyDto)
@@ -52,14 +52,14 @@
         /// <summary>
         /// Create registration property dto from registration property.
         /// </summary>
-        private static RegistrationPropertyDto CreateRegistrationPropertyDto(RegistrationProperty registrationProperty)
+        private static RegistrationPropertyDto CreateRegistrationPropertyDto(Property property)
         {
             return new RegistrationPropertyDto
                        {
-                           Id = registrationProperty.Id,
-                           PropertyTypeId = registrationProperty.PropertyType.Id,
-                           PropertyTypeName = registrationProperty.PropertyType.Name,
-                           Value = registrationProperty.Value
+                           Id = property.Id,
+                           PropertyTypeId = property.PropertyType.Id,
+                           PropertyTypeName = property.PropertyType.Name,
+                           Value = property.Value
                        };
         }
     }

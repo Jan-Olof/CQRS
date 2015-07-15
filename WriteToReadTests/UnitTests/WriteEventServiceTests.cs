@@ -105,6 +105,71 @@
         }
 
         /// <summary>
+        /// The test should get name property value.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetNamePropertyValue()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            // Act
+            var result = sut.GetNamePropertyValue(SampleGdto.CreateGdtoWithPublished());
+
+            // Assert
+            Assert.AreEqual("Sapiens", result);
+        }
+
+        /// <summary>
+        /// The test should get name property value not finding any.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetNamePropertyValueNotFindingAny()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            // Act
+            var result = sut.GetNamePropertyValue(SampleGdto.CreateGdtoWithoutName());
+
+            // Assert
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        /// <summary>
+        /// The test should set sent to read.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldSetSentToRead()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            this.repository.SaveAllChanges().ReturnsForAnyArgs(true);
+
+            // Act
+            var result = sut.SetSentToRead(SampleWriteEvents.CreateWriteEvent(1, "Payload"), 1);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// The test should set sent to read and throw exception.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldSetSentToReadAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            this.repository.SaveAllChanges().ThrowsForAnyArgs<Exception>();
+
+            // Act & Assert
+            MyAssert.Throws<Exception>(() => sut.SetSentToRead(SampleWriteEvents.CreateWriteEvent(1, "Payload"), 1));
+        }
+        
+        /// <summary>
         /// The create write event service.
         /// </summary>
         private WriteEventService CreateWriteEventService()

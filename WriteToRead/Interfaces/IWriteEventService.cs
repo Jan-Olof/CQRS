@@ -5,6 +5,7 @@
     using Common.DataTransferObjects;
 
     using Domain.Write.Entities;
+    using Domain.Write.Interfaces;
 
     /// <summary>
     /// The WriteEventService interface.
@@ -20,5 +21,15 @@
         /// Deserialize a payload to a Gdto.
         /// </summary>
         Gdto DeserializeGdto(string payload);
+        
+        /// <summary>
+        /// Get the value of the name property in a Gdto.
+        /// </summary>
+        string GetNamePropertyValue(Gdto gdto);
+
+        /// <summary>
+        /// Set sent to read to a new number.
+        /// </summary>
+        bool SetSentToRead(IWriteEvent writeEvent, int sentToRead);
     }
 }

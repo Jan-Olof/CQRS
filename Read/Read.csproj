@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Entities\PropertyType.cs" />
     <Compile Include="Entities\Registration.cs" />
-    <Compile Include="Entities\RegistrationProperty.cs" />
+    <Compile Include="Entities\Property.cs" />
     <Compile Include="Entities\RegistrationType.cs" />
     <Compile Include="Interfaces\IRegistrationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

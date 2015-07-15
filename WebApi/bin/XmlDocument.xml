@@ -1175,12 +1175,12 @@
             Create registration dto from registration.
             </summary>
         </member>
-        <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationPropertiesDtos(System.Collections.Generic.IEnumerable{Domain.Read.Entities.RegistrationProperty})">
+        <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationPropertiesDtos(System.Collections.Generic.IEnumerable{Domain.Read.Entities.Property})">
             <summary>
             Create registration properties dtos from registration properties.
             </summary>
         </member>
-        <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationPropertyDto(Domain.Read.Entities.RegistrationProperty)">
+        <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationPropertyDto(Domain.Read.Entities.Property)">
             <summary>
             Create registration property dto from registration property.
             </summary>

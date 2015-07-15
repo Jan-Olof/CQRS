@@ -1,5 +1,7 @@
 ﻿namespace WriteToRead.Interfaces
 {
+    using System;
+
     /// <summary>
     /// The WriteToReadService interface.
     /// </summary>
@@ -8,6 +10,6 @@
         /// <summary>
         /// Add to the generic registration read database.
         /// </summary>
-        bool AddToGenericRegistrationReadDb();
+        int AddToGenericRegistrationReadDb(DateTime timestamp);
     }
 }

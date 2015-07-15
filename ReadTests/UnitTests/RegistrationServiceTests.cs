@@ -71,7 +71,7 @@
             // Assert
             Assert.AreEqual(2, result.Count);
             Assert.AreEqual("2001: A Space Odyssey", result.Single(r => r.Id == 2).Name);
-            Assert.AreEqual("Stanley Kubrick", result.Single(r => r.Id == 2).RegistrationProperties.Single(p => p.PropertyType.Name == "Author").Value);
+            Assert.AreEqual("Stanley Kubrick", result.Single(r => r.Id == 2).Properties.Single(p => p.PropertyType.Name == "Author").Value);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@
             // Assert
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual("Sapiens", result.Single().Name);
-            Assert.AreEqual("Yuval Noah Harari", result.Single().RegistrationProperties.Single(p => p.PropertyType.Name == "Author").Value);
+            Assert.AreEqual("Yuval Noah Harari", result.Single().Properties.Single(p => p.PropertyType.Name == "Author").Value);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@
 
             // Assert
             Assert.AreEqual("Sapiens", result.Name);
-            Assert.AreEqual("Yuval Noah Harari", result.RegistrationProperties.Single(p => p.PropertyType.Name == "Author").Value);
+            Assert.AreEqual("Yuval Noah Harari", result.Properties.Single(p => p.PropertyType.Name == "Author").Value);
         }
 
         /// <summary>

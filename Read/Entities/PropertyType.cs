@@ -29,9 +29,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration properties.
+        /// Gets or sets the properties.
         /// </summary>
-        public virtual ICollection<RegistrationProperty> RegistrationProperties { get; set; }
+        public virtual ICollection<Property> Properties { get; set; }
 
         /// <summary>
         /// Create a new property type object.

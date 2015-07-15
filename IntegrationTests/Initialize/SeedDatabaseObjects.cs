@@ -1,8 +1,11 @@
 ﻿namespace Tests.IntegrationTests.Initialize
 {
+    using System.Collections.ObjectModel;
     using System.Data.Entity.Migrations;
 
     using DataAccess.Read.Dal.CodeFirst.DbContext;
+
+    using Domain.Read.Entities;
 
     using Tests.TestCommon.SampleObjects;
 
@@ -24,13 +27,16 @@
             context.PropertyTypes.AddOrUpdate(p => p.Id, SamplePropertyTypes.CreatePropertyTypeAuthor());
             context.PropertyTypes.AddOrUpdate(p => p.Id, SamplePropertyTypes.CreatePropertyTypePublished());
 
-            context.RegistrationPropertys.AddOrUpdate(r => r.Id, SampleRegistrationProperties.CreateRegistrationPropertyHarariDb());
-            context.RegistrationPropertys.AddOrUpdate(r => r.Id, SampleRegistrationProperties.CreateRegistrationProperty2014Db());
-            context.RegistrationPropertys.AddOrUpdate(r => r.Id, SampleRegistrationProperties.CreateRegistrationPropertyKubrickDb());
-            context.RegistrationPropertys.AddOrUpdate(r => r.Id, SampleRegistrationProperties.CreateRegistrationProperty1968Db());
+            context.Properties.AddOrUpdate(r => r.Id, SampleProperties.CreatePropertyHarariDb());
+            context.Properties.AddOrUpdate(r => r.Id, SampleProperties.CreateProperty2014Db());
+            context.Properties.AddOrUpdate(r => r.Id, SampleProperties.CreatePropertyKubrickDb());
+            context.Properties.AddOrUpdate(r => r.Id, SampleProperties.CreateProperty1968Db());
 
-            context.Registrations.AddOrUpdate(r => r.Id, SampleRegistrations.CreateRegistrationSapiensDb());
-            context.Registrations.AddOrUpdate(r => r.Id, SampleRegistrations.CreateRegistration2001Db());
+            var sapiensProperties = new Collection<Property> { context.Properties.Find(1), context.Properties.Find(2) };
+            var properties2001 = new Collection<Property> { context.Properties.Find(3), context.Properties.Find(4) };
+
+            context.Registrations.AddOrUpdate(r => r.Id, SampleRegistrations.CreateRegistrationSapiensDb(sapiensProperties));
+            context.Registrations.AddOrUpdate(r => r.Id, SampleRegistrations.CreateRegistration2001Db(properties2001));
 
             context.SaveChanges();
         }

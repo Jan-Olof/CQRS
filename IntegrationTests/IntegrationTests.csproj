@@ -89,6 +89,7 @@
     <Compile Include="TestClasses\CommandServicesIntegrationTests.cs" />
     <Compile Include="TestClasses\RegistrationControllerIntegrationTests.cs" />
     <Compile Include="TestClasses\RepositoryIntegrationTests.cs" />
+    <Compile Include="TestClasses\WriteToReadServiceIntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -119,6 +120,10 @@
     <ProjectReference Include="..\Write.Dal.CodeFirst\Write.Dal.CodeFirst.csproj">
       <Project>{661c887f-4741-4039-9746-cc89155562e0}</Project>
       <Name>Write.Dal.CodeFirst</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WriteToRead\WriteToRead.csproj">
+      <Project>{B354D469-FCFB-4919-AE31-7BACEE92BD36}</Project>
+      <Name>WriteToRead</Name>
     </ProjectReference>
     <ProjectReference Include="..\Write\Write.csproj">
       <Project>{ac6809d8-c092-4dda-a300-0d47227b3369}</Project>

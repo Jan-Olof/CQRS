@@ -53,9 +53,23 @@
         public virtual RegistrationType RegistrationType { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration properties.
+        /// Gets or sets the properties.
         /// </summary>
-        public virtual ICollection<RegistrationProperty> RegistrationProperties { get; set; }
+        public virtual ICollection<Property> Properties { get; set; }
+
+        /// <summary>
+        /// Create a registration object.
+        /// </summary>
+        public static Registration CreateRegistration(int type, DateTime timestamp, string name)
+        {
+            return new Registration
+                       {
+                            RegistrationTypeId = type,
+                            Created = timestamp,
+                            Updated = timestamp,
+                            Name = name
+                       }; 
+        }
 
         /// <summary>
         /// The get registrations of one type.

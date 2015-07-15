@@ -1,6 +1,8 @@
 ﻿namespace Domain.Read.Entities
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     using Common.DataAccess;
@@ -8,12 +10,12 @@
     /// <summary>
     /// The registration property.
     /// </summary>
-    public class RegistrationProperty
+    public class Property
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationProperty"/> class.
+        /// Initializes a new instance of the <see cref="Property"/> class.
         /// </summary>
-        public RegistrationProperty()
+        public Property()
         {
             this.Value = string.Empty;
         }
@@ -39,28 +41,33 @@
         public string Value { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration id.
+        /// Gets or sets the registrations.
         /// </summary>
-        public int RegistrationId { get; set; }
+        public virtual ICollection<Registration> Registrations { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration.
+        /// Create a property object.
         /// </summary>
-        public virtual Registration Registration { get; set; }
-
-        /// <summary>
-        /// Get property id for a RegistrationProperty.
-        /// </summary>
-        public static int GetPropertyId(IRepository<RegistrationProperty> repository, int typeId, string value)
+        public static Property CreateProperty(int propertyTypeId, string value, Registration registration)
         {
-            var registrationProperty = repository.GetAll()
+            return new Property
+                       {
+                           PropertyTypeId = propertyTypeId,
+                           Value = value,
+                           Registrations = new Collection<Registration> { registration }
+                       };
+        }
+        
+        /// <summary>
+        /// Get property from type and value.
+        /// </summary>
+        public static Property GetProperty(IRepository<Property> repository, int typeId, string value)
+        {
+            var property = repository.GetAll()
                 .SingleOrDefault(p => p.PropertyTypeId == typeId
                     && string.Equals(p.Value, value, StringComparison.CurrentCultureIgnoreCase));
 
-            return registrationProperty == null 
-                ? 0 
-                : registrationProperty.Id;
+            return property ?? new Property();
         }
-
-    }
+        }
 }

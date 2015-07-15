@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="DbContext\Configurations\PropertyTypeConfiguration.cs" />
     <Compile Include="DbContext\Configurations\RegistrationConfiguration.cs" />
-    <Compile Include="DbContext\Configurations\RegistrationPropertyConfiguration.cs" />
+    <Compile Include="DbContext\Configurations\PropertyConfiguration.cs" />
     <Compile Include="DbContext\Configurations\RegistrationTypeConfiguration.cs" />
     <Compile Include="DbContext\ReadContext.cs" />
     <Compile Include="Initialize\ReadInitializer.cs" />

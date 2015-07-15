@@ -94,3 +94,5 @@ D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.WebPages.Deploymen
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\IntegrationTests.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.pdb
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.dll
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.pdb

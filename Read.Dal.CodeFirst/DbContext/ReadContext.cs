@@ -30,9 +30,9 @@
         public DbSet<PropertyType> PropertyTypes { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration propertys.
+        /// Gets or sets the properties.
         /// </summary>
-        public DbSet<RegistrationProperty> RegistrationPropertys { get; set; }
+        public DbSet<Property> Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the registration types.
@@ -52,7 +52,7 @@
 
             modelBuilder.Configurations.Add(new RegistrationConfiguration());
             modelBuilder.Configurations.Add(new PropertyTypeConfiguration());
-            modelBuilder.Configurations.Add(new RegistrationPropertyConfiguration());
+            modelBuilder.Configurations.Add(new PropertyConfiguration());
             modelBuilder.Configurations.Add(new RegistrationTypeConfiguration());
         }
     }

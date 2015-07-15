@@ -1,6 +1,7 @@
 ﻿namespace WriteToRead.ToReadDb
 {
     using System;
+    using System.Collections.ObjectModel;
 
     using Common.DataAccess;
 
@@ -26,6 +27,11 @@
         private readonly IRepository<RegistrationType> registrationTypeRepository;
 
         /// <summary>
+        /// The registration repository.
+        /// </summary>
+        private readonly IRepository<Registration> registrationRepository;
+
+        /// <summary>
         /// The property type repository.
         /// </summary>
         private readonly IRepository<PropertyType> propertyTypeRepository;
@@ -33,19 +39,25 @@
         /// <summary>
         /// The property repository.
         /// </summary>
-        private readonly IRepository<RegistrationProperty> propertyRepository;
+        private readonly IRepository<Property> propertyRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericRegistrationService"/> class.
         /// </summary>
         public GenericRegistrationService(
-            IRepository<RegistrationType> registrationTypeRepository, 
-            IRepository<PropertyType> propertyTypeRepository, 
-            IRepository<RegistrationProperty> propertyRepository)
+            IRepository<RegistrationType> registrationTypeRepository,
+            IRepository<Registration> registrationRepository,
+            IRepository<PropertyType> propertyTypeRepository,
+            IRepository<Property> propertyRepository)
         {
             if (registrationTypeRepository == null)
             {
                 throw new ArgumentNullException("registrationTypeRepository");
+            }
+
+            if (registrationRepository == null)
+            {
+                throw new ArgumentNullException("registrationRepository");
             }
 
             if (propertyTypeRepository == null)
@@ -61,6 +73,7 @@
             this.registrationTypeRepository = registrationTypeRepository;
             this.propertyTypeRepository = propertyTypeRepository;
             this.propertyRepository = propertyRepository;
+            this.registrationRepository = registrationRepository;
         }
 
         /// <summary>
@@ -89,6 +102,24 @@
                 var registrationType = RegistrationType.CreateRegistrationType(entityType);
 
                 return this.registrationTypeRepository.Insert(registrationType).Id;
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Insert a new Registration into the database.
+        /// </summary>
+        public Registration InsertRegistration(int typeId, DateTime timestamp, string name)
+        {
+            try
+            {
+                var registration = Registration.CreateRegistration(typeId, timestamp, name);
+
+                return this.registrationRepository.Insert(registration);
             }
             catch (Exception ex)
             {
@@ -131,9 +162,61 @@
             }
         }
 
-        public int CheckProperty(string type)
+        /// <summary>
+        /// Check if a property is already registered and return the id.
+        /// </summary>
+        public Property CheckProperty(int type, string value)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Property.GetProperty(this.propertyRepository, type, value);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Insert a new Property into the database.
+        /// </summary>
+        public Property InsertProperty(int typeId, string value, Registration registration)
+        {
+            try
+            {
+                var property = Property.CreateProperty(typeId, value, registration);
+
+                return this.propertyRepository.Insert(property);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Add a registration to a property.
+        /// </summary>
+        public bool AddRegistrationToProperty(Property property, Registration registration)
+        {
+            try
+            {
+                if (property.Registrations == null)
+                {
+                    property.Registrations = new Collection<Registration>();
+                }
+
+                property.Registrations.Add(registration);
+
+                return this.propertyRepository.SaveAllChanges();
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
         }
     }
 }
