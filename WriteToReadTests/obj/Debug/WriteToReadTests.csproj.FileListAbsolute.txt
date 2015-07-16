@@ -28,3 +28,8 @@ D:\Projects\GitHub\CQRS\WriteToReadTests\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\GitHub\CQRS\WriteToReadTests\obj\Debug\WriteToReadTests.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\CQRS\WriteToReadTests\obj\Debug\Tests.WriteToReadTests.dll
 D:\Projects\GitHub\CQRS\WriteToReadTests\obj\Debug\Tests.WriteToReadTests.pdb
+D:\Projects\GitHub\CQRS\WriteToReadTests\bin\Debug\Tests.WriteToReadTests.dll.config
+D:\Projects\GitHub\CQRS\WriteToReadTests\bin\Debug\DataAccess.Read.Dal.CodeFirst.dll
+D:\Projects\GitHub\CQRS\WriteToReadTests\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\GitHub\CQRS\WriteToReadTests\bin\Debug\DataAccess.Read.Dal.CodeFirst.pdb
+D:\Projects\GitHub\CQRS\WriteToReadTests\bin\Debug\EntityFramework.SqlServer.xml

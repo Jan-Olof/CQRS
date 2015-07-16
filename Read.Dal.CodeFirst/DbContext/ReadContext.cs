@@ -9,7 +9,7 @@
     /// <summary>
     /// The read context.
     /// </summary>
-    public class ReadContext : DbContext
+    public class ReadContext : DbContext, IReadContext
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadContext"/> class.
@@ -22,22 +22,22 @@
         /// <summary>
         /// Gets or sets the registrations.
         /// </summary>
-        public DbSet<Registration> Registrations { get; set; }
+        public IDbSet<Registration> Registrations { get; set; }
 
         /// <summary>
         /// Gets or sets the property types.
         /// </summary>
-        public DbSet<PropertyType> PropertyTypes { get; set; }
+        public IDbSet<PropertyType> PropertyTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the properties.
         /// </summary>
-        public DbSet<Property> Properties { get; set; }
+        public IDbSet<Property> Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the registration types.
         /// </summary>
-        public DbSet<RegistrationType> RegistrationTypes { get; set; }
+        public IDbSet<RegistrationType> RegistrationTypes { get; set; }
 
         /// <summary>
         /// This method is called when the model for a derived context has been initialized,

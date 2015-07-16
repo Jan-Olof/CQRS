@@ -12,45 +12,28 @@
 
     using Common.Exceptions;
 
-    using NLog;
-
     /// <summary>
     /// The generic repository for Entity Framework (DbContext).
     /// </summary>
     /// <typeparam name="T">
     /// The data model to use.
     /// </typeparam>
-    public class Repository<T> : IRepository<T>
+    public class Repository<T> : BaseRepository, IRepository<T>
          where T : class
     {
-        /// <summary>
-        /// The logger.
-        /// </summary>
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{T}"/> class.
         /// </summary>
         public Repository(DbContext dataContext)
+            : base(dataContext)
         {
-            if (dataContext == null)
-            {
-                throw new ArgumentNullException("dataContext");
-            }
-
-            this.DbContext = dataContext;
             this.DbSet = dataContext.Set<T>();
         }
 
         /// <summary>
-        /// Gets or sets the DbContext.
-        /// </summary>
-        private DbContext DbContext { get; set; }
-
-        /// <summary>
         /// Gets or sets the DbSet.
         /// </summary>
-        private DbSet<T> DbSet { get; set; }
+        protected DbSet<T> DbSet { get; set; }
 
         /// <summary>
         /// Get all data objects in the model.
@@ -80,7 +63,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.Error(ex);
+                this.Logger.Error(ex);
                 throw;
             }
 
@@ -114,7 +97,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.Error(ex);
+                this.Logger.Error(ex);
                 throw;
             }
 
@@ -162,14 +145,14 @@
 
                         this.LogValidationException(vex);
 
-                        this.logger.Error(vex);
+                        this.Logger.Error(vex);
                         throw;
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
 
-                        this.logger.Error(ex);
+                        this.Logger.Error(ex);
                         throw;
                     }
                 }
@@ -219,90 +202,20 @@
 
                         this.LogValidationException(vex);
 
-                        this.logger.Error(vex);
+                        this.Logger.Error(vex);
                         throw;
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
 
-                        this.logger.Error(ex);
+                        this.Logger.Error(ex);
                         throw;
                     }
                 }
             }
 
             return dataModelObjects;
-        }
-        
-        /// <summary>
-        /// Save all changes in DbContext to the database
-        /// </summary>
-        public bool SaveAllChanges()
-        {
-            var result = false;
-            var retryCount = 3;
-            while (retryCount > 0)
-            {
-                using (var transaction = DbContext.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        this.DbContext.SaveChanges();
-
-                        transaction.Commit();
-
-                        result = true;
-                        break;
-                    }
-                    catch (SqlException exception)
-                    {
-                        transaction.Rollback();
-
-                        if (!this.HandleSqlException(exception, ref retryCount))
-                        {
-                            throw;
-                        }
-                    }
-                    catch (DbEntityValidationException vex)
-                    {
-                        transaction.Rollback();
-
-                        this.LogValidationException(vex);
-
-                        this.logger.Error(vex);
-                        throw;
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-
-                        this.logger.Error(ex);
-                        throw;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            try
-            {
-                if (this.DbContext != null)
-                {
-                    this.DbContext.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.Error(ex);
-                throw;
-            }
         }
 
         /// <summary>
@@ -330,48 +243,7 @@
             retryCount--;
             if (retryCount == 0)
             {
-                this.logger.Warn("HandleEntityCommandExecutionException retryCount == 0");
-                return false;
-            }
-
-            Thread.Sleep(1000);
-            return true;
-        }
-
-        /// <summary>
-        /// Log a DbEntityValidationExceptionn.
-        /// </summary>
-        private void LogValidationException(DbEntityValidationException vex)
-        {
-            foreach (var validationResult in vex.EntityValidationErrors)
-            {
-                foreach (var validationError in validationResult.ValidationErrors)
-                {
-                    var entity = validationResult.Entry.Entity.ToString();
-                    var errorMessage = validationError.ErrorMessage;
-
-                    this.logger.Error("Validation error in entity: {0} Error message: {1}", entity, errorMessage);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The handle sql exception.
-        /// </summary>
-        private bool HandleSqlException(SqlException exception, ref int retryCount)
-        {
-            if (exception.Number != 1205)
-            {
-                // A sql exception that is not a deadlock  
-                this.logger.Error(exception);
-                return false;
-            }
-
-            // Handle deadlock.
-            retryCount--;
-            if (retryCount == 0)
-            {
-                this.logger.Error(exception);
+                this.Logger.Warn("HandleEntityCommandExecutionException retryCount == 0");
                 return false;
             }
 

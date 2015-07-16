@@ -31,25 +31,25 @@
         /// <summary>
         /// The generic registration service.
         /// </summary>
-        private readonly IGenericRegistrationService genericRegistrationService;
+        private readonly IGenericRegistrationRepository genericRegistrationRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteToReadService"/> class.
         /// </summary>
-        public WriteToReadService(IWriteEventService writeEventService, IGenericRegistrationService genericRegistrationService)
+        public WriteToReadService(IWriteEventService writeEventService, IGenericRegistrationRepository genericRegistrationRepository)
         {
             if (writeEventService == null)
             {
                 throw new ArgumentNullException("writeEventService");
             }
 
-            if (genericRegistrationService == null)
+            if (genericRegistrationRepository == null)
             {
-                throw new ArgumentNullException("genericRegistrationService");
+                throw new ArgumentNullException("genericRegistrationRepository");
             }
 
             this.writeEventService = writeEventService;
-            this.genericRegistrationService = genericRegistrationService;
+            this.genericRegistrationRepository = genericRegistrationRepository;
         }
 
         /// <summary>
@@ -61,8 +61,8 @@
             {
                 var writeEvents = this.writeEventService.GetWriteEventsToProcess(0);
 
-                return writeEvents == null 
-                    ? 0 
+                return writeEvents == null
+                    ? 0
                     : writeEvents.Aggregate(0, (current, writeEvent) => this.RegisterOneEvent(timestamp, writeEvent, current));
             }
             catch (Exception ex)
@@ -79,13 +79,6 @@
         {
             var gdto = this.writeEventService.DeserializeGdto(writeEvent.Payload);
 
-            var registrationTypeId = this.genericRegistrationService.CheckRegistrationType(gdto.EntityType);
-
-            if (registrationTypeId == 0)
-            {
-                registrationTypeId = this.genericRegistrationService.InsertRegistrationType(gdto.EntityType);
-            }
-
             var namePropertyValue = this.writeEventService.GetNamePropertyValue(gdto);
 
             if (string.IsNullOrWhiteSpace(namePropertyValue))
@@ -93,16 +86,24 @@
                 return result;
             }
 
-            var registration = this.genericRegistrationService.InsertRegistration(
-                registrationTypeId, timestamp, namePropertyValue);
+            var registrationType = this.genericRegistrationRepository.CheckRegistrationType(gdto.EntityType);
 
-            if (registration.Id > 0)
+            if (registrationType.Id == 0)
             {
-                this.AddProperties(gdto, registration);
-                result++;
+                registrationType = this.genericRegistrationRepository.AddRegistrationTypeToDbSet(gdto.EntityType);
             }
 
-            this.writeEventService.SetSentToRead(writeEvent, 1);
+            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
+                registrationType, timestamp, namePropertyValue);
+
+            this.AddProperties(gdto, registration);
+
+            if (this.genericRegistrationRepository.SaveAllChanges())
+            {
+                result++;
+
+                this.writeEventService.SetSentToRead(writeEvent, 1);
+            }
 
             return result;
         }
@@ -114,16 +115,16 @@
         {
             foreach (var property in gdto.Properties)
             {
-                var propertyTypeId = this.genericRegistrationService.CheckPropertyType(property.Key);
+                var propertyType = this.genericRegistrationRepository.CheckPropertyType(property.Key);
 
-                if (propertyTypeId == 0)
+                if (propertyType.Id == 0)
                 {
-                    propertyTypeId = this.genericRegistrationService.InsertPropertType(property.Key);
+                    propertyType = this.genericRegistrationRepository.InsertPropertType(property.Key);
                 }
 
-                if (propertyTypeId > 0)
+                if (propertyType.Id > 0)
                 {
-                    this.AddProperty(propertyTypeId, property, registration);
+                    this.AddProperty(propertyType, property, registration);
                 }
             }
         }
@@ -131,17 +132,17 @@
         /// <summary>
         /// Add a property to a registration.
         /// </summary>
-        private void AddProperty(int propertyTypeId, KeyValuePair<string, string> property, Registration registration)
+        private void AddProperty(PropertyType propertyType, KeyValuePair<string, string> property, Registration registration)
         {
-            var registrationProperty = this.genericRegistrationService.CheckProperty(propertyTypeId, property.Value);
+            var registrationProperty = this.genericRegistrationRepository.CheckProperty(propertyType, property.Value);
 
             if (registrationProperty.Id == 0)
             {
-                this.genericRegistrationService.InsertProperty(propertyTypeId, registrationProperty.Value, registration);
+                this.genericRegistrationRepository.InsertProperty(propertyType, property.Value, registration);
             }
             else
             {
-                this.genericRegistrationService.AddRegistrationToProperty(registrationProperty, registration);
+                this.genericRegistrationRepository.AddRegistrationToProperty(registrationProperty, registration);
             }
         }
     }

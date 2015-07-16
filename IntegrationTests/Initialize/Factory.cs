@@ -58,6 +58,25 @@
             return new Repository<RegistrationType>(readContext);
         }
 
+        /// <summary>
+        /// The create property type repository.
+        /// </summary>
+        public static Repository<PropertyType> CreatePropertyTypeRepository()
+        {
+            var readContext = new ReadContext();
+
+            return new Repository<PropertyType>(readContext);
+        }
+
+        /// <summary>
+        /// The create property repository.
+        /// </summary>
+        public static Repository<Property> CreatePropertyRepository()
+        {
+            var readContext = new ReadContext();
+
+            return new Repository<Property>(readContext);
+        }
 
         /// <summary>
         /// The create command services.
@@ -91,10 +110,28 @@
             return controller;
         }
 
+        /// <summary>
+        /// The create write event service.
+        /// </summary>
+        public static WriteEventService CreateWriteEventService()
+        {
+            return new WriteEventService(CreateWriteEventRepository());
+        }
+
+        /// <summary>
+        /// The create generic registration service.
+        /// </summary>
+        public static GenericRegistrationRepository CreateGenericRegistrationService()
+        {
+            return new GenericRegistrationRepository(new ReadContext());
+        }
+
+        /// <summary>
+        /// The create write to read service.
+        /// </summary>
         public static WriteToReadService CreateWriteToReadService()
         {
-           throw new System.NotImplementedException();
-            //return new WriteToReadService(new WriteEventService(CreateWriteEventRepository()),new GenericRegistrationService() );
+            return new WriteToReadService(CreateWriteEventService(), CreateGenericRegistrationService());
         }
     }
 }

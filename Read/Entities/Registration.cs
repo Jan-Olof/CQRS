@@ -60,11 +60,12 @@
         /// <summary>
         /// Create a registration object.
         /// </summary>
-        public static Registration CreateRegistration(int type, DateTime timestamp, string name)
+        public static Registration CreateRegistration(RegistrationType type, DateTime timestamp, string name)
         {
             return new Registration
                        {
-                            RegistrationTypeId = type,
+                            RegistrationTypeId = type.Id,
+                            RegistrationType = type,
                             Created = timestamp,
                             Updated = timestamp,
                             Name = name

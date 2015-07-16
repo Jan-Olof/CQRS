@@ -36,11 +36,11 @@
         /// <summary>
         /// Create a new property type object.
         /// </summary>
-        public static PropertyType CreatePropertyType(string propertyType)
+        public static PropertyType CreatePropertyType(int id, string propertyType)
         {
             return new PropertyType
                        {
-                           Id = 0,
+                           Id = id,
                            Name = propertyType
                        };
         }

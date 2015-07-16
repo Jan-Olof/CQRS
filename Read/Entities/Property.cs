@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
 
     using Common.DataAccess;
 
@@ -48,26 +47,44 @@
         /// <summary>
         /// Create a property object.
         /// </summary>
-        public static Property CreateProperty(int propertyTypeId, string value, Registration registration)
+        public static Property CreateProperty(PropertyType propertyType, string value, Registration registration)
         {
             return new Property
                        {
-                           PropertyTypeId = propertyTypeId,
+                           PropertyTypeId = propertyType.Id,
+                           PropertyType = propertyType,
                            Value = value,
                            Registrations = new Collection<Registration> { registration }
                        };
         }
-        
+
         /// <summary>
         /// Get property from type and value.
         /// </summary>
         public static Property GetProperty(IRepository<Property> repository, int typeId, string value)
         {
-            var property = repository.GetAll()
-                .SingleOrDefault(p => p.PropertyTypeId == typeId
-                    && string.Equals(p.Value, value, StringComparison.CurrentCultureIgnoreCase));
+            var properties = repository.GetAll();
 
-            return property ?? new Property();
+            if (properties == null)
+            {
+                return new Property();
+            }
+
+            //Property result = new Property();
+            foreach (var property in properties)
+            {
+                if (property.PropertyTypeId != typeId)
+                {
+                    continue;
+                }
+
+                if (string.Equals(property.Value, value, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return property;
+                }
+            }
+
+            return new Property();
         }
-        }
+    }
 }

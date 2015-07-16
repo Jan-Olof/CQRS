@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\BaseRepository.cs" />
     <Compile Include="DataAccess\Repository.cs" />
     <Compile Include="DataTransferObjects\Gdto.cs" />
     <Compile Include="DataTransferObjects\RegistrationDto.cs" />

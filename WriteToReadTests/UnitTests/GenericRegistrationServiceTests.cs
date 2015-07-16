@@ -1,17 +1,12 @@
 ﻿namespace Tests.WriteToReadTests.UnitTests
 {
     using System;
-    using System.Linq;
 
-    using Common.DataAccess;
     using Common.Utilities;
 
-    using Domain.Read.Entities;
+    using DataAccess.Read.Dal.CodeFirst.DbContext;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using NSubstitute;
-    using NSubstitute.ExceptionExtensions;
 
     using Tests.TestCommon;
     using Tests.TestCommon.SampleObjects;
@@ -30,24 +25,9 @@
         private static readonly DateTime TimeStamp = new DateTime(2015, 6, 26, 17, 37, 15);
 
         /// <summary>
-        /// The registration type repository.
+        /// The read context.
         /// </summary>
-        private IRepository<RegistrationType> registrationTypeRepository;
-
-        /// <summary>
-        /// The registration repository.
-        /// </summary>
-        private IRepository<Registration> registrationRepository;
-
-        /// <summary>
-        /// The property type repository.
-        /// </summary>
-        private IRepository<PropertyType> propertyTypeRepository;
-
-        /// <summary>
-        /// The property repository.
-        /// </summary>
-        private IRepository<Property> propertyRepository;
+        private IReadContext readContext;
 
         /// <summary>
         /// The set up.
@@ -55,10 +35,7 @@
         [TestInitialize]
         public void SetUp()
         {
-            this.registrationTypeRepository = Substitute.For<IRepository<RegistrationType>>();
-            this.registrationRepository = Substitute.For<IRepository<Registration>>();
-            this.propertyTypeRepository = Substitute.For<IRepository<PropertyType>>();
-            this.propertyRepository = Substitute.For<IRepository<Property>>();
+            this.readContext = NSubstitute.Substitute.For<IReadContext>();
 
             SystemTime.Set(TimeStamp);
         }
@@ -81,8 +58,7 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationTypeRepository.GetAll()
-                .Returns(SampleRegistrationTypes.CreateRegistrationTypes().AsQueryable());
+            //Add fake!
 
             // Act
             var result = sut.CheckRegistrationType("Book");
@@ -100,9 +76,6 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationTypeRepository.GetAll()
-                .Returns(SampleRegistrationTypes.CreateRegistrationTypes().AsQueryable());
-
             // Act
             var result = sut.CheckRegistrationType("Stamp");
 
@@ -119,8 +92,6 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationTypeRepository.GetAll().Throws<Exception>();
-
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.CheckRegistrationType("Stamp"));
         }
@@ -134,11 +105,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationTypeRepository.Insert(SampleRegistrationTypes.CreateRegistrationTypeComic())
-                .ReturnsForAnyArgs(SampleRegistrationTypes.CreateRegistrationTypeComic());
-
             // Act
-            var result = sut.InsertRegistrationType("Comic");
+            var result = sut.AddRegistrationTypeToDbSet("Comic");
 
             // Assert
             Assert.AreEqual(3, result);
@@ -153,10 +121,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationTypeRepository.Insert(SampleRegistrationTypes.CreateRegistrationTypeComic()).Throws<Exception>();
-
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.InsertRegistrationType("Comic"));
+            MyAssert.Throws<Exception>(() => sut.AddRegistrationTypeToDbSet("Comic"));
         }
 
         /// <summary>
@@ -168,11 +134,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationRepository.Insert(SampleRegistrations.CreateRegistration2001())
-                .ReturnsForAnyArgs(SampleRegistrations.CreateRegistration2001());
-
             // Act
-            var result = sut.InsertRegistration(2, TimeStamp, "2001: A Space Odyssey");
+            var result = sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey");
 
             // Assert
             Assert.AreEqual(2, result.Id);
@@ -187,10 +150,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.registrationRepository.Insert(SampleRegistrations.CreateRegistration2001()).ThrowsForAnyArgs<Exception>();
-
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.InsertRegistration(2, TimeStamp, "2001: A Space Odyssey"));
+            MyAssert.Throws<Exception>(() => sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey"));
         }
 
         /// <summary>
@@ -201,9 +162,6 @@
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
-
-            this.propertyTypeRepository.GetAll()
-                .Returns(SamplePropertyTypes.CreatePropertyTypes().AsQueryable());
 
             // Act
             var result = sut.CheckPropertyType("Author");
@@ -221,9 +179,6 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyTypeRepository.GetAll()
-                .Returns(SamplePropertyTypes.CreatePropertyTypes().AsQueryable());
-
             // Act
             var result = sut.CheckPropertyType("Autor");
 
@@ -240,8 +195,6 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyTypeRepository.GetAll().Throws<Exception>();
-
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.CheckPropertyType("Author"));
         }
@@ -254,9 +207,6 @@
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
-
-            this.propertyTypeRepository.Insert(SamplePropertyTypes.CreatePropertyTypeSize())
-                .ReturnsForAnyArgs(SamplePropertyTypes.CreatePropertyTypeSize());
 
             // Act
             var result = sut.InsertPropertType("Size");
@@ -274,8 +224,6 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyTypeRepository.Insert(SamplePropertyTypes.CreatePropertyTypeSize()).Throws<Exception>();
-
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.InsertPropertType("Size"));
         }
@@ -289,11 +237,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyRepository.GetAll()
-                .Returns(SampleProperties.CreateProperties().AsQueryable());
-
             // Act
-            var result = sut.CheckProperty(1, "Stanley Kubrick");
+            var result = sut.CheckProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick");
 
             // Assert
             Assert.AreEqual(3, result.Id);
@@ -308,11 +253,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyRepository.GetAll()
-                .Returns(SampleProperties.CreateProperties().AsQueryable());
-
             // Act
-            var result = sut.CheckProperty(1, "David Lynch");
+            var result = sut.CheckProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "David Lynch");
 
             // Assert
             Assert.AreEqual(0, result.Id);
@@ -327,10 +269,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyRepository.GetAll().Throws<Exception>();
-
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.CheckProperty(1, "Stanley Kubrick"));
+            MyAssert.Throws<Exception>(() => sut.CheckProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick"));
         }
 
         /// <summary>
@@ -342,11 +282,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyRepository.Insert(SampleProperties.CreatePropertyKubrickDb())
-                .ReturnsForAnyArgs(SampleProperties.CreatePropertyKubrickDb());
-
             // Act
-            var result = sut.InsertProperty(1, "Stanley Kubrick", SampleRegistrations.CreateRegistration2001());
+            var result = sut.InsertProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick", SampleRegistrations.CreateRegistration2001());
 
             // Assert
             Assert.AreEqual(3, result.Id);
@@ -361,10 +298,8 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyRepository.Insert(SampleProperties.CreatePropertyKubrickDb()).ThrowsForAnyArgs<Exception>();
-
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.InsertProperty(1, "Stanley Kubrick", SampleRegistrations.CreateRegistration2001()));
+            MyAssert.Throws<Exception>(() => sut.InsertProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick", SampleRegistrations.CreateRegistration2001()));
         }
 
         /// <summary>
@@ -376,8 +311,6 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            this.propertyRepository.SaveAllChanges().ReturnsForAnyArgs(true);
-
             // Act
             var result = sut.AddRegistrationToProperty(SampleProperties.CreateProperty1968(), SampleRegistrations.CreateRegistration2001());
 
@@ -385,13 +318,14 @@
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// The test should add registration to property and throw exception.
+        /// </summary>
         [TestMethod]
         public void TestShouldAddRegistrationToPropertyAndThrowException()
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
-
-            this.propertyRepository.SaveAllChanges().ThrowsForAnyArgs<Exception>();
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.AddRegistrationToProperty(SampleProperties.CreateProperty1968(), SampleRegistrations.CreateRegistration2001()));
@@ -400,10 +334,9 @@
         /// <summary>
         /// The create generic registration service.
         /// </summary>
-        private GenericRegistrationService CreateGenericRegistrationService()
+        private GenericRegistrationRepository CreateGenericRegistrationService()
         {
-            return new GenericRegistrationService(
-                this.registrationTypeRepository, this.registrationRepository, this.propertyTypeRepository, this.propertyRepository);
+            return new GenericRegistrationRepository(this.readContext);
         }
     }
 }
