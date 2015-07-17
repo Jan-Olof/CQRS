@@ -1,6 +1,7 @@
 ﻿namespace Tests.IntegrationTests.TestClasses
 {
     using System;
+    using System.Linq;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -31,7 +32,15 @@
             // Assert
             Assert.AreEqual(2, result);
 
-            //TODO: Get from db and assert that all is saved!
+            var registrations = Factory.CreateRegistrationRepository().GetAll().ToList();
+            var sapiens = registrations.Single(r => r.Name == "Sapiens");
+            var two001 = registrations.Single(r => r.Name == "2001: A Space Odyssey");
+
+            Assert.AreEqual("Book", sapiens.RegistrationType.Name);
+            Assert.AreEqual("Movie", two001.RegistrationType.Name);
+
+            Assert.AreEqual("Yuval Noah Harari", sapiens.Properties.Single(p => p.PropertyType.Name == "Author").Value);
+            Assert.AreEqual("Stanley Kubrick", two001.Properties.Single(p => p.PropertyType.Name == "Author").Value);
         }
     }
 }
