@@ -32,3 +32,8 @@ D:\Projects\GitHub\CQRS\TestCommon\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\GitHub\CQRS\TestCommon\obj\Debug\TestCommon.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\CQRS\TestCommon\obj\Debug\Tests.TestCommon.dll
 D:\Projects\GitHub\CQRS\TestCommon\obj\Debug\Tests.TestCommon.pdb
+D:\Projects\GitHub\CQRS\TestCommon\bin\Debug\Tests.TestCommon.dll.config
+D:\Projects\GitHub\CQRS\TestCommon\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\GitHub\CQRS\TestCommon\bin\Debug\NSubstitute.dll
+D:\Projects\GitHub\CQRS\TestCommon\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\GitHub\CQRS\TestCommon\bin\Debug\NSubstitute.xml

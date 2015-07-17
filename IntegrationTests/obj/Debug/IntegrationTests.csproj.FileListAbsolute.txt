@@ -96,3 +96,5 @@ D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.pdb
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.pdb
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NSubstitute.dll
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NSubstitute.xml

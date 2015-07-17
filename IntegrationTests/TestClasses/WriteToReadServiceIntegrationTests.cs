@@ -30,6 +30,8 @@
 
             // Assert
             Assert.AreEqual(2, result);
+
+            //TODO: Get from db and assert that all is saved!
         }
     }
 }

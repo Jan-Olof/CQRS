@@ -77,7 +77,9 @@
             {
                 var registrationType = RegistrationType.CreateRegistrationType(entityType);
 
-                return this.readContext.RegistrationTypes.Add(registrationType);
+                this.readContext.RegistrationTypes.Add(registrationType);
+
+                return registrationType;
             }
             catch (Exception ex)
             {
@@ -95,7 +97,9 @@
             {
                 var registration = Registration.CreateRegistration(type, timestamp, name);
 
-                return this.readContext.Registrations.Add(registration);
+                this.readContext.Registrations.Add(registration);
+
+                return registration;
             }
             catch (Exception ex)
             {
@@ -139,15 +143,17 @@
         }
 
         /// <summary>
-        /// Insert a new PropertyType into the database.
+        /// Add propert type to db set.
         /// </summary>
-        public PropertyType InsertPropertType(string type)
+        public PropertyType AddPropertyTypeToDbSet(string type)
         {
             try
             {
                 var propertyType = PropertyType.CreatePropertyType(0, type);
 
-                return this.readContext.PropertyTypes.Add(propertyType);
+                this.readContext.PropertyTypes.Add(propertyType);
+
+                return propertyType;
             }
             catch (Exception ex)
             {
@@ -191,15 +197,17 @@
         }
 
         /// <summary>
-        /// Insert a new Property into the database.
+        /// Add property to db set.
         /// </summary>
-        public Property InsertProperty(PropertyType type, string value, Registration registration)
+        public Property AddPropertyToDbSet(PropertyType type, string value, Registration registration)
         {
             try
             {
                 var property = Property.CreateProperty(type, value, registration);
 
-                return this.readContext.Properties.Add(property);
+                this.readContext.Properties.Add(property);
+
+                return property;
             }
             catch (Exception ex)
             {

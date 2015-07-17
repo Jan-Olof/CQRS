@@ -119,10 +119,10 @@
 
                 if (propertyType.Id == 0)
                 {
-                    propertyType = this.genericRegistrationRepository.InsertPropertType(property.Key);
+                    propertyType = this.genericRegistrationRepository.AddPropertyTypeToDbSet(property.Key);
                 }
 
-                if (propertyType.Id > 0)
+                if (propertyType.Id > -1)
                 {
                     this.AddProperty(propertyType, property, registration);
                 }
@@ -138,7 +138,7 @@
 
             if (registrationProperty.Id == 0)
             {
-                this.genericRegistrationRepository.InsertProperty(propertyType, property.Value, registration);
+                this.genericRegistrationRepository.AddPropertyToDbSet(propertyType, property.Value, registration);
             }
             else
             {

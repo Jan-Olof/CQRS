@@ -70,7 +70,6 @@
                 return new Property();
             }
 
-            //Property result = new Property();
             foreach (var property in properties)
             {
                 if (property.PropertyTypeId != typeId)

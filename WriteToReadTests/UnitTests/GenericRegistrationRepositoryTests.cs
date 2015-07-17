@@ -1,12 +1,19 @@
 ﻿namespace Tests.WriteToReadTests.UnitTests
 {
     using System;
+    using System.Data.Entity;
+    using System.Linq;
 
     using Common.Utilities;
 
     using DataAccess.Read.Dal.CodeFirst.DbContext;
 
+    using Domain.Read.Entities;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
 
     using Tests.TestCommon;
     using Tests.TestCommon.SampleObjects;
@@ -14,10 +21,10 @@
     using WriteToRead.ToReadDb;
 
     /// <summary>
-    /// The generic registration service tests.
+    /// The generic registration repository tests.
     /// </summary>
     [TestClass]
-    public class GenericRegistrationServiceTests
+    public class GenericRegistrationRepositoryTests
     {
         /// <summary>
         /// The time stamp.
@@ -30,12 +37,44 @@
         private IReadContext readContext;
 
         /// <summary>
+        /// The registration types.
+        /// </summary>
+        private IDbSet<RegistrationType> registrationTypes;
+
+        /// <summary>
+        /// The registration types.
+        /// </summary>
+        private IDbSet<Registration> registrations;
+
+        /// <summary>
+        /// The registration types.
+        /// </summary>
+        private IDbSet<PropertyType> propertyTypes;
+
+        /// <summary>
+        /// The registration types.
+        /// </summary>
+        private IDbSet<Property> properties;
+
+            /// <summary>
         /// The set up.
         /// </summary>
         [TestInitialize]
         public void SetUp()
         {
-            this.readContext = NSubstitute.Substitute.For<IReadContext>();
+            this.readContext = Substitute.For<IReadContext>();
+
+            var regTypes = SampleRegistrationTypes.CreateRegistrationTypes().AsQueryable();
+            this.registrationTypes = Substitute.For<IDbSet<RegistrationType>>().Initialize(regTypes);
+
+            var regs = SampleRegistrations.CreateRegistrations().AsQueryable();
+            this.registrations = Substitute.For<IDbSet<Registration>>().Initialize(regs);
+
+            var propTypes = SamplePropertyTypes.CreatePropertyTypes().AsQueryable();
+            this.propertyTypes = Substitute.For<IDbSet<PropertyType>>().Initialize(propTypes);
+
+            var props = SampleProperties.CreateProperties().AsQueryable();
+            this.properties = Substitute.For<IDbSet<Property>>().Initialize(props);
 
             SystemTime.Set(TimeStamp);
         }
@@ -58,13 +97,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
-            //Add fake!
+            this.readContext.RegistrationTypes.Returns(this.registrationTypes);
 
             // Act
             var result = sut.CheckRegistrationType("Book");
 
             // Assert
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(1, result.Id);
         }
 
         /// <summary>
@@ -76,11 +115,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.RegistrationTypes.Returns(this.registrationTypes);
+
             // Act
             var result = sut.CheckRegistrationType("Stamp");
 
             // Assert
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(0, result.Id);
         }
 
         /// <summary>
@@ -91,6 +132,8 @@
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.RegistrationTypes.Throws<Exception>();
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.CheckRegistrationType("Stamp"));
@@ -105,11 +148,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.RegistrationTypes.Returns(this.registrationTypes);
+
             // Act
             var result = sut.AddRegistrationTypeToDbSet("Comic");
 
             // Assert
-            Assert.AreEqual(3, result);
+            Assert.AreEqual("Comic", result.Name);
         }
 
         /// <summary>
@@ -120,6 +165,8 @@
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.RegistrationTypes.Throws<Exception>();
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.AddRegistrationTypeToDbSet("Comic"));
@@ -134,11 +181,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Registrations.Returns(this.registrations);
+
             // Act
             var result = sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey");
 
             // Assert
-            Assert.AreEqual(2, result.Id);
+            Assert.AreEqual("2001: A Space Odyssey", result.Name);
         }
 
         /// <summary>
@@ -150,8 +199,11 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Registrations.Throws<Exception>();
+
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey"));
+            MyAssert.Throws<Exception>(
+                () => sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey"));
         }
 
         /// <summary>
@@ -163,11 +215,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.PropertyTypes.Returns(this.propertyTypes);
+
             // Act
             var result = sut.CheckPropertyType("Author");
 
             // Assert
-            Assert.AreEqual(1, result);
+            Assert.AreEqual("Author", result.Name);
         }
 
         /// <summary>
@@ -179,11 +233,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.PropertyTypes.Returns(this.propertyTypes);
+
             // Act
             var result = sut.CheckPropertyType("Autor");
 
             // Assert
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(string.Empty, result.Name);
         }
 
         /// <summary>
@@ -194,6 +250,8 @@
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.PropertyTypes.Throws<Exception>();
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.CheckPropertyType("Author"));
@@ -208,11 +266,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.PropertyTypes.Returns(this.propertyTypes);
+
             // Act
-            var result = sut.InsertPropertType("Size");
+            var result = sut.AddPropertyTypeToDbSet("Size");
 
             // Assert
-            Assert.AreEqual(3, result);
+            Assert.AreEqual("Size", result.Name);
         }
 
         /// <summary>
@@ -224,8 +284,10 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.PropertyTypes.Throws<Exception>();
+
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.InsertPropertType("Size"));
+            MyAssert.Throws<Exception>(() => sut.AddPropertyTypeToDbSet("Size"));
         }
 
         /// <summary>
@@ -237,11 +299,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Properties.Returns(this.properties);
+
             // Act
             var result = sut.CheckProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick");
 
             // Assert
-            Assert.AreEqual(3, result.Id);
+            Assert.AreEqual("Stanley Kubrick", result.Value);
         }
 
         /// <summary>
@@ -253,11 +317,13 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Properties.Returns(this.properties);
+
             // Act
             var result = sut.CheckProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "David Lynch");
 
             // Assert
-            Assert.AreEqual(0, result.Id);
+            Assert.AreEqual(string.Empty, result.Value);
         }
 
         /// <summary>
@@ -268,6 +334,8 @@
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.Properties.Throws<Exception>();
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.CheckProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick"));
@@ -282,11 +350,14 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Properties.Returns(this.properties);
+
             // Act
-            var result = sut.InsertProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick", SampleRegistrations.CreateRegistration2001());
+            var result = sut.AddPropertyToDbSet(
+                SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick", SampleRegistrations.CreateRegistration2001());
 
             // Assert
-            Assert.AreEqual(3, result.Id);
+            Assert.AreEqual("Stanley Kubrick", result.Value);
         }
 
         /// <summary>
@@ -298,8 +369,12 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Properties.Throws<Exception>();
+
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.InsertProperty(SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick", SampleRegistrations.CreateRegistration2001()));
+            MyAssert.Throws<Exception>(
+                () => sut.AddPropertyToDbSet(
+                    SamplePropertyTypes.CreatePropertyTypeAuthor(), "Stanley Kubrick", SampleRegistrations.CreateRegistration2001()));
         }
 
         /// <summary>
@@ -311,8 +386,11 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.Properties.Returns(this.properties);
+
             // Act
-            var result = sut.AddRegistrationToProperty(SampleProperties.CreateProperty1968(), SampleRegistrations.CreateRegistration2001());
+            var result = sut.AddRegistrationToProperty(
+                SampleProperties.CreateProperty1968(), SampleRegistrations.CreateRegistration2001());
 
             // Assert
             Assert.IsTrue(result);
@@ -328,7 +406,7 @@
             var sut = this.CreateGenericRegistrationService();
 
             // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.AddRegistrationToProperty(SampleProperties.CreateProperty1968(), SampleRegistrations.CreateRegistration2001()));
+            MyAssert.Throws<Exception>(() => sut.AddRegistrationToProperty(null, null));
         }
 
         /// <summary>

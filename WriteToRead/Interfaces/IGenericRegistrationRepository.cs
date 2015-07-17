@@ -30,9 +30,9 @@
         PropertyType CheckPropertyType(string type);
 
         /// <summary>
-        /// Insert a new PropertyType into the database.
+        /// Add property type to db set.
         /// </summary>
-        PropertyType InsertPropertType(string type);
+        PropertyType AddPropertyTypeToDbSet(string type);
 
         /// <summary>
         /// Check if a property is already registered and return the id.
@@ -40,9 +40,9 @@
         Property CheckProperty(PropertyType type, string value);
 
         /// <summary>
-        /// Insert a new Property into the database.
+        /// Add property to db set.
         /// </summary>
-        Property InsertProperty(PropertyType type, string value, Registration registration);
+        Property AddPropertyToDbSet(PropertyType type, string value, Registration registration);
 
         /// <summary>
         /// Add a registration to a property.
