@@ -19,6 +19,5 @@ D:\Projects\GitHub\CQRS\Common\bin\Debug\NLog.dll
 D:\Projects\GitHub\CQRS\Common\bin\Debug\EntityFramework.xml
 D:\Projects\GitHub\CQRS\Common\bin\Debug\EntityFramework.SqlServer.xml
 D:\Projects\GitHub\CQRS\Common\bin\Debug\NLog.xml
-D:\Projects\GitHub\CQRS\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\CQRS\Common\obj\Debug\Common.dll
 D:\Projects\GitHub\CQRS\Common\obj\Debug\Common.pdb

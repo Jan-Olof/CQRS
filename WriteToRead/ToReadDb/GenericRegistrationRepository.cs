@@ -25,7 +25,7 @@
         /// The read context.
         /// </summary>
         private readonly IReadContext readContext;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericRegistrationRepository"/> class.
         /// </summary>
@@ -244,16 +244,22 @@
         /// </summary>
         public bool SaveAllChanges()
         {
-            try
+            using (var dbContextTransaction = this.readContext.Database.BeginTransaction())
             {
-                int changes = this.readContext.SaveChanges();
+                try
+                {
+                    int changes = this.readContext.SaveChanges();
 
-                return changes > 0;
-            }
-            catch (Exception ex)
-            {
-                this.logger.Error(ex);
-                throw;
+                    dbContextTransaction.Commit();
+
+                    return changes > 0;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    this.logger.Error(ex);
+                    throw;
+                }
             }
         }
     }

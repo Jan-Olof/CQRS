@@ -62,6 +62,8 @@ D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NLog.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Net.Http.Formatting.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.Http.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Tests.TestCommon.dll
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.dll
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NSubstitute.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.Mvc.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.Optimization.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.Practices.Unity.dll
@@ -76,6 +78,7 @@ D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Domain.Read.pdb
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Tests.TestCommon.pdb
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Api.WebApi.pdb
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\DataAccess.Write.Dal.CodeFirst.pdb
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.pdb
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Domain.Write.pdb
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\EntityFramework.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\EntityFramework.SqlServer.xml
@@ -83,6 +86,7 @@ D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NLog.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Net.Http.Formatting.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.Http.xml
+D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NSubstitute.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.Mvc.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.Optimization.xml
 D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.Practices.Unity.xml
@@ -94,7 +98,3 @@ D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.WebPages.Deploymen
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\IntegrationTests.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.dll
 D:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.pdb
-D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.dll
-D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\WriteToRead.pdb
-D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NSubstitute.dll
-D:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\NSubstitute.xml

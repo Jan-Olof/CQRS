@@ -30,6 +30,13 @@
         IDbSet<RegistrationType> RegistrationTypes { get; set; }
 
         /// <summary>
+        /// Gets the database.
+        /// Creates a Database instance for this context that allows for creation/deletion/existence
+        /// checks for the underlying database.
+        /// </summary>
+        Database Database { get; }
+
+        /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>
         int SaveChanges();
