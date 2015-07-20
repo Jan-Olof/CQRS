@@ -1,0 +1,16 @@
+{
+	"EntityType": "Book",
+	"Properties": [
+		{
+			"Key": "Name",
+			"Value": "Sapiens"
+		},
+		{
+			"Key": "Author",
+			"Value": "Yuval Noah Harari"
+		},
+		{
+			"Key": "Published",
+			"Value": "2014"
+		}	]
+}

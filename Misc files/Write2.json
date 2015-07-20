@@ -1,0 +1,16 @@
+{
+	"EntityType": "Movie",
+	"Properties": [
+		{
+			"Key": "Name",
+			"Value": "2001: A Space Odyssey"
+		},
+		{
+			"Key": "Author",
+			"Value": "Stanley Kubrick"
+		},
+		{
+			"Key": "Published",
+			"Value": "1968"
+		}	]
+}

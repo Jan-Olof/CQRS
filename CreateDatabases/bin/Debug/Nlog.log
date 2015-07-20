@@ -24,3 +24,10 @@
 2015-07-18 14:33:27.2844 Info Shutting down logging...
 2015-07-18 14:33:27.2844 Info Closing old configuration.
 2015-07-18 14:33:27.2844 Info Logger has been shut down.
+2015-07-20 17:19:20.7565 Info Adding target File Target[file]
+2015-07-20 17:19:20.7722 Info Adding target Database Target[database]
+2015-07-20 17:19:20.7722 Info Configured from an XML element in C:\Projects\GitHub\CQRS\CreateDatabases\bin\Debug\Utilities.CreateDatabases.vshost.exe.Config...
+2015-07-20 17:19:20.7722 Info Found 58 configuration items
+2015-07-20 17:19:24.9286 Info Shutting down logging...
+2015-07-20 17:19:24.9286 Info Closing old configuration.
+2015-07-20 17:19:24.9286 Info Logger has been shut down.

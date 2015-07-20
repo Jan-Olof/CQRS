@@ -20,3 +20,14 @@ D:\Projects\GitHub\CQRS\Read\bin\Debug\EntityFramework.xml
 D:\Projects\GitHub\CQRS\Read\obj\Debug\Read.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\CQRS\Read\obj\Debug\Domain.Read.dll
 D:\Projects\GitHub\CQRS\Read\obj\Debug\Domain.Read.pdb
+C:\Projects\GitHub\CQRS\Read\bin\Debug\Domain.Read.dll
+C:\Projects\GitHub\CQRS\Read\bin\Debug\Domain.Read.pdb
+C:\Projects\GitHub\CQRS\Read\bin\Debug\Common.dll
+C:\Projects\GitHub\CQRS\Read\bin\Debug\NLog.dll
+C:\Projects\GitHub\CQRS\Read\bin\Debug\EntityFramework.dll
+C:\Projects\GitHub\CQRS\Read\bin\Debug\Common.pdb
+C:\Projects\GitHub\CQRS\Read\bin\Debug\NLog.xml
+C:\Projects\GitHub\CQRS\Read\bin\Debug\EntityFramework.xml
+C:\Projects\GitHub\CQRS\Read\obj\Debug\Read.csprojResolveAssemblyReference.cache
+C:\Projects\GitHub\CQRS\Read\obj\Debug\Domain.Read.dll
+C:\Projects\GitHub\CQRS\Read\obj\Debug\Domain.Read.pdb
