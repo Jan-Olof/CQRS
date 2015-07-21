@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Common.DataTransferObjects;
+    using Common.Enums;
 
     using Domain.Read.Entities;
     using Domain.Write.Interfaces;
@@ -86,17 +87,20 @@
                 return result;
             }
 
-            var registrationType = this.genericRegistrationRepository.CheckRegistrationType(gdto.EntityType);
-
-            if (registrationType.Id == 0)
+            switch (writeEvent.CommandType)
             {
-                registrationType = this.genericRegistrationRepository.AddRegistrationTypeToDbSet(gdto.EntityType);
+                case CommandType.Insert:
+                    this.InsertRegistration(timestamp, gdto, namePropertyValue);
+                    break;
+                case CommandType.Update:
+                    this.UpdateRegistration(timestamp, gdto, namePropertyValue);
+                    break;
+                case CommandType.Delete:
+                     this.DeleteRegistration(timestamp, gdto, namePropertyValue);
+                   break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
-                registrationType, timestamp, namePropertyValue);
-
-            this.AddProperties(gdto, registration);
 
             if (this.genericRegistrationRepository.SaveAllChanges())
             {
@@ -106,6 +110,36 @@
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Insert a new Registration into the database.
+        /// </summary>
+        private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        {
+            var registrationType = this.genericRegistrationRepository.CheckRegistrationType(gdto.EntityType);
+
+            if (registrationType.Id == 0)
+            {
+                registrationType = this.genericRegistrationRepository.AddRegistrationTypeToDbSet(gdto.EntityType);
+            }
+
+            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
+                registrationType,
+                timestamp,
+                namePropertyValue);
+
+            this.AddProperties(gdto, registration);
+        }
+
+        private void UpdateRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DeleteRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
