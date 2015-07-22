@@ -22,7 +22,7 @@
         /// <summary>
         /// Add registration to db set.
         /// </summary>
-        Registration AddRegistrationToDbSet(RegistrationType type, DateTime timestamp, string name);
+        Registration AddRegistrationToDbSet(RegistrationType type, DateTime timestamp, string name, int originalWriteEventId);
 
         /// <summary>
         /// Check which property type a property is and return the type.

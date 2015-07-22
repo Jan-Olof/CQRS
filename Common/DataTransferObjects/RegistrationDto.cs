@@ -43,6 +43,11 @@
         public DateTime Updated { get; set; }
 
         /// <summary>
+        ///  Gets or sets the original write event id.
+        /// </summary>
+        public int OriginalWriteEventId { get; set; }
+
+        /// <summary>
         /// Gets or sets the registration type id.
         /// </summary>
         public int RegistrationTypeId { get; set; }

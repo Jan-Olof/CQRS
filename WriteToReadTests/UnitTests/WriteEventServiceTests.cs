@@ -105,32 +105,32 @@
         }
 
         /// <summary>
-        /// The test should get name property value.
+        /// The test should get property value.
         /// </summary>
         [TestMethod]
-        public void TestShouldGetNamePropertyValue()
+        public void TestShouldGetPropertyValue()
         {
             // Arrange
             var sut = this.CreateWriteEventService();
 
             // Act
-            var result = sut.GetNamePropertyValue(SampleGdto.CreateGdtoWithPublished());
+            var result = sut.GetPropertyValue(SampleGdto.CreateGdtoWithPublished(), "Name");
 
             // Assert
             Assert.AreEqual("Sapiens", result);
         }
 
         /// <summary>
-        /// The test should get name property value not finding any.
+        /// The test should get property value not finding any.
         /// </summary>
         [TestMethod]
-        public void TestShouldGetNamePropertyValueNotFindingAny()
+        public void TestShouldGetPropertyValueNotFindingAny()
         {
             // Arrange
             var sut = this.CreateWriteEventService();
 
             // Act
-            var result = sut.GetNamePropertyValue(SampleGdto.CreateGdtoWithoutName());
+            var result = sut.GetPropertyValue(SampleGdto.CreateGdtoWithoutName(), "Name");
 
             // Assert
             Assert.AreEqual(string.Empty, result);

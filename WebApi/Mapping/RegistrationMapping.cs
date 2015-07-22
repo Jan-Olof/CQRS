@@ -33,6 +33,7 @@
                            Name = registration.Name,
                            Created = registration.Created,
                            Updated = registration.Updated,
+                           OriginalWriteEventId = registration.OriginalWriteEventId,
                            RegistrationTypeId = registration.RegistrationType.Id,
                            RegistrationTypeName = registration.RegistrationType.Name,
                            RegistrationProperties = CreateRegistrationPropertiesDtos(registration.Properties)

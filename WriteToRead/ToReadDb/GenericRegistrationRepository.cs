@@ -91,11 +91,11 @@
         /// <summary>
         /// Add registration to db set.
         /// </summary>
-        public Registration AddRegistrationToDbSet(RegistrationType type, DateTime timestamp, string name)
+        public Registration AddRegistrationToDbSet(RegistrationType type, DateTime timestamp, string name, int originalWriteEventId)
         {
             try
             {
-                var registration = Registration.CreateRegistration(type, timestamp, name);
+                var registration = Registration.CreateRegistration(type, timestamp, name, originalWriteEventId);
 
                 this.readContext.Registrations.Add(registration);
 

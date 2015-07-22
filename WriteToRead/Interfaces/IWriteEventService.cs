@@ -25,7 +25,7 @@
         /// <summary>
         /// Get the value of the name property in a Gdto.
         /// </summary>
-        string GetNamePropertyValue(Gdto gdto);
+        string GetPropertyValue(Gdto gdto, string propertyName);
 
         /// <summary>
         /// Set sent to read to a new number.

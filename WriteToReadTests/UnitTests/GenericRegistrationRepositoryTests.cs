@@ -184,7 +184,7 @@
             this.readContext.Registrations.Returns(this.registrations);
 
             // Act
-            var result = sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey");
+            var result = sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey", 2);
 
             // Assert
             Assert.AreEqual("2001: A Space Odyssey", result.Name);
@@ -203,7 +203,7 @@
 
             // Act & Assert
             MyAssert.Throws<Exception>(
-                () => sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey"));
+                () => sut.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "2001: A Space Odyssey", 2));
         }
 
         /// <summary>

@@ -43,6 +43,11 @@
         public DateTime Updated { get; set; }
 
         /// <summary>
+        ///  Gets or sets the original write event id.
+        /// </summary>
+        public int OriginalWriteEventId { get; set; }
+
+        /// <summary>
         /// Gets or sets the registration type id.
         /// </summary>
         public int RegistrationTypeId { get; set; }
@@ -60,7 +65,7 @@
         /// <summary>
         /// Create a registration object.
         /// </summary>
-        public static Registration CreateRegistration(RegistrationType type, DateTime timestamp, string name)
+        public static Registration CreateRegistration(RegistrationType type, DateTime timestamp, string name, int originalWriteEventId)
         {
             return new Registration
                        {
@@ -68,6 +73,7 @@
                             RegistrationType = type,
                             Created = timestamp,
                             Updated = timestamp,
+                            OriginalWriteEventId = originalWriteEventId,
                             Name = name
                        }; 
         }

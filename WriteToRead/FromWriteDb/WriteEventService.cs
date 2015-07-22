@@ -81,9 +81,9 @@
         }
 
         /// <summary>
-        /// Get the value of the name property in a Gdto.
+        /// Get the value of a property in a Gdto.
         /// </summary>
-        public string GetNamePropertyValue(Gdto gdto)
+        public string GetPropertyValue(Gdto gdto, string propertyName)
         {
             try
             {
@@ -93,7 +93,7 @@
                 }
 
                 var namePropertyValue = gdto.Properties
-                    .SingleOrDefault(p => string.Equals(p.Key, "Name", StringComparison.CurrentCultureIgnoreCase))
+                    .SingleOrDefault(p => string.Equals(p.Key, propertyName, StringComparison.CurrentCultureIgnoreCase))
                     .Value;
 
                 return namePropertyValue ?? string.Empty;

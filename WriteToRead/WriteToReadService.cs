@@ -80,7 +80,7 @@
         {
             var gdto = this.writeEventService.DeserializeGdto(writeEvent.Payload);
 
-            var namePropertyValue = this.writeEventService.GetNamePropertyValue(gdto);
+            var namePropertyValue = this.writeEventService.GetPropertyValue(gdto, "Name");
 
             if (string.IsNullOrWhiteSpace(namePropertyValue))
             {
@@ -90,7 +90,7 @@
             switch (writeEvent.CommandType)
             {
                 case CommandType.Insert:
-                    this.InsertRegistration(timestamp, gdto, namePropertyValue);
+                    this.InsertRegistration(timestamp, gdto, namePropertyValue, writeEvent.Id);
                     break;
                 case CommandType.Update:
                     this.UpdateRegistration(timestamp, gdto, namePropertyValue);
@@ -115,7 +115,32 @@
         /// <summary>
         /// Insert a new Registration into the database.
         /// </summary>
-        private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue, int originalWriteEventId)
+        {
+            var registrationType = this.GetRegistrationType(gdto);
+
+            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
+                registrationType, timestamp, namePropertyValue, originalWriteEventId);
+
+            this.AddProperties(gdto, registration);
+        }
+
+        private void UpdateRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        {
+            var originalWriteEventId = this.writeEventService.GetPropertyValue(gdto, "OriginalWriteEventId");
+
+            throw new NotImplementedException();
+        }
+
+        private void DeleteRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private RegistrationType GetRegistrationType(Gdto gdto)
         {
             var registrationType = this.genericRegistrationRepository.CheckRegistrationType(gdto.EntityType);
 
@@ -123,23 +148,7 @@
             {
                 registrationType = this.genericRegistrationRepository.AddRegistrationTypeToDbSet(gdto.EntityType);
             }
-
-            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
-                registrationType,
-                timestamp,
-                namePropertyValue);
-
-            this.AddProperties(gdto, registration);
-        }
-
-        private void UpdateRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DeleteRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
-        {
-            throw new NotImplementedException();
+            return registrationType;
         }
 
         /// <summary>
