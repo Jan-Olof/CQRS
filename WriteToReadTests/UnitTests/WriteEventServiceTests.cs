@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Common.DataAccess;
+    using Common.Exceptions;
     using Common.Utilities;
 
     using Domain.Write.Entities;
@@ -168,7 +169,30 @@
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.SetSentToRead(SampleWriteEvents.CreateWriteEvent(1, "Payload"), 1));
         }
-        
+
+        [TestMethod]
+        public void TestShouldGetOriginalWriteEventId()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            // Act
+            var result = sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithWriteEventId());
+
+            // Assert
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestShouldGetOriginalWriteEventIdAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            // Act & Assert
+            MyAssert.Throws<NoWriteEventIdException>(() => sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithPublished()));
+        }
+
         /// <summary>
         /// The create write event service.
         /// </summary>

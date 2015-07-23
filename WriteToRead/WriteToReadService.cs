@@ -1,13 +1,11 @@
 ﻿namespace WriteToRead
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using Common.DataTransferObjects;
     using Common.Enums;
 
-    using Domain.Read.Entities;
     using Domain.Write.Interfaces;
 
     using NLog;
@@ -96,8 +94,8 @@
                     this.UpdateRegistration(timestamp, gdto, namePropertyValue);
                     break;
                 case CommandType.Delete:
-                     this.DeleteRegistration(timestamp, gdto, namePropertyValue);
-                   break;
+                    this.DeleteRegistration(timestamp, gdto, namePropertyValue);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -105,7 +103,6 @@
             if (this.genericRegistrationRepository.SaveAllChanges())
             {
                 result++;
-
                 this.writeEventService.SetSentToRead(writeEvent, 1);
             }
 
@@ -117,19 +114,25 @@
         /// </summary>
         private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue, int originalWriteEventId)
         {
-            var registrationType = this.GetRegistrationType(gdto);
+            var registrationType = this.genericRegistrationRepository.GetRegistrationType(gdto);
 
             var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
                 registrationType, timestamp, namePropertyValue, originalWriteEventId);
 
-            this.AddProperties(gdto, registration);
+            this.genericRegistrationRepository.AddProperties(gdto, registration);
         }
 
         private void UpdateRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
         {
-            var originalWriteEventId = this.writeEventService.GetPropertyValue(gdto, "OriginalWriteEventId");
+            int originalWriteEventId = this.writeEventService.GetOriginalWriteEventId(gdto);
 
-            throw new NotImplementedException();
+            var registration = this.genericRegistrationRepository.GetRegistration(originalWriteEventId);
+            var registrationType = this.genericRegistrationRepository.GetRegistrationType(gdto);
+
+            registration = this.genericRegistrationRepository.UpdateRegistration(
+                registration, registrationType, timestamp, namePropertyValue);
+
+            //TODO: Update properties!
         }
 
         private void DeleteRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
@@ -137,56 +140,6 @@
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private RegistrationType GetRegistrationType(Gdto gdto)
-        {
-            var registrationType = this.genericRegistrationRepository.CheckRegistrationType(gdto.EntityType);
 
-            if (registrationType.Id == 0)
-            {
-                registrationType = this.genericRegistrationRepository.AddRegistrationTypeToDbSet(gdto.EntityType);
-            }
-            return registrationType;
-        }
-
-        /// <summary>
-        /// Add properties to a registration.
-        /// </summary>
-        private void AddProperties(Gdto gdto, Registration registration)
-        {
-            foreach (var property in gdto.Properties)
-            {
-                var propertyType = this.genericRegistrationRepository.CheckPropertyType(property.Key);
-
-                if (propertyType.Id == 0)
-                {
-                    propertyType = this.genericRegistrationRepository.AddPropertyTypeToDbSet(property.Key);
-                }
-
-                if (propertyType.Id > -1)
-                {
-                    this.AddProperty(propertyType, property, registration);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Add a property to a registration.
-        /// </summary>
-        private void AddProperty(PropertyType propertyType, KeyValuePair<string, string> property, Registration registration)
-        {
-            var registrationProperty = this.genericRegistrationRepository.CheckProperty(propertyType, property.Value);
-
-            if (registrationProperty.Id == 0)
-            {
-                this.genericRegistrationRepository.AddPropertyToDbSet(propertyType, property.Value, registration);
-            }
-            else
-            {
-                this.genericRegistrationRepository.AddRegistrationToProperty(registrationProperty, registration);
-            }
-        }
     }
 }

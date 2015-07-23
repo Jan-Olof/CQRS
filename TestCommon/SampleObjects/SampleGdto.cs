@@ -23,6 +23,18 @@
         }
 
         /// <summary>
+        /// The create gdto.
+        /// </summary>
+        public static Gdto CreateGdtoWithWriteEventId()
+        {
+            return new Gdto
+            {
+                EntityType = "Book",
+                Properties = CreatePropertiesWithWriteEventId()
+            };
+        }
+
+        /// <summary>
         /// The create gdto with published.
         /// </summary>
         public static Gdto CreateGdtoWithPublished()
@@ -67,6 +79,22 @@
 
             return keyValuePairs;
         }
+
+        /// <summary>
+        /// The create strings.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithWriteEventId()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Name", "Sapiens"),
+                                        new KeyValuePair<string, string>("OriginalWriteEventId", "1"),
+                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
+                                    };
+
+            return keyValuePairs;
+        }
+
 
         /// <summary>
         /// The create properties with published.

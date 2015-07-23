@@ -6,6 +6,7 @@
 
     using Common.DataAccess;
     using Common.DataTransferObjects;
+    using Common.Exceptions;
 
     using Domain.Write.Entities;
     using Domain.Write.Interfaces;
@@ -121,6 +122,25 @@
                 this.logger.Error(ex);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Get the OriginalWriteEventId from the Gdto and parse it.
+        /// </summary>
+        public int GetOriginalWriteEventId(Gdto gdto)
+        {
+            string originalWriteEventIdString = this.GetPropertyValue(gdto, "OriginalWriteEventId");
+
+            int originalWriteEventId;
+
+            bool isOk = int.TryParse(originalWriteEventIdString, out originalWriteEventId);
+
+            if (!isOk || originalWriteEventId < 1)
+            {
+                throw new NoWriteEventIdException("Could not parse OriginalWriteEventId.");
+            }
+
+            return originalWriteEventId;
         }
     }
 }

@@ -69,23 +69,45 @@
         {
             return new Registration
                        {
-                            RegistrationTypeId = type.Id,
-                            RegistrationType = type,
-                            Created = timestamp,
-                            Updated = timestamp,
-                            OriginalWriteEventId = originalWriteEventId,
-                            Name = name
-                       }; 
+                           RegistrationTypeId = type.Id,
+                           RegistrationType = type,
+                           Created = timestamp,
+                           Updated = timestamp,
+                           OriginalWriteEventId = originalWriteEventId,
+                           Name = name
+                       };
         }
 
         /// <summary>
-        /// The get registrations of one type.
+        /// Update a registration.
+        /// </summary>
+        public static Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name)
+        {
+            registration.RegistrationType = type;
+            registration.RegistrationTypeId = type.Id;
+            registration.Name = name;
+            registration.Updated = timestamp;
+
+            return registration;
+        }
+
+        /// <summary>
+        /// Get registrations of one type.
         /// </summary>
         public static IQueryable<Registration> GetRegistrationsOfOneType(IRepository<Registration> repository, int type)
         {
             return repository
                 .GetAll()
                 .Where(r => r.RegistrationType.Id == type);
+        }
+
+        /// <summary>
+        /// Get registration from OriginalWriteEventId.
+        /// </summary>
+        public static Registration GetRegistration(IQueryable<Registration> dataSet, int originalWriteEventId)
+        {
+            return dataSet
+                .SingleOrDefault(r => r.OriginalWriteEventId == originalWriteEventId);
         }
     }
 }

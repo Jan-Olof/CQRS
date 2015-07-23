@@ -54,9 +54,9 @@
     <Compile Include="DbContext\Configurations\RegistrationConfiguration.cs" />
     <Compile Include="DbContext\Configurations\PropertyConfiguration.cs" />
     <Compile Include="DbContext\Configurations\RegistrationTypeConfiguration.cs" />
-    <Compile Include="DbContext\IReadContext.cs" />
     <Compile Include="DbContext\ReadContext.cs" />
     <Compile Include="Initialize\ReadInitializer.cs" />
+    <Compile Include="DbContext\IReadContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

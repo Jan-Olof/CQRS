@@ -30,6 +30,7 @@
                            Name = "Sapiens",
                            Created = new DateTime(2015, 7, 9, 15, 41, 5),
                            Updated = new DateTime(2015, 7, 9, 15, 41, 5),
+                           OriginalWriteEventId = 1,
                            RegistrationTypeId = 1,
                            RegistrationType = SampleRegistrationTypes.CreateRegistrationTypeBook(),
                            Properties = SampleProperties.CreatePropertiesSapiens()
@@ -47,6 +48,7 @@
                             Name = "2001: A Space Odyssey",
                             Created = new DateTime(2015, 7, 9, 15, 52, 51),
                             Updated = new DateTime(2015, 7, 9, 15, 52, 51),
+                            OriginalWriteEventId = 2,
                             RegistrationTypeId = 2,
                             RegistrationType = SampleRegistrationTypes.CreateRegistrationTypeMovie(),
                             Properties = SampleProperties.CreateProperties2001()
@@ -64,6 +66,7 @@
                             Name = "Sapiens",
                             Created = new DateTime(2015, 7, 9, 15, 41, 5),
                             Updated = new DateTime(2015, 7, 9, 15, 41, 5),
+                            OriginalWriteEventId = 1,
                             RegistrationTypeId = 1,
                             RegistrationType = null,
                             Properties = properties
@@ -81,6 +84,7 @@
                             Name = "2001: A Space Odyssey",
                             Created = new DateTime(2015, 7, 9, 15, 52, 51),
                             Updated = new DateTime(2015, 7, 9, 15, 52, 51),
+                            OriginalWriteEventId = 2,
                             RegistrationTypeId = 2,
                             RegistrationType = null,
                             Properties = properties

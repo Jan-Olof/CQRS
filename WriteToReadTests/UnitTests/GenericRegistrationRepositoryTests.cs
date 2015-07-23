@@ -56,7 +56,7 @@
         /// </summary>
         private IDbSet<Property> properties;
 
-            /// <summary>
+        /// <summary>
         /// The set up.
         /// </summary>
         [TestInitialize]
@@ -86,6 +86,24 @@
         public void TearDown()
         {
             SystemTime.Reset();
+        }
+
+        /// <summary>
+        /// The test should get registration type.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetRegistrationType()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.RegistrationTypes.Returns(this.registrationTypes);
+
+            // Act
+            var result = sut.GetRegistrationType(SampleGdto.CreateGdtoWithWriteEventId());
+
+            // Assert
+            Assert.AreEqual(1, result.Id);
         }
 
         /// <summary>
@@ -407,6 +425,50 @@
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.AddRegistrationToProperty(null, null));
+        }
+
+        [TestMethod]
+        public void TestShouldGetRegistration()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.Registrations.Returns(this.registrations);
+
+            // Act
+            var result = sut.GetRegistration(1);
+
+            // Assert
+            Assert.AreEqual(1, result.Id);
+        }
+
+        [TestMethod]
+        public void TestShouldGetRegistrationAndReturnsNull()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            this.readContext.Registrations.Returns(this.registrations);
+
+            // Act
+            var result = sut.GetRegistration(66);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestShouldUpdateRegistration()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.UpdateRegistration(
+                SampleRegistrations.CreateRegistration2001(), SampleRegistrationTypes.CreateRegistrationTypeMovie(), TimeStamp, "20001: A Space Odyssey");
+
+            // Assert
+            Assert.AreEqual("20001: A Space Odyssey", result.Name);
         }
 
         /// <summary>

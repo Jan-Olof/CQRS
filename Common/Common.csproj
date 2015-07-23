@@ -57,6 +57,7 @@
     <Compile Include="Enums\CommandType.cs" />
     <Compile Include="Enums\EntityType.cs" />
     <Compile Include="Exceptions\CreateEventStoreException.cs" />
+    <Compile Include="Exceptions\NoWriteEventIdException.cs" />
     <Compile Include="Exceptions\DeleteException.cs" />
     <Compile Include="Exceptions\DuplicateKeyValueException.cs" />
     <Compile Include="Exceptions\InsertException.cs" />

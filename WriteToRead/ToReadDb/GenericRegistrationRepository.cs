@@ -1,7 +1,10 @@
 ﻿namespace WriteToRead.ToReadDb
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+
+    using Common.DataTransferObjects;
 
     using DataAccess.Read.Dal.CodeFirst.DbContext;
 
@@ -37,6 +40,58 @@
             }
 
             this.readContext = readContext;
+        }
+
+        /// <summary>
+        /// Get RegistrationType from a Gdto.
+        /// </summary>
+        public RegistrationType GetRegistrationType(Gdto gdto)
+        {
+            var registrationType = this.CheckRegistrationType(gdto.EntityType);
+
+            if (registrationType.Id == 0)
+            {
+                registrationType = this.AddRegistrationTypeToDbSet(gdto.EntityType);
+            }
+            return registrationType;
+        }
+
+        /// <summary>
+        /// Add properties to a registration.
+        /// </summary>
+        public void AddProperties(Gdto gdto, Registration registration)
+        {
+            foreach (var property in gdto.Properties)
+            {
+                var propertyType = this.CheckPropertyType(property.Key);
+
+                if (propertyType.Id == 0)
+                {
+                    propertyType = this.AddPropertyTypeToDbSet(property.Key);
+                }
+
+                if (propertyType.Id > -1)
+                {
+                    this.AddProperty(propertyType, property, registration);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add a property to a registration.
+        /// </summary>
+        public void AddProperty(PropertyType propertyType, KeyValuePair<string, string> property, Registration registration)
+        {
+            var registrationProperty = this.CheckProperty(propertyType, property.Value);
+
+            if (registrationProperty.Id == 0)
+            {
+                this.AddPropertyToDbSet(propertyType, property.Value, registration);
+            }
+            else
+            {
+                this.AddRegistrationToProperty(registrationProperty, registration);
+            }
         }
 
         /// <summary>
@@ -237,6 +292,38 @@
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Get registration from OriginalWriteEventId.
+        /// </summary>
+        public Registration GetRegistration(int originalWriteEventId)
+        {
+            try
+            {
+                return Registration.GetRegistration(this.readContext.Registrations, originalWriteEventId);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Update a registration.
+        /// </summary>
+        public Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name)
+        {
+            try
+            {
+                return Registration.UpdateRegistration(registration, type, timestamp, name);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
         }
 
         /// <summary>

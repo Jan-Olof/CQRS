@@ -31,5 +31,10 @@
         /// Set sent to read to a new number.
         /// </summary>
         bool SetSentToRead(IWriteEvent writeEvent, int sentToRead);
+
+        /// <summary>
+        /// Get the OriginalWriteEventId from the Gdto and parse it.
+        /// </summary>
+        int GetOriginalWriteEventId(Gdto gdto);
     }
 }
