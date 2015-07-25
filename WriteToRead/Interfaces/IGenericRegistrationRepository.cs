@@ -78,6 +78,11 @@
         Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name);
 
         /// <summary>
+        /// Update all properties for a registration. Also inserting new and removing old properties.
+        /// </summary>
+        Registration UpdateProperties(Registration registration, Gdto gdto);
+
+        /// <summary>
         /// Save all changes in DbContext to the database
         /// </summary>
         bool SaveAllChanges();

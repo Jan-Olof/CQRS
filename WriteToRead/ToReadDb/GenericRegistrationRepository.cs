@@ -327,6 +327,29 @@
         }
 
         /// <summary>
+        /// Update all properties for a registration. Also inserting new and removing old properties.
+        /// </summary>
+        public Registration UpdateProperties(Registration registration, Gdto gdto)
+        {
+            try
+            {
+                if (registration==null || gdto==null)
+                {
+                    return registration;
+                }
+
+                registration = UpdateExistingProperties(registration, gdto);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+
+            return registration;
+        }
+
+        /// <summary>
         /// The save all changes to the database.
         /// </summary>
         public bool SaveAllChanges()
@@ -348,6 +371,30 @@
                     throw;
                 }
             }
+        }
+
+        /// <summary>
+        /// Update the values of existing properties with new values from the Gdto.
+        /// </summary>
+        private Registration UpdateExistingProperties(Registration registration, Gdto gdto)
+        {
+            if (registration.Properties == null || gdto.Properties==null)
+            {
+                return registration;
+            }
+
+            foreach (var property in registration.Properties)
+            {
+                foreach (var keyValuePair in gdto.Properties)
+                {
+                    if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        property.Value = keyValuePair.Value;
+                    }
+                }
+            }
+
+            return registration;
         }
     }
 }
