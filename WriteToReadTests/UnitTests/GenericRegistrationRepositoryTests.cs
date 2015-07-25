@@ -471,6 +471,71 @@
             Assert.AreEqual("20001: A Space Odyssey", result.Name);
         }
 
+        [TestMethod]
+        public void TestShouldUpdateProperties()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovie());
+
+            // Assert
+            Assert.AreEqual("Stanley Kubrikk", result.Properties.Single(p => p.PropertyType.Name == "Author").Value);
+        }
+
+        [TestMethod]
+        public void TestShouldUpdatePropertiesAndReturnNull()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.UpdateProperties(null, SampleGdto.CreateGdtoWithWriteEventIdMovie());
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestShouldUpdatePropertiesWhenGdtoIsNull()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), null);
+
+            // Assert
+            Assert.AreEqual("Stanley Kubrick", result.Properties.Single(p => p.PropertyType.Name == "Author").Value);
+        }
+        
+        [TestMethod]
+        public void TestShouldUpdatePropertiesAddingOneProperty()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovieNewProp());
+
+            // Assert
+            Assert.AreEqual("1968", result.Properties.Single(p => p.PropertyType.Name == "Published").Value);
+        }
+
+        [TestMethod]
+        public void TestShouldUpdatePropertiesRemovingOneProperty()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovieNewProp());
+
+            // Assert
+            Assert.IsNull(result.Properties.SingleOrDefault(p => p.PropertyType.Name == "Author"));
+        }
+
         /// <summary>
         /// The create generic registration service.
         /// </summary>

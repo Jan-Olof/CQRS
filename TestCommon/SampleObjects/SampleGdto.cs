@@ -35,6 +35,42 @@
         }
 
         /// <summary>
+        /// The create gdto.
+        /// </summary>
+        public static Gdto CreateGdtoWithWriteEventIdMovie()
+        {
+            return new Gdto
+            {
+                EntityType = "Movie",
+                Properties = CreatePropertiesWithWriteEventIdMovie()
+            };
+        }
+
+        /// <summary>
+        /// The create gdto.
+        /// </summary>
+        public static Gdto CreateGdtoWithWriteEventIdMovieNewProp()
+        {
+            return new Gdto
+            {
+                EntityType = "Movie",
+                Properties = CreatePropertiesWithWriteEventIdMovieNewProp()
+            };
+        }
+
+        /// <summary>
+        /// The create gdto.
+        /// </summary>
+        public static Gdto CreateGdtoWithWriteEventIdMovieRemoveProp()
+        {
+            return new Gdto
+            {
+                EntityType = "Movie",
+                Properties = CreatePropertiesWithWriteEventIdMovieRemoveProp()
+            };
+        }
+
+        /// <summary>
         /// The create gdto with published.
         /// </summary>
         public static Gdto CreateGdtoWithPublished()
@@ -67,7 +103,7 @@
         }
 
         /// <summary>
-        /// The create strings.
+        /// The create properties.
         /// </summary>
         private static IList<KeyValuePair<string, string>> CreateProperties()
         {
@@ -81,7 +117,7 @@
         }
 
         /// <summary>
-        /// The create strings.
+        /// The create properties.
         /// </summary>
         private static IList<KeyValuePair<string, string>> CreatePropertiesWithWriteEventId()
         {
@@ -95,6 +131,51 @@
             return keyValuePairs;
         }
 
+        /// <summary>
+        /// The create properties.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithWriteEventIdMovie()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Name", "2001: A Space Odyssey"),
+                                        new KeyValuePair<string, string>("OriginalWriteEventId", "2"),
+                                        new KeyValuePair<string, string>("Author", "Stanley Kubrikk")
+                                    };
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// The create properties.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithWriteEventIdMovieNewProp()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Name", "2001: A Space Odyssey"),
+                                        new KeyValuePair<string, string>("OriginalWriteEventId", "2"),
+                                        new KeyValuePair<string, string>("Author", "Stanley Kubrick"),
+                                        new KeyValuePair<string, string>("Published", "1968")
+                                    };
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// The create properties.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithWriteEventIdMovieRemoveProp()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Name", "2001: A Space Odyssey"),
+                                        new KeyValuePair<string, string>("OriginalWriteEventId", "2"),
+                                        new KeyValuePair<string, string>("Author", "DeleteProperty")
+                                    };
+
+            return keyValuePairs;
+        }
 
         /// <summary>
         /// The create properties with published.
