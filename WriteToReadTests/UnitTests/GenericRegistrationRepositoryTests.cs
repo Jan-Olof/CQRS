@@ -509,18 +509,23 @@
             // Assert
             Assert.AreEqual("Stanley Kubrick", result.Properties.Single(p => p.PropertyType.Name == "Author").Value);
         }
-        
+
         [TestMethod]
         public void TestShouldUpdatePropertiesAddingOneProperty()
         {
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.RegistrationTypes.Returns(this.registrationTypes);
+            this.readContext.Registrations.Returns(this.registrations);
+            this.readContext.PropertyTypes.Returns(this.propertyTypes);
+            this.readContext.Properties.Returns(this.properties);
+
             // Act
-            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovieNewProp());
+            var result = sut.UpdateProperties(this.readContext.Registrations.Single(r => r.Id == 2), SampleGdto.CreateGdtoWithWriteEventIdMovieNewProp());
 
             // Assert
-            Assert.AreEqual("1968", result.Properties.Single(p => p.PropertyType.Name == "Published").Value);
+            Assert.AreEqual("Keir Dullea", result.Properties.Single(p => p.PropertyType.Name == "Actor").Value);
         }
 
         [TestMethod]
@@ -529,11 +534,27 @@
             // Arrange
             var sut = this.CreateGenericRegistrationService();
 
+            this.readContext.PropertyTypes.Returns(this.propertyTypes);
+            this.readContext.Properties.Returns(this.properties);
+
             // Act
-            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovieNewProp());
+            var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovieRemoveProp());
 
             // Assert
             Assert.IsNull(result.Properties.SingleOrDefault(p => p.PropertyType.Name == "Author"));
+        }
+
+        [TestMethod]
+        public void TestShouldDeleteRegistration()
+        {
+            // Arrange
+            var sut = this.CreateGenericRegistrationService();
+
+            // Act
+            var result = sut.DeleteRegistration("20001: A Space Odyssey");
+
+            // Assert
+            Assert.IsTrue(result);
         }
 
         /// <summary>

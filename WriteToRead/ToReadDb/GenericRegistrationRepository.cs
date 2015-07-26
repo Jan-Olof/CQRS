@@ -19,6 +19,10 @@
     /// </summary>
     public class GenericRegistrationRepository : IGenericRegistrationRepository
     {
+        private const string Name = "Name";
+
+        private const string OriginalWriteEventId = "OriginalWriteEventId";
+
         /// <summary>
         /// The logger.
         /// </summary>
@@ -63,17 +67,7 @@
         {
             foreach (var property in gdto.Properties)
             {
-                var propertyType = this.CheckPropertyType(property.Key);
-
-                if (propertyType.Id == 0)
-                {
-                    propertyType = this.AddPropertyTypeToDbSet(property.Key);
-                }
-
-                if (propertyType.Id > -1)
-                {
-                    this.AddProperty(propertyType, property, registration);
-                }
+                this.AddPropertyTypeAndProperty(registration, property);
             }
         }
 
@@ -170,7 +164,7 @@
         {
             try
             {
-                if (string.Equals(type, "Name", StringComparison.CurrentCultureIgnoreCase))
+                if (string.Equals(type, Name, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return PropertyType.CreatePropertyType(-1, string.Empty);
                 }
@@ -261,6 +255,7 @@
                 var property = Property.CreateProperty(type, value, registration);
 
                 this.readContext.Properties.Add(property);
+                registration.Properties.Add(property);
 
                 return property;
             }
@@ -333,12 +328,14 @@
         {
             try
             {
-                if (registration==null || gdto==null)
+                if (registration == null || gdto == null)
                 {
                     return registration;
                 }
 
                 registration = UpdateExistingProperties(registration, gdto);
+
+                registration = AddNewProperties(registration, gdto);
             }
             catch (Exception ex)
             {
@@ -347,6 +344,14 @@
             }
 
             return registration;
+        }
+
+        /// <summary>
+        /// Delete a registration.
+        /// </summary>
+        public bool DeleteRegistration(string namePropertyValue)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -376,9 +381,9 @@
         /// <summary>
         /// Update the values of existing properties with new values from the Gdto.
         /// </summary>
-        private Registration UpdateExistingProperties(Registration registration, Gdto gdto)
+        private static Registration UpdateExistingProperties(Registration registration, Gdto gdto)
         {
-            if (registration.Properties == null || gdto.Properties==null)
+            if (registration.Properties == null || gdto.Properties == null)
             {
                 return registration;
             }
@@ -395,6 +400,66 @@
             }
 
             return registration;
+        }
+
+        /// <summary>
+        /// Add both property type and property to a registration.
+        /// </summary>
+        private void AddPropertyTypeAndProperty(Registration registration, KeyValuePair<string, string> property)
+        {
+            var propertyType = this.CheckPropertyType(property.Key);
+
+            if (propertyType.Id == 0)
+            {
+                propertyType = this.AddPropertyTypeToDbSet(property.Key);
+            }
+
+            if (propertyType.Id > -1)
+            {
+                this.AddProperty(propertyType, property, registration);
+            }
+        }
+
+        /// <summary>
+        /// Add new properties to a registration.
+        /// </summary>
+        private Registration AddNewProperties(Registration registration, Gdto gdto)
+        {
+            if (registration.Properties == null || gdto.Properties == null)
+            {
+                return registration;
+            }
+
+            foreach (var keyValuePair in gdto.Properties)
+            {
+                bool exists = DoesPropertyExistInRegistration(registration, keyValuePair);
+
+                if (!exists)
+                {
+                    this.AddPropertyTypeAndProperty(registration, keyValuePair);
+                }
+            }
+
+            return registration;
+        }
+
+        /// <summary>
+        /// Check if a property exists in a registration.
+        /// </summary>
+        private static bool DoesPropertyExistInRegistration(Registration registration, KeyValuePair<string, string> keyValuePair)
+        {
+            bool exists = false;
+            foreach (var property in registration.Properties)
+            {
+                if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
+                    || string.Equals(Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
+                    || string.Equals(OriginalWriteEventId, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    exists = true;
+                }
+            }
+
+            return exists;
         }
     }
 }

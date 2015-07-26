@@ -94,7 +94,7 @@
                     this.UpdateRegistration(timestamp, gdto, namePropertyValue);
                     break;
                 case CommandType.Delete:
-                    this.DeleteRegistration(timestamp, gdto, namePropertyValue);
+                    this.DeleteRegistration(namePropertyValue);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -132,10 +132,10 @@
             registration = this.genericRegistrationRepository.UpdateRegistration(
                 registration, registrationType, timestamp, namePropertyValue);
 
-            //TODO: Update properties!
+            this.genericRegistrationRepository.UpdateProperties(registration, gdto);
         }
 
-        private void DeleteRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
+        private void DeleteRegistration(string namePropertyValue)
         {
             throw new NotImplementedException();
         }

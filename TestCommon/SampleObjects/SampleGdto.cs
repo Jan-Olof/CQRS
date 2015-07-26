@@ -156,7 +156,8 @@
                                         new KeyValuePair<string, string>("Name", "2001: A Space Odyssey"),
                                         new KeyValuePair<string, string>("OriginalWriteEventId", "2"),
                                         new KeyValuePair<string, string>("Author", "Stanley Kubrick"),
-                                        new KeyValuePair<string, string>("Published", "1968")
+                                        new KeyValuePair<string, string>("Published", "1968"),
+                                        new KeyValuePair<string, string>("Actor", "Keir Dullea")
                                     };
 
             return keyValuePairs;

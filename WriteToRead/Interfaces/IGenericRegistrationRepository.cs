@@ -83,6 +83,11 @@
         Registration UpdateProperties(Registration registration, Gdto gdto);
 
         /// <summary>
+        /// Delete a registration.
+        /// </summary>
+        bool DeleteRegistration(string namePropertyValue);
+
+        /// <summary>
         /// Save all changes in DbContext to the database
         /// </summary>
         bool SaveAllChanges();
