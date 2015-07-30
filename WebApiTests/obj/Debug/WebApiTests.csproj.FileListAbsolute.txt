@@ -142,3 +142,6 @@ C:\Projects\GitHub\CQRS\WebApiTests\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Projects\GitHub\CQRS\WebApiTests\obj\Debug\WebApiTests.csprojResolveAssemblyReference.cache
 C:\Projects\GitHub\CQRS\WebApiTests\obj\Debug\Tests.WebApiTests.dll
 C:\Projects\GitHub\CQRS\WebApiTests\obj\Debug\Tests.WebApiTests.pdb
+C:\Projects\GitHub\CQRS\WebApiTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Projects\GitHub\CQRS\WebApiTests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Projects\GitHub\CQRS\WebApiTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml

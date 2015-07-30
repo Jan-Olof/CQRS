@@ -61,3 +61,5 @@ C:\Projects\GitHub\CQRS\WriteTests\bin\Debug\Domain.Read.pdb
 C:\Projects\GitHub\CQRS\WriteTests\obj\Debug\WriteTests.csprojResolveAssemblyReference.cache
 C:\Projects\GitHub\CQRS\WriteTests\obj\Debug\Tests.WriteTests.dll
 C:\Projects\GitHub\CQRS\WriteTests\obj\Debug\Tests.WriteTests.pdb
+C:\Projects\GitHub\CQRS\WriteTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Projects\GitHub\CQRS\WriteTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml

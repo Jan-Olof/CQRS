@@ -150,3 +150,12 @@ C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\System.Web.WebPages.Deploymen
 C:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\IntegrationTests.csprojResolveAssemblyReference.cache
 C:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.dll
 C:\Projects\GitHub\CQRS\IntegrationTests\obj\Debug\Tests.IntegrationTests.pdb
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.SqlServer.ConnectionInfo.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.SqlServer.Management.Sdk.Sfc.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.SqlServer.Smo.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.SqlServer.SqlEnum.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.SqlServer.Dmf.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.SqlServer.ServiceBrokerEnum.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Projects\GitHub\CQRS\IntegrationTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml

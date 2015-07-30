@@ -61,3 +61,5 @@ C:\Projects\GitHub\CQRS\ReadTests\bin\Debug\Newtonsoft.Json.xml
 C:\Projects\GitHub\CQRS\ReadTests\obj\Debug\ReadTests.csprojResolveAssemblyReference.cache
 C:\Projects\GitHub\CQRS\ReadTests\obj\Debug\Tests.ReadTests.dll
 C:\Projects\GitHub\CQRS\ReadTests\obj\Debug\Tests.ReadTests.pdb
+C:\Projects\GitHub\CQRS\ReadTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Projects\GitHub\CQRS\ReadTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml

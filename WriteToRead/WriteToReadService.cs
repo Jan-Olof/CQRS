@@ -18,6 +18,11 @@
     public class WriteToReadService : IWriteToReadService
     {
         /// <summary>
+        /// The generic registration service.
+        /// </summary>
+        private readonly IGenericRegistrationRepository genericRegistrationRepository;
+
+        /// <summary>
         /// The logger.
         /// </summary>
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -28,23 +33,18 @@
         private readonly IWriteEventService writeEventService;
 
         /// <summary>
-        /// The generic registration service.
-        /// </summary>
-        private readonly IGenericRegistrationRepository genericRegistrationRepository;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="WriteToReadService"/> class.
         /// </summary>
         public WriteToReadService(IWriteEventService writeEventService, IGenericRegistrationRepository genericRegistrationRepository)
         {
             if (writeEventService == null)
             {
-                throw new ArgumentNullException("writeEventService");
+                throw new ArgumentNullException(nameof(writeEventService));
             }
 
             if (genericRegistrationRepository == null)
             {
-                throw new ArgumentNullException("genericRegistrationRepository");
+                throw new ArgumentNullException(nameof(genericRegistrationRepository));
             }
 
             this.writeEventService = writeEventService;
@@ -69,6 +69,24 @@
                 this.logger.Error(ex);
                 throw;
             }
+        }
+
+        private void DeleteRegistration(string namePropertyValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Insert a new Registration into the database.
+        /// </summary>
+        private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue, int originalWriteEventId)
+        {
+            var registrationType = this.genericRegistrationRepository.GetRegistrationType(gdto);
+
+            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
+                registrationType, timestamp, namePropertyValue, originalWriteEventId);
+
+            this.genericRegistrationRepository.AddProperties(gdto, registration);
         }
 
         /// <summary>
@@ -109,19 +127,6 @@
             return result;
         }
 
-        /// <summary>
-        /// Insert a new Registration into the database.
-        /// </summary>
-        private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue, int originalWriteEventId)
-        {
-            var registrationType = this.genericRegistrationRepository.GetRegistrationType(gdto);
-
-            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
-                registrationType, timestamp, namePropertyValue, originalWriteEventId);
-
-            this.genericRegistrationRepository.AddProperties(gdto, registration);
-        }
-
         private void UpdateRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
         {
             int originalWriteEventId = this.writeEventService.GetOriginalWriteEventId(gdto);
@@ -134,12 +139,5 @@
 
             this.genericRegistrationRepository.UpdateProperties(registration, gdto);
         }
-
-        private void DeleteRegistration(string namePropertyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

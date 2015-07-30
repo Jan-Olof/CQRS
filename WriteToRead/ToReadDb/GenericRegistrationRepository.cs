@@ -47,20 +47,6 @@
         }
 
         /// <summary>
-        /// Get RegistrationType from a Gdto.
-        /// </summary>
-        public RegistrationType GetRegistrationType(Gdto gdto)
-        {
-            var registrationType = this.CheckRegistrationType(gdto.EntityType);
-
-            if (registrationType.Id == 0)
-            {
-                registrationType = this.AddRegistrationTypeToDbSet(gdto.EntityType);
-            }
-            return registrationType;
-        }
-
-        /// <summary>
         /// Add properties to a registration.
         /// </summary>
         public void AddProperties(Gdto gdto, Registration registration)
@@ -89,26 +75,18 @@
         }
 
         /// <summary>
-        /// Check which registration type a registration is and return the type.
+        /// Add property to db set.
         /// </summary>
-        public RegistrationType CheckRegistrationType(string entityType)
+        public Property AddPropertyToDbSet(PropertyType type, string value, Registration registration)
         {
             try
             {
-                if (this.readContext.RegistrationTypes == null)
-                {
-                    return new RegistrationType();
-                }
+                var property = Property.CreateProperty(type, value, registration);
 
-                foreach (var registrationType in this.readContext.RegistrationTypes)
-                {
-                    if (string.Equals(entityType, registrationType.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        return registrationType;
-                    }
-                }
+                this.readContext.Properties.Add(property);
+                registration.Properties.Add(property);
 
-                return new RegistrationType();
+                return property;
             }
             catch (Exception ex)
             {
@@ -118,17 +96,17 @@
         }
 
         /// <summary>
-        /// Add registration type to db set.
+        /// Add propert type to db set.
         /// </summary>
-        public RegistrationType AddRegistrationTypeToDbSet(string entityType)
+        public PropertyType AddPropertyTypeToDbSet(string type)
         {
             try
             {
-                var registrationType = RegistrationType.CreateRegistrationType(entityType);
+                var propertyType = PropertyType.CreatePropertyType(0, type);
 
-                this.readContext.RegistrationTypes.Add(registrationType);
+                this.readContext.PropertyTypes.Add(propertyType);
 
-                return registrationType;
+                return propertyType;
             }
             catch (Exception ex)
             {
@@ -158,51 +136,40 @@
         }
 
         /// <summary>
-        /// Check which property type a property is and return the type.
+        /// Add a registration to a property.
         /// </summary>
-        public PropertyType CheckPropertyType(string type)
+        public bool AddRegistrationToProperty(Property property, Registration registration)
         {
             try
             {
-                if (string.Equals(type, Name, StringComparison.CurrentCultureIgnoreCase))
+                if (property.Registrations == null)
                 {
-                    return PropertyType.CreatePropertyType(-1, string.Empty);
+                    property.Registrations = new Collection<Registration>();
                 }
 
-                if (this.readContext.PropertyTypes == null)
-                {
-                    return PropertyType.CreatePropertyType(0, string.Empty);
-                }
-
-                foreach (var propertyType in this.readContext.PropertyTypes)
-                {
-                    if (string.Equals(type, propertyType.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        return propertyType;
-                    }
-                }
-
-                return PropertyType.CreatePropertyType(0, string.Empty);
+                property.Registrations.Add(registration);
             }
             catch (Exception ex)
             {
                 this.logger.Error(ex);
                 throw;
             }
+
+            return true;
         }
 
         /// <summary>
-        /// Add propert type to db set.
+        /// Add registration type to db set.
         /// </summary>
-        public PropertyType AddPropertyTypeToDbSet(string type)
+        public RegistrationType AddRegistrationTypeToDbSet(string entityType)
         {
             try
             {
-                var propertyType = PropertyType.CreatePropertyType(0, type);
+                var registrationType = RegistrationType.CreateRegistrationType(entityType);
 
-                this.readContext.PropertyTypes.Add(propertyType);
+                this.readContext.RegistrationTypes.Add(registrationType);
 
-                return propertyType;
+                return registrationType;
             }
             catch (Exception ex)
             {
@@ -246,18 +213,31 @@
         }
 
         /// <summary>
-        /// Add property to db set.
+        /// Check which property type a property is and return the type.
         /// </summary>
-        public Property AddPropertyToDbSet(PropertyType type, string value, Registration registration)
+        public PropertyType CheckPropertyType(string type)
         {
             try
             {
-                var property = Property.CreateProperty(type, value, registration);
+                if (string.Equals(type, Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return PropertyType.CreatePropertyType(-1, string.Empty);
+                }
 
-                this.readContext.Properties.Add(property);
-                registration.Properties.Add(property);
+                if (this.readContext.PropertyTypes == null)
+                {
+                    return PropertyType.CreatePropertyType(0, string.Empty);
+                }
 
-                return property;
+                foreach (var propertyType in this.readContext.PropertyTypes)
+                {
+                    if (string.Equals(type, propertyType.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return propertyType;
+                    }
+                }
+
+                return PropertyType.CreatePropertyType(0, string.Empty);
             }
             catch (Exception ex)
             {
@@ -267,26 +247,40 @@
         }
 
         /// <summary>
-        /// Add a registration to a property.
+        /// Check which registration type a registration is and return the type.
         /// </summary>
-        public bool AddRegistrationToProperty(Property property, Registration registration)
+        public RegistrationType CheckRegistrationType(string entityType)
         {
             try
             {
-                if (property.Registrations == null)
+                if (this.readContext.RegistrationTypes == null)
                 {
-                    property.Registrations = new Collection<Registration>();
+                    return new RegistrationType();
                 }
 
-                property.Registrations.Add(registration);
+                foreach (var registrationType in this.readContext.RegistrationTypes)
+                {
+                    if (string.Equals(entityType, registrationType.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return registrationType;
+                    }
+                }
+
+                return new RegistrationType();
             }
             catch (Exception ex)
             {
                 this.logger.Error(ex);
                 throw;
             }
+        }
 
-            return true;
+        /// <summary>
+        /// Delete a registration.
+        /// </summary>
+        public bool DeleteRegistration(string namePropertyValue)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -306,54 +300,18 @@
         }
 
         /// <summary>
-        /// Update a registration.
+        /// Get RegistrationType from a Gdto.
         /// </summary>
-        public Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name)
+        public RegistrationType GetRegistrationType(Gdto gdto)
         {
-            try
+            var registrationType = this.CheckRegistrationType(gdto.EntityType);
+
+            if (registrationType.Id == 0)
             {
-                return Registration.UpdateRegistration(registration, type, timestamp, name);
+                registrationType = this.AddRegistrationTypeToDbSet(gdto.EntityType);
             }
-            catch (Exception ex)
-            {
-                this.logger.Error(ex);
-                throw;
-            }
+            return registrationType;
         }
-
-        /// <summary>
-        /// Update all properties for a registration. Also inserting new and removing old properties.
-        /// </summary>
-        public Registration UpdateProperties(Registration registration, Gdto gdto)
-        {
-            try
-            {
-                if (registration == null || gdto == null)
-                {
-                    return registration;
-                }
-
-                registration = UpdateExistingProperties(registration, gdto);
-
-                registration = AddNewProperties(registration, gdto);
-            }
-            catch (Exception ex)
-            {
-                this.logger.Error(ex);
-                throw;
-            }
-
-            return registration;
-        }
-
-        /// <summary>
-        /// Delete a registration.
-        /// </summary>
-        public bool DeleteRegistration(string namePropertyValue)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// The save all changes to the database.
         /// </summary>
@@ -376,6 +334,65 @@
                     throw;
                 }
             }
+        }
+
+        /// <summary>
+        /// Update all properties for a registration. Also inserting new and removing old properties.
+        /// </summary>
+        public Registration UpdateProperties(Registration registration, Gdto gdto)
+        {
+            try
+            {
+                if (registration == null || gdto == null)
+                {
+                    return registration;
+                }
+
+                registration = UpdateExistingProperties(registration, gdto);
+
+                registration = this.AddNewProperties(registration, gdto);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+
+            return registration;
+        }
+
+        /// <summary>
+        /// Update a registration.
+        /// </summary>
+        public Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name)
+        {
+            try
+            {
+                return Registration.UpdateRegistration(registration, type, timestamp, name);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+        /// <summary>
+        /// Check if a property exists in a registration.
+        /// </summary>
+        private static bool DoesPropertyExistInRegistration(Registration registration, KeyValuePair<string, string> keyValuePair)
+        {
+            bool exists = false;
+            foreach (var property in registration.Properties)
+            {
+                if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
+                    || string.Equals(Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
+                    || string.Equals(OriginalWriteEventId, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    exists = true;
+                }
+            }
+
+            return exists;
         }
 
         /// <summary>
@@ -403,24 +420,6 @@
         }
 
         /// <summary>
-        /// Add both property type and property to a registration.
-        /// </summary>
-        private void AddPropertyTypeAndProperty(Registration registration, KeyValuePair<string, string> property)
-        {
-            var propertyType = this.CheckPropertyType(property.Key);
-
-            if (propertyType.Id == 0)
-            {
-                propertyType = this.AddPropertyTypeToDbSet(property.Key);
-            }
-
-            if (propertyType.Id > -1)
-            {
-                this.AddProperty(propertyType, property, registration);
-            }
-        }
-
-        /// <summary>
         /// Add new properties to a registration.
         /// </summary>
         private Registration AddNewProperties(Registration registration, Gdto gdto)
@@ -444,22 +443,21 @@
         }
 
         /// <summary>
-        /// Check if a property exists in a registration.
+        /// Add both property type and property to a registration.
         /// </summary>
-        private static bool DoesPropertyExistInRegistration(Registration registration, KeyValuePair<string, string> keyValuePair)
+        private void AddPropertyTypeAndProperty(Registration registration, KeyValuePair<string, string> property)
         {
-            bool exists = false;
-            foreach (var property in registration.Properties)
+            var propertyType = this.CheckPropertyType(property.Key);
+
+            if (propertyType.Id == 0)
             {
-                if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
-                    || string.Equals(Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
-                    || string.Equals(OriginalWriteEventId, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    exists = true;
-                }
+                propertyType = this.AddPropertyTypeToDbSet(property.Key);
             }
 
-            return exists;
+            if (propertyType.Id > -1)
+            {
+                this.AddProperty(propertyType, property, registration);
+            }
         }
     }
 }

@@ -129,6 +129,11 @@
             Initializes a new instance of the <see cref="T:Api.WebApi.Areas.HelpPage.Controllers.HelpController"/> class.
             </summary>
         </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.Controllers.HelpController.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+        </member>
         <member name="M:Api.WebApi.Areas.HelpPage.Controllers.HelpController.Index">
             <summary>
             The index.
@@ -144,24 +149,19 @@
             The resource model.
             </summary>
         </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.Controllers.HelpController.Configuration">
-            <summary>
-            Gets the configuration.
-            </summary>
-        </member>
         <member name="T:Api.WebApi.Areas.HelpPage.HelpPageAreaRegistration">
             <summary>
             The help page area registration.
             </summary>
         </member>
-        <member name="M:Api.WebApi.Areas.HelpPage.HelpPageAreaRegistration.RegisterArea(System.Web.Mvc.AreaRegistrationContext)">
-            <summary>
-            The register area.
-            </summary>
-        </member>
         <member name="P:Api.WebApi.Areas.HelpPage.HelpPageAreaRegistration.AreaName">
             <summary>
             Gets the area name.
+            </summary>
+        </member>
+        <member name="M:Api.WebApi.Areas.HelpPage.HelpPageAreaRegistration.RegisterArea(System.Web.Mvc.AreaRegistrationContext)">
+            <summary>
+            The register area.
             </summary>
         </member>
         <member name="T:Api.WebApi.Areas.HelpPage.HelpPageConfigurationExtensions">
@@ -320,26 +320,6 @@
             The collection model description.
             </summary>
         </member>
-        <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription">
-            <summary>
-            Describes a type model.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription.Documentation">
-            <summary>
-            Gets or sets the documentation.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription.ModelType">
-            <summary>
-            Gets or sets the model type.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription.Name">
-            <summary>
-            Gets or sets the name.
-            </summary>
-        </member>
         <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.CollectionModelDescription.ElementDescription">
             <summary>
             Gets or sets the element description.
@@ -363,21 +343,6 @@
         <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.DictionaryModelDescription">
             <summary>
             The dictionary model description.
-            </summary>
-        </member>
-        <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription">
-            <summary>
-            The key value pair model description.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.KeyModelDescription">
-            <summary>
-            Gets or sets the key model description.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.ValueModelDescription">
-            <summary>
-            Gets or sets the value model description.
             </summary>
         </member>
         <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.EnumTypeModelDescription">
@@ -430,6 +395,41 @@
             The get documentation.
             </summary>
         </member>
+        <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription">
+            <summary>
+            The key value pair model description.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.KeyModelDescription">
+            <summary>
+            Gets or sets the key model description.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.KeyValuePairModelDescription.ValueModelDescription">
+            <summary>
+            Gets or sets the value model description.
+            </summary>
+        </member>
+        <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription.Documentation">
+            <summary>
+            Gets or sets the documentation.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription.ModelType">
+            <summary>
+            Gets or sets the model type.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
         <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
             <summary>
             Generates model descriptions for given types.
@@ -452,11 +452,6 @@
             Initializes a new instance of the <see cref="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/> class.
             </summary>
         </member>
-        <member name="M:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GetOrCreateModelDescription(System.Type)">
-            <summary>
-            The get or create model description.
-            </summary>
-        </member>
         <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GeneratedModels">
             <summary>
             Gets the generated models.
@@ -465,6 +460,11 @@
         <member name="P:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.DocumentationProvider">
             <summary>
             Gets the documentation provider.
+            </summary>
+        </member>
+        <member name="M:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator.GetOrCreateModelDescription(System.Type)">
+            <summary>
+            The get or create model description.
             </summary>
         </member>
         <member name="T:Api.WebApi.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
@@ -602,6 +602,31 @@
             Initializes a new instance of the <see cref="T:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator"/> class.
             </summary>
         </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:Api.WebApi.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
         <member name="M:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
             <summary>
             Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
@@ -675,31 +700,6 @@
             <param name="mediaType">Type of the media.</param>
             <returns></returns>
         </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
-            <summary>
-            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
-            <summary>
-            Gets the objects that are used directly as samples for certain actions.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
-            <summary>
-            Gets the objects that are serialized as samples by the supported formatters.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
-            <summary>
-            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
-            stopping when the factory successfully returns a non-<see langref="null"/> object.
-            </summary>
-            <remarks>
-            Collection includes just <see cref="M:Api.WebApi.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
-            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
-            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
-        </member>
         <member name="T:Api.WebApi.Areas.HelpPage.HelpPageSampleKey">
             <summary>
             This is used to identify the place where the sample should be applied.
@@ -761,25 +761,6 @@
             The parameter names.
             </param>
         </member>
-        <member name="M:Api.WebApi.Areas.HelpPage.HelpPageSampleKey.Equals(System.Object)">
-            <summary>
-            The equals.
-            </summary>
-            <param name="obj">
-            The obj.
-            </param>
-            <returns>
-            The <see cref="T:System.Boolean"/>.
-            </returns>
-        </member>
-        <member name="M:Api.WebApi.Areas.HelpPage.HelpPageSampleKey.GetHashCode">
-            <summary>
-            The get hash code.
-            </summary>
-            <returns>
-            The <see cref="T:System.Int32"/>.
-            </returns>
-        </member>
         <member name="P:Api.WebApi.Areas.HelpPage.HelpPageSampleKey.ControllerName">
             <summary>
             Gets the name of the controller.
@@ -819,6 +800,25 @@
             Gets the <see cref="P:Api.WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
             </summary>
         </member>
+        <member name="M:Api.WebApi.Areas.HelpPage.HelpPageSampleKey.Equals(System.Object)">
+            <summary>
+            The equals.
+            </summary>
+            <param name="obj">
+            The obj.
+            </param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Api.WebApi.Areas.HelpPage.HelpPageSampleKey.GetHashCode">
+            <summary>
+            The get hash code.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+        </member>
         <member name="T:Api.WebApi.Areas.HelpPage.ImageSample">
             <summary>
             This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
@@ -829,6 +829,11 @@
             Initializes a new instance of the <see cref="T:Api.WebApi.Areas.HelpPage.ImageSample"/> class.
             </summary>
             <param name="src">The URL of an image.</param>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.ImageSample.Src">
+            <summary>
+            Gets the src.
+            </summary>
         </member>
         <member name="M:Api.WebApi.Areas.HelpPage.ImageSample.Equals(System.Object)">
             <summary>
@@ -845,11 +850,6 @@
             The to string.
             </summary>
         </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.ImageSample.Src">
-            <summary>
-            Gets the src.
-            </summary>
-        </member>
         <member name="T:Api.WebApi.Areas.HelpPage.InvalidSample">
             <summary>
             This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
@@ -858,6 +858,11 @@
         <member name="M:Api.WebApi.Areas.HelpPage.InvalidSample.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Api.WebApi.Areas.HelpPage.InvalidSample"/> class. 
+            </summary>
+        </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.InvalidSample.ErrorMessage">
+            <summary>
+            Gets the error message.
             </summary>
         </member>
         <member name="M:Api.WebApi.Areas.HelpPage.InvalidSample.Equals(System.Object)">
@@ -873,11 +878,6 @@
         <member name="M:Api.WebApi.Areas.HelpPage.InvalidSample.ToString">
             <summary>
             The to string.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.InvalidSample.ErrorMessage">
-            <summary>
-            Gets the error message.
             </summary>
         </member>
         <member name="T:Api.WebApi.Areas.HelpPage.ObjectGenerator">
@@ -926,6 +926,11 @@
             Initializes a new instance of the <see cref="T:Api.WebApi.Areas.HelpPage.TextSample"/> class.
             </summary>
         </member>
+        <member name="P:Api.WebApi.Areas.HelpPage.TextSample.Text">
+            <summary>
+            Gets the text.
+            </summary>
+        </member>
         <member name="M:Api.WebApi.Areas.HelpPage.TextSample.Equals(System.Object)">
             <summary>
             The equals.
@@ -939,11 +944,6 @@
         <member name="M:Api.WebApi.Areas.HelpPage.TextSample.ToString">
             <summary>
             The to string.
-            </summary>
-        </member>
-        <member name="P:Api.WebApi.Areas.HelpPage.TextSample.Text">
-            <summary>
-            Gets the text.
             </summary>
         </member>
         <member name="T:Api.WebApi.Areas.HelpPage.XmlDocumentationProvider">
