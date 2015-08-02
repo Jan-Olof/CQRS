@@ -1,9 +1,8 @@
 ﻿namespace Common.DataTransferObjects
 {
+    using Common.Utilities;
     using System;
     using System.Collections.Generic;
-
-    using Common.Utilities;
 
     /// <summary>
     /// The registration.
@@ -23,6 +22,11 @@
         }
 
         /// <summary>
+        /// Gets or sets the created.
+        /// </summary>
+        public DateTime Created { get; set; }
+
+        /// <summary>
         /// Gets or sets the id.
         /// </summary>
         public int Id { get; set; }
@@ -33,19 +37,14 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the created.
-        /// </summary>
-        public DateTime Created { get; set; }
-
-        /// <summary>
-        /// Gets or sets the updated.
-        /// </summary>
-        public DateTime Updated { get; set; }
-
-        /// <summary>
         ///  Gets or sets the original write event id.
         /// </summary>
         public int OriginalWriteEventId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the registration properties.
+        /// </summary>
+        public IList<RegistrationPropertyDto> RegistrationProperties { get; set; }
 
         /// <summary>
         /// Gets or sets the registration type id.
@@ -58,8 +57,8 @@
         public string RegistrationTypeName { get; set; }
 
         /// <summary>
-        /// Gets or sets the registration properties.
+        /// Gets or sets the updated.
         /// </summary>
-        public IList<RegistrationPropertyDto> RegistrationProperties { get; set; }
+        public DateTime Updated { get; set; }
     }
 }

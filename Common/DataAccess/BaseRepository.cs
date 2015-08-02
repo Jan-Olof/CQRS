@@ -1,12 +1,11 @@
 ﻿namespace Common.DataAccess
 {
+    using NLog;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Validation;
     using System.Data.SqlClient;
     using System.Threading;
-
-    using NLog;
 
     /// <summary>
     /// The base repository.
@@ -17,7 +16,7 @@
         /// The logger.
         /// </summary>
         protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository"/> class.
         /// </summary>
@@ -25,16 +24,35 @@
         {
             if (dataContext == null)
             {
-                throw new ArgumentNullException("dataContext");
+                throw new ArgumentNullException(nameof(dataContext));
             }
 
             this.DbContext = dataContext;
         }
-        
+
         /// <summary>
         /// Gets or sets the DbContext.
         /// </summary>
         protected DbContext DbContext { get; set; }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            try
+            {
+                if (this.DbContext != null)
+                {
+                    this.DbContext.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Error(ex);
+                throw;
+            }
+        }
 
         /// <summary>
         /// Save all changes in DbContext to the database
@@ -45,7 +63,7 @@
             var retryCount = 3;
             while (retryCount > 0)
             {
-                using (var transaction = DbContext.Database.BeginTransaction())
+                using (var transaction = this.DbContext.Database.BeginTransaction())
                 {
                     try
                     {
@@ -88,32 +106,13 @@
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            try
-            {
-                if (this.DbContext != null)
-                {
-                    this.DbContext.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Logger.Error(ex);
-                throw;
-            }
-        }
-
-        /// <summary>
         /// The handle sql exception.
         /// </summary>
         protected bool HandleSqlException(SqlException exception, ref int retryCount)
         {
             if (exception.Number != 1205)
             {
-                // A sql exception that is not a deadlock  
+                // A sql exception that is not a deadlock
                 this.Logger.Error(exception);
                 return false;
             }

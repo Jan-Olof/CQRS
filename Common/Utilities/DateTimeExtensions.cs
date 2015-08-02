@@ -1,4 +1,4 @@
-﻿namespace Af.Forms.Common.Server
+﻿namespace Common.Utilities
 {
     using System;
 
@@ -17,19 +17,19 @@
         }
 
         /// <summary>
-        /// Trim a DateTime to seconds.
-        /// </summary>
-        public static DateTime TrimToSeconds(this DateTime date)
-        {
-            return new DateTime(date.Ticks - (date.Ticks % TimeSpan.TicksPerSecond));
-        }
-
-        /// <summary>
         /// Trim a DateTime to milliseconds.
         /// </summary>
         public static DateTime TrimToMilliSeconds(this DateTime date)
         {
             return new DateTime(date.Ticks - (date.Ticks % TimeSpan.TicksPerMillisecond));
+        }
+
+        /// <summary>
+        /// Trim a DateTime to seconds.
+        /// </summary>
+        public static DateTime TrimToSeconds(this DateTime date)
+        {
+            return new DateTime(date.Ticks - (date.Ticks % TimeSpan.TicksPerSecond));
         }
     }
 }

@@ -28,7 +28,7 @@
         /// Insert a list of data model objects.
         /// </summary>
         IList<T> Insert(IList<T> dataModelObjects);
-        
+
         /// <summary>
         /// Save all changes in DbContext to the database
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿namespace Common.DataAccess
 {
+    using Common.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -9,8 +10,6 @@
     using System.Data.SqlClient;
     using System.Linq;
     using System.Threading;
-
-    using Common.Exceptions;
 
     /// <summary>
     /// The generic repository for Entity Framework (DbContext).
@@ -169,7 +168,7 @@
             var retryCount = 3;
             while (retryCount > 0)
             {
-                using (var transaction = DbContext.Database.BeginTransaction())
+                using (var transaction = this.DbContext.Database.BeginTransaction())
                 {
                     try
                     {
@@ -236,6 +235,21 @@
         }
 
         /// <summary>
+        /// Adds a list of generic objects to DbSet.
+        /// </summary>
+        private void AddListToDbSet(IEnumerable<T> dataModelObjects)
+        {
+            this.DbContext.Configuration.AutoDetectChangesEnabled = false;
+
+            foreach (var dataModelObject in dataModelObjects)
+            {
+                this.DbSet.Add(dataModelObject);
+            }
+
+            this.DbContext.Configuration.AutoDetectChangesEnabled = true;
+        }
+
+        /// <summary>
         /// The handle entity command execution exception.
         /// </summary>
         private bool HandleEntityCommandExecutionException(ref int retryCount)
@@ -249,21 +263,6 @@
 
             Thread.Sleep(1000);
             return true;
-        }
-
-        /// <summary>
-        /// Adds a list of generic objects to DbSet.
-        /// </summary>
-        private void AddListToDbSet(IEnumerable<T> dataModelObjects)
-        {
-            this.DbContext.Configuration.AutoDetectChangesEnabled = false;
-
-            foreach (var dataModelObject in dataModelObjects)
-            {
-                this.DbSet.Add(dataModelObject);
-            }
-
-            this.DbContext.Configuration.AutoDetectChangesEnabled = true;
         }
     }
 }

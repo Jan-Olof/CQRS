@@ -3,8 +3,6 @@
     using System;
     using System.Globalization;
 
-    using Af.Forms.Common.Server;
-
     /// <summary>
     /// The system time class to use instead of DateTime to get/set time.
     /// </summary>
@@ -21,6 +19,17 @@
         public SystemTime()
         {
             date = DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Gets the default date time value.
+        /// </summary>
+        public static DateTime DateTimeDefault
+        {
+            get
+            {
+                return new DateTime(2000, 1, 1);
+            }
         }
 
         /// <summary>
@@ -52,14 +61,11 @@
         }
 
         /// <summary>
-        /// Gets the default date time value.
+        /// Reset date to min value.
         /// </summary>
-        public static DateTime DateTimeDefault
+        public static void Reset()
         {
-            get
-            {
-                return new DateTime(2000, 1, 1);
-            }
+            date = DateTime.MinValue;
         }
 
         /// <summary>
@@ -68,14 +74,6 @@
         public static void Set(DateTime custom)
         {
             date = custom;
-        }
-
-        /// <summary>
-        /// Reset date to min value.
-        /// </summary>
-        public static void Reset()
-        {
-            date = DateTime.MinValue;
         }
     }
 }
