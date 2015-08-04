@@ -1,17 +1,33 @@
 ﻿namespace Api.WebApi.Mapping
 {
+    using Common.DataTransferObjects;
+    using Domain.Read.Entities;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Common.DataTransferObjects;
-
-    using Domain.Read.Entities;
 
     /// <summary>
     /// Mapping between RegistrationModel and RegistrationDto.
     /// </summary>
     public static class RegistrationMapping
     {
+        /// <summary>
+        /// Create registration dto from registration.
+        /// </summary>
+        public static RegistrationDto CreateRegistrationDto(Registration registration)
+        {
+            return new RegistrationDto
+            {
+                Id = registration.Id,
+                Name = registration.Name,
+                Created = registration.Created,
+                Updated = registration.Updated,
+                OriginalWriteEventId = registration.OriginalWriteEventId,
+                RegistrationTypeId = registration.RegistrationType.Id,
+                RegistrationTypeName = registration.RegistrationType.Name,
+                RegistrationProperties = CreateRegistrationPropertiesDtos(registration.Properties)
+            };
+        }
+
         /// <summary>
         /// Create registration dtos from registrations.
         /// </summary>
@@ -20,24 +36,6 @@
             return registrations
                 .Select(CreateRegistrationDto)
                 .ToList();
-        }
-
-        /// <summary>
-        /// Create registration dto from registration.
-        /// </summary>
-        public static RegistrationDto CreateRegistrationDto(Registration registration)
-        {
-            return new RegistrationDto
-                       {
-                           Id = registration.Id,
-                           Name = registration.Name,
-                           Created = registration.Created,
-                           Updated = registration.Updated,
-                           OriginalWriteEventId = registration.OriginalWriteEventId,
-                           RegistrationTypeId = registration.RegistrationType.Id,
-                           RegistrationTypeName = registration.RegistrationType.Name,
-                           RegistrationProperties = CreateRegistrationPropertiesDtos(registration.Properties)
-                       };
         }
 
         /// <summary>
@@ -56,12 +54,12 @@
         private static RegistrationPropertyDto CreateRegistrationPropertyDto(Property property)
         {
             return new RegistrationPropertyDto
-                       {
-                           Id = property.Id,
-                           PropertyTypeId = property.PropertyType.Id,
-                           PropertyTypeName = property.PropertyType.Name,
-                           Value = property.Value
-                       };
+            {
+                Id = property.Id,
+                PropertyTypeId = property.PropertyType.Id,
+                PropertyTypeName = property.PropertyType.Name,
+                Value = property.Value
+            };
         }
     }
 }

@@ -1,20 +1,16 @@
 ﻿namespace Api.WebApi.Controllers
 {
+    using Api.WebApi.Mapping;
+    using Common.DataTransferObjects;
+    using Domain.Read.Entities;
+    using Domain.Read.Interfaces;
+    using Domain.Write.Interfaces;
+    using NLog;
     using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
-    using Api.WebApi.Mapping;
-
-    using Common.DataTransferObjects;
-
-    using Domain.Read.Entities;
-    using Domain.Read.Interfaces;
-    using Domain.Write.Interfaces;
-
-    using NLog;
 
     /// <summary>
     /// The registration controller handles all registrations made in the system.
@@ -22,14 +18,14 @@
     public class RegistrationController : ApiController
     {
         /// <summary>
-        /// The logger.
-        /// </summary>
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
-        /// <summary>
         /// The command handler.
         /// </summary>
         private readonly ICommandService commandService;
+
+        /// <summary>
+        /// The logger.
+        /// </summary>
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// The registration service.
@@ -43,16 +39,44 @@
         {
             if (commandService == null)
             {
-                throw new ArgumentNullException("commandService");
+                throw new ArgumentNullException(nameof(commandService));
             }
 
             if (registrationService == null)
             {
-                throw new ArgumentNullException("registrationService");
+                throw new ArgumentNullException(nameof(registrationService));
             }
 
             this.commandService = commandService;
             this.registrationService = registrationService;
+        }
+
+        /// <summary>
+        /// Delete an existing registration. This deletes an existing registration in the data store.
+        /// </summary>
+        /// <param name="content">
+        /// The content is a Gdto that contains all data to register.
+        /// </param>
+        /// <returns>
+        /// Returns a HttpResponseMessage with the id of the event as content.
+        /// </returns>
+        [HttpDelete]
+        [Route("api/registration")]
+        public HttpResponseMessage DeleteRegistration([FromBody]Gdto content)
+        {
+            try
+            {
+                int returnedId = this.commandService.Delete(content);
+
+                return returnedId > 0
+                    ? this.Request.CreateResponse(HttpStatusCode.OK, returnedId)
+                    : this.Request.CreateResponse(HttpStatusCode.BadRequest, "DeleteRegistration failed to insert event.");
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                return this.Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         /// <summary>
@@ -184,34 +208,6 @@
                 return returnedId > 0
                     ? this.Request.CreateResponse(HttpStatusCode.OK, returnedId)
                     : this.Request.CreateResponse(HttpStatusCode.BadRequest, "PutRegistration failed to insert event.");
-            }
-            catch (Exception ex)
-            {
-                this.logger.Error(ex);
-                return this.Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
-            }
-        }
-
-        /// <summary>
-        /// Delete an existing registration. This deletes an existing registration in the data store.
-        /// </summary>
-        /// <param name="content">
-        /// The content is a Gdto that contains all data to register.
-        /// </param>
-        /// <returns>
-        /// Returns a HttpResponseMessage with the id of the event as content.
-        /// </returns>
-        [HttpDelete]
-        [Route("api/registration")]
-        public HttpResponseMessage DeleteRegistration([FromBody]Gdto content)
-        {
-            try
-            {
-                int returnedId = this.commandService.Delete(content);
-
-                return returnedId > 0
-                    ? this.Request.CreateResponse(HttpStatusCode.OK, returnedId)
-                    : this.Request.CreateResponse(HttpStatusCode.BadRequest, "DeleteRegistration failed to insert event.");
             }
             catch (Exception ex)
             {

@@ -35,7 +35,7 @@
         {
             if (readContext == null)
             {
-                throw new ArgumentNullException("readContext");
+                throw new ArgumentNullException(nameof(readContext));
             }
 
             this.readContext = readContext;

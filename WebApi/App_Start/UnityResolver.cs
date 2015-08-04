@@ -1,11 +1,10 @@
 ﻿namespace Api.WebApi
 {
+    using Microsoft.Practices.Unity;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Http.Dependencies;
-
-    using Microsoft.Practices.Unity;
 
     /// <summary>
     /// The unity resolver.
@@ -25,10 +24,27 @@
         {
             if (container == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException(nameof(container));
             }
 
             this.container = container;
+        }
+
+        /// <summary>
+        /// The begin scope.
+        /// </summary>
+        public IDependencyScope BeginScope()
+        {
+            var child = this.container.CreateChildContainer();
+            return new UnityResolver(child);
+        }
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            this.container.Dispose();
         }
 
         /// <summary>
@@ -59,23 +75,6 @@
             {
                 return new List<object>();
             }
-        }
-
-        /// <summary>
-        /// The begin scope.
-        /// </summary>
-        public IDependencyScope BeginScope()
-        {
-            var child = this.container.CreateChildContainer();
-            return new UnityResolver(child);
-        }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        public void Dispose()
-        {
-            this.container.Dispose();
         }
     }
 }

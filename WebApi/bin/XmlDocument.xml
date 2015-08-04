@@ -49,16 +49,6 @@
             Initializes a new instance of the <see cref="T:Api.WebApi.UnityResolver"/> class.
             </summary>
         </member>
-        <member name="M:Api.WebApi.UnityResolver.GetService(System.Type)">
-            <summary>
-            The get service.
-            </summary>
-        </member>
-        <member name="M:Api.WebApi.UnityResolver.GetServices(System.Type)">
-            <summary>
-            The get services.
-            </summary>
-        </member>
         <member name="M:Api.WebApi.UnityResolver.BeginScope">
             <summary>
             The begin scope.
@@ -67,6 +57,16 @@
         <member name="M:Api.WebApi.UnityResolver.Dispose">
             <summary>
             The dispose.
+            </summary>
+        </member>
+        <member name="M:Api.WebApi.UnityResolver.GetService(System.Type)">
+            <summary>
+            The get service.
+            </summary>
+        </member>
+        <member name="M:Api.WebApi.UnityResolver.GetServices(System.Type)">
+            <summary>
+            The get services.
             </summary>
         </member>
         <member name="T:Api.WebApi.WebApiConfig">
@@ -1032,14 +1032,14 @@
             The registration controller handles all registrations made in the system.
             </summary>
         </member>
-        <member name="F:Api.WebApi.Controllers.RegistrationController.logger">
-            <summary>
-            The logger.
-            </summary>
-        </member>
         <member name="F:Api.WebApi.Controllers.RegistrationController.commandService">
             <summary>
             The command handler.
+            </summary>
+        </member>
+        <member name="F:Api.WebApi.Controllers.RegistrationController.logger">
+            <summary>
+            The logger.
             </summary>
         </member>
         <member name="F:Api.WebApi.Controllers.RegistrationController.registrationService">
@@ -1051,6 +1051,17 @@
             <summary>
             Initializes a new instance of the <see cref="T:Api.WebApi.Controllers.RegistrationController"/> class.
             </summary>
+        </member>
+        <member name="M:Api.WebApi.Controllers.RegistrationController.DeleteRegistration(Common.DataTransferObjects.Gdto)">
+            <summary>
+            Delete an existing registration. This deletes an existing registration in the data store.
+            </summary>
+            <param name="content">
+            The content is a Gdto that contains all data to register.
+            </param>
+            <returns>
+            Returns a HttpResponseMessage with the id of the event as content.
+            </returns>
         </member>
         <member name="M:Api.WebApi.Controllers.RegistrationController.GetAllRegistrations">
             <summary>
@@ -1104,17 +1115,6 @@
             Returns a HttpResponseMessage with the id of the event as content.
             </returns>
         </member>
-        <member name="M:Api.WebApi.Controllers.RegistrationController.DeleteRegistration(Common.DataTransferObjects.Gdto)">
-            <summary>
-            Delete an existing registration. This deletes an existing registration in the data store.
-            </summary>
-            <param name="content">
-            The content is a Gdto that contains all data to register.
-            </param>
-            <returns>
-            Returns a HttpResponseMessage with the id of the event as content.
-            </returns>
-        </member>
         <member name="T:Api.WebApi.Controllers.ValuesController">
             <summary>
             The values controller is just a test controller.
@@ -1123,6 +1123,11 @@
         <member name="F:Api.WebApi.Controllers.ValuesController.logger">
             <summary>
             The logger.
+            </summary>
+        </member>
+        <member name="M:Api.WebApi.Controllers.ValuesController.Delete(System.Int32)">
+            <summary>
+            DELETE api/values/5 - just a test method.
             </summary>
         </member>
         <member name="M:Api.WebApi.Controllers.ValuesController.Get">
@@ -1145,11 +1150,6 @@
              PUT api/values/5 - just a test method.
             </summary>
         </member>
-        <member name="M:Api.WebApi.Controllers.ValuesController.Delete(System.Int32)">
-            <summary>
-            DELETE api/values/5 - just a test method.
-            </summary>
-        </member>
         <member name="T:Api.WebApi.WebApiApplication">
             <summary>
             The web api application.
@@ -1165,14 +1165,14 @@
             Mapping between RegistrationModel and RegistrationDto.
             </summary>
         </member>
-        <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationDtos(System.Collections.Generic.IEnumerable{Domain.Read.Entities.Registration})">
-            <summary>
-            Create registration dtos from registrations.
-            </summary>
-        </member>
         <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationDto(Domain.Read.Entities.Registration)">
             <summary>
             Create registration dto from registration.
+            </summary>
+        </member>
+        <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationDtos(System.Collections.Generic.IEnumerable{Domain.Read.Entities.Registration})">
+            <summary>
+            Create registration dtos from registrations.
             </summary>
         </member>
         <member name="M:Api.WebApi.Mapping.RegistrationMapping.CreateRegistrationPropertiesDtos(System.Collections.Generic.IEnumerable{Domain.Read.Entities.Property})">

@@ -1,10 +1,9 @@
 ﻿namespace Api.WebApi.Controllers
 {
+    using NLog;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Web.Http;
-
-    using NLog;
 
     /// <summary>
     /// The values controller is just a test controller.
@@ -15,6 +14,14 @@
         /// The logger.
         /// </summary>
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// DELETE api/values/5 - just a test method.
+        /// </summary>
+        public void Delete(int id)
+        {
+            this.logger.Info(string.Format("Delete, with id {0}, in ValuesController is called.", id.ToString(CultureInfo.InvariantCulture)));
+        }
 
         /// <summary>
         /// GET api/values - just a test method.
@@ -50,14 +57,6 @@
         public void Put(int id, [FromBody]string value)
         {
             this.logger.Info("Put, with id {0}, and value {1}, in ValuesController is called.", id.ToString(CultureInfo.InvariantCulture), value);
-        }
-
-        /// <summary>
-        /// DELETE api/values/5 - just a test method.
-        /// </summary>
-        public void Delete(int id)
-        {
-            this.logger.Info(string.Format("Delete, with id {0}, in ValuesController is called.", id.ToString(CultureInfo.InvariantCulture)));
         }
     }
 }

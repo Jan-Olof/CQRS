@@ -1,14 +1,9 @@
 ﻿namespace Api.WebApi
 {
-    using System.Data.Entity;
-    using System.Web.Http;
-
     using Common.DataAccess;
     using Common.DataTransferObjects;
-
     using DataAccess.Read.Dal.CodeFirst.DbContext;
     using DataAccess.Write.Dal.CodeFirst.DbContext;
-
     using Domain.Read.Entities;
     using Domain.Read.Interfaces;
     using Domain.Read.Queries;
@@ -16,8 +11,9 @@
     using Domain.Write.Entities;
     using Domain.Write.Interfaces;
     using Domain.Write.Store;
-
     using Microsoft.Practices.Unity;
+    using System.Data.Entity;
+    using System.Web.Http;
 
     /// <summary>
     /// The web api config.
