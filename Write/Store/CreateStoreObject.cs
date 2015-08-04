@@ -1,17 +1,13 @@
 ﻿namespace Domain.Write.Store
 {
-    using System;
-
     using Common.Enums;
     using Common.Exceptions;
     using Common.Utilities;
-
     using Domain.Write.Entities;
     using Domain.Write.Interfaces;
-
     using Newtonsoft.Json;
-
     using NLog;
+    using System;
 
     /// <summary>
     /// Create a store object from a class.
@@ -48,13 +44,13 @@
                 }
 
                 return new WriteEvent
-                            {
-                                Id = 0, 
-                                CommandType = commandType, 
-                                Version = CurrentVersion,
-                                Timestamp = SystemTime.UtcNow,
-                                Payload = CreatePayload(payload)
-                            };
+                {
+                    Id = 0,
+                    CommandType = commandType,
+                    Version = CurrentVersion,
+                    Timestamp = SystemTime.UtcNow,
+                    Payload = CreatePayload(payload)
+                };
             }
             catch (PayloadNullException pex)
             {

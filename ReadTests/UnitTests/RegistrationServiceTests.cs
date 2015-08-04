@@ -1,19 +1,14 @@
 ﻿namespace Tests.ReadTests.UnitTests
 {
-    using System;
-    using System.Linq;
-
     using Common.DataAccess;
     using Common.Utilities;
-
     using Domain.Read.Entities;
     using Domain.Read.Queries;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
-
+    using System;
+    using System.Linq;
     using Tests.TestCommon;
     using Tests.TestCommon.SampleObjects;
 
@@ -90,6 +85,41 @@
         }
 
         /// <summary>
+        /// The test should get one registration.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetOneRegistration()
+        {
+            // Arrange
+            var sut = this.CreateRegistrationService();
+
+            this.repository.GetOne(1)
+                .Returns(SampleRegistrations.CreateRegistrationSapiens());
+
+            // Act
+            var result = sut.GetRegistration(1);
+
+            // Assert
+            Assert.AreEqual("Sapiens", result.Name);
+            Assert.AreEqual("Yuval Noah Harari", result.Properties.Single(p => p.PropertyType.Name == "Author").Value);
+        }
+
+        /// <summary>
+        /// The test should get one registration and throw exception.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetOneRegistrationAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateRegistrationService();
+
+            this.repository.GetOne(1).Throws<Exception>();
+
+            // Act & Assert
+            MyAssert.Throws<Exception>(() => sut.GetRegistration(1));
+        }
+
+        /// <summary>
         /// The test should get registrations of one type.
         /// </summary>
         [TestMethod]
@@ -123,41 +153,6 @@
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.GetRegistrations(1));
-        }
-
-        /// <summary>
-        /// The test should get one registration.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldGetOneRegistration()
-        {
-            // Arrange
-            var sut = this.CreateRegistrationService();
-
-            this.repository.GetOne(1)
-                .Returns(SampleRegistrations.CreateRegistrationSapiens());
-
-            // Act
-            var result = sut.GetRegistration(1);
-
-            // Assert
-            Assert.AreEqual("Sapiens", result.Name);
-            Assert.AreEqual("Yuval Noah Harari", result.Properties.Single(p => p.PropertyType.Name == "Author").Value);
-        }
-
-        /// <summary>
-        /// The test should get one registration and throw exception.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldGetOneRegistrationAndThrowException()
-        {
-            // Arrange
-            var sut = this.CreateRegistrationService();
-
-            this.repository.GetOne(1).Throws<Exception>();
-
-            // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.GetRegistration(1));
         }
 
         /// <summary>

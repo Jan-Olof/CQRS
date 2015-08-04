@@ -1,9 +1,8 @@
 ﻿namespace Domain.Read.Entities
 {
+    using Common.DataAccess;
     using System;
     using System.Collections.Generic;
-
-    using Common.DataAccess;
 
     /// <summary>
     /// The registration type.
@@ -39,10 +38,10 @@
         public static RegistrationType CreateRegistrationType(string type)
         {
             return new RegistrationType
-                       {
-                           Id = 0,
-                           Name = type
-                       };
+            {
+                Id = 0,
+                Name = type
+            };
         }
 
         /// <summary>

@@ -1,8 +1,7 @@
 ﻿namespace Domain.Write.Entities
 {
-    using System;
-
     using Common.Utilities;
+    using System;
 
     /// <summary>
     /// The RegistrationModel.
@@ -32,6 +31,11 @@
         }
 
         /// <summary>
+        /// Gets or sets the created.
+        /// </summary>
+        public DateTime Created { get; set; }
+
+        /// <summary>
         /// Gets or sets the id.
         /// </summary>
         public int Id { get; set; }
@@ -40,11 +44,6 @@
         /// Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created.
-        /// </summary>
-        public DateTime Created { get; set; }
 
         /// <summary>
         /// Gets or sets the updated.

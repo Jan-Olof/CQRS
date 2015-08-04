@@ -1,12 +1,9 @@
 ﻿namespace Tests.IntegrationTests.Initialize
 {
+    using DataAccess.Read.Dal.CodeFirst.DbContext;
+    using Domain.Read.Entities;
     using System.Collections.ObjectModel;
     using System.Data.Entity.Migrations;
-
-    using DataAccess.Read.Dal.CodeFirst.DbContext;
-
-    using Domain.Read.Entities;
-
     using Tests.TestCommon.SampleObjects;
 
     /// <summary>

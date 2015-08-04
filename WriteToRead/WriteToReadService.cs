@@ -1,15 +1,11 @@
 ﻿namespace WriteToRead
 {
-    using System;
-    using System.Linq;
-
     using Common.DataTransferObjects;
     using Common.Enums;
-
     using Domain.Write.Interfaces;
-
     using NLog;
-
+    using System;
+    using System.Linq;
     using WriteToRead.Interfaces;
 
     /// <summary>
@@ -108,12 +104,15 @@
                 case CommandType.Insert:
                     this.InsertRegistration(timestamp, gdto, namePropertyValue, writeEvent.Id);
                     break;
+
                 case CommandType.Update:
                     this.UpdateRegistration(timestamp, gdto, namePropertyValue);
                     break;
+
                 case CommandType.Delete:
                     this.DeleteRegistration(namePropertyValue);
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

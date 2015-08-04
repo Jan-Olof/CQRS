@@ -1,12 +1,9 @@
 ﻿namespace Tests.IntegrationTests.TestClasses
 {
+    using Domain.Write.Entities;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
-
-    using Domain.Write.Entities;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Tests.IntegrationTests.Initialize;
     using Tests.TestCommon;
     using Tests.TestCommon.SampleObjects;

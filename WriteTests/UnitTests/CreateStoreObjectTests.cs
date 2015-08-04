@@ -1,20 +1,15 @@
 ﻿namespace Tests.WriteTests.UnitTests
 {
-    using System;
-    using System.Linq;
-
     using Common.DataTransferObjects;
     using Common.Enums;
     using Common.Exceptions;
     using Common.Utilities;
-
     using Domain.Write.Entities;
     using Domain.Write.Store;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Newtonsoft.Json;
-
+    using System;
+    using System.Linq;
     using TestCommon;
     using TestCommon.SampleObjects;
 
@@ -48,22 +43,16 @@
         }
 
         /// <summary>
-        /// The test should create event store from gdto.
+        /// The test should create event store and throw payload null exception.
         /// </summary>
         [TestMethod]
-        public void TestShouldCreateEventStoreFromGdto()
+        public void TestShouldCreateEventStoreAndThrowPayloadNullException()
         {
             // Arrange
-            var sut = new CreateStoreObject<Gdto>();
+            var sut = new CreateStoreObject<BookModel>();
 
-            // Act
-            var result = sut.CreateWriteEvent(SampleGdto.CreateGdto(), CommandType.Insert);
-
-            // Assert
-            var payload = JsonConvert.DeserializeObject<Gdto>(result.Payload);
-            Assert.AreEqual("Yuval Noah Harari", payload.Properties.Single(p => p.Key == "Author").Value);
-            Assert.AreEqual(CommandType.Insert, result.CommandType);
-            Assert.AreEqual(TimeStamp, result.Timestamp);
+            // Act & Assert
+            MyAssert.Throws<PayloadNullException>(() => sut.CreateWriteEvent(null, CommandType.Insert));
         }
 
         /// <summary>
@@ -85,16 +74,22 @@
         }
 
         /// <summary>
-        /// The test should create event store and throw payload null exception.
+        /// The test should create event store from gdto.
         /// </summary>
         [TestMethod]
-        public void TestShouldCreateEventStoreAndThrowPayloadNullException()
+        public void TestShouldCreateEventStoreFromGdto()
         {
             // Arrange
-            var sut = new CreateStoreObject<BookModel>();
+            var sut = new CreateStoreObject<Gdto>();
 
-            // Act & Assert
-            MyAssert.Throws<PayloadNullException>(() => sut.CreateWriteEvent(null, CommandType.Insert));
+            // Act
+            var result = sut.CreateWriteEvent(SampleGdto.CreateGdto(), CommandType.Insert);
+
+            // Assert
+            var payload = JsonConvert.DeserializeObject<Gdto>(result.Payload);
+            Assert.AreEqual("Yuval Noah Harari", payload.Properties.Single(p => p.Key == "Author").Value);
+            Assert.AreEqual(CommandType.Insert, result.CommandType);
+            Assert.AreEqual(TimeStamp, result.Timestamp);
         }
     }
 }

@@ -1,14 +1,11 @@
 ﻿namespace Domain.Write.Store
 {
-    using System;
-
     using Common.DataAccess;
     using Common.Exceptions;
-
     using Domain.Write.Entities;
     using Domain.Write.Interfaces;
-
     using NLog;
+    using System;
 
     /// <summary>
     /// The write to store.
@@ -23,7 +20,7 @@
         /// <summary>
         /// The repository.
         /// </summary>
-        private readonly IRepository<WriteEvent> repository; 
+        private readonly IRepository<WriteEvent> repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteToStore"/> class.

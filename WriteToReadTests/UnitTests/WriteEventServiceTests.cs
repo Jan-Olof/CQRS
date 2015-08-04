@@ -1,22 +1,16 @@
 ﻿namespace Tests.WriteToReadTests.UnitTests
 {
-    using System;
-    using System.Linq;
-
     using Common.DataAccess;
     using Common.Exceptions;
     using Common.Utilities;
-
     using Domain.Write.Entities;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
-
+    using System;
+    using System.Linq;
     using Tests.TestCommon;
     using Tests.TestCommon.SampleObjects;
-
     using WriteToRead.FromWriteDb;
 
     /// <summary>
@@ -56,39 +50,6 @@
         }
 
         /// <summary>
-        /// The test should get write events to process.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldGetWriteEventsToProcess()
-        {
-            // Arrange
-            var sut = this.CreateWriteEventService();
-
-            this.repository.GetAll().Returns(SampleWriteEvents.CreateWriteEvents().AsQueryable());
-
-            // Act
-            var result = sut.GetWriteEventsToProcess(0);
-
-            // Assert
-            Assert.AreEqual(2, result.Count);
-        }
-
-        /// <summary>
-        /// The test should get write events to process and throw exception.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldGetWriteEventsToProcessAndThrowException()
-        {
-            // Arrange
-            var sut = this.CreateWriteEventService();
-
-            this.repository.GetAll().Throws<Exception>();
-
-            // Act & Assert
-            MyAssert.Throws<Exception>(() => sut.GetWriteEventsToProcess(0));
-        }
-
-        /// <summary>
         /// The test should deserialize gdto.
         /// </summary>
         [TestMethod]
@@ -103,6 +64,29 @@
             // Assert
             Assert.AreEqual("Book", result.EntityType);
             Assert.AreEqual("Sapiens", result.Properties.Single(p => p.Key == "Name").Value);
+        }
+
+        [TestMethod]
+        public void TestShouldGetOriginalWriteEventId()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            // Act
+            var result = sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithWriteEventId());
+
+            // Assert
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestShouldGetOriginalWriteEventIdAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            // Act & Assert
+            MyAssert.Throws<NoWriteEventIdException>(() => sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithPublished()));
         }
 
         /// <summary>
@@ -138,6 +122,39 @@
         }
 
         /// <summary>
+        /// The test should get write events to process.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetWriteEventsToProcess()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            this.repository.GetAll().Returns(SampleWriteEvents.CreateWriteEvents().AsQueryable());
+
+            // Act
+            var result = sut.GetWriteEventsToProcess(0);
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+        }
+
+        /// <summary>
+        /// The test should get write events to process and throw exception.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldGetWriteEventsToProcessAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateWriteEventService();
+
+            this.repository.GetAll().Throws<Exception>();
+
+            // Act & Assert
+            MyAssert.Throws<Exception>(() => sut.GetWriteEventsToProcess(0));
+        }
+
+        /// <summary>
         /// The test should set sent to read.
         /// </summary>
         [TestMethod]
@@ -168,29 +185,6 @@
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.SetSentToRead(SampleWriteEvents.CreateWriteEvent(1, "Payload"), 1));
-        }
-
-        [TestMethod]
-        public void TestShouldGetOriginalWriteEventId()
-        {
-            // Arrange
-            var sut = this.CreateWriteEventService();
-
-            // Act
-            var result = sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithWriteEventId());
-
-            // Assert
-            Assert.AreEqual(1, result);
-        }
-
-        [TestMethod]
-        public void TestShouldGetOriginalWriteEventIdAndThrowException()
-        {
-            // Arrange
-            var sut = this.CreateWriteEventService();
-
-            // Act & Assert
-            MyAssert.Throws<NoWriteEventIdException>(() => sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithPublished()));
         }
 
         /// <summary>

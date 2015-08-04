@@ -8,6 +8,11 @@
     public interface IRegistrationCommands<T>
     {
         /// <summary>
+        /// The delete.
+        /// </summary>
+        T Delete(Gdto dto);
+
+        /// <summary>
         /// The insert.
         /// </summary>
         T Insert(Gdto dto);
@@ -16,10 +21,5 @@
         /// The update.
         /// </summary>
         T Update(Gdto dto);
-
-        /// <summary>
-        /// The delete.
-        /// </summary>
-        T Delete(Gdto dto);
     }
 }

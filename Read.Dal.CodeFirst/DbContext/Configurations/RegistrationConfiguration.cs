@@ -1,8 +1,7 @@
 ﻿namespace DataAccess.Read.Dal.CodeFirst.DbContext.Configurations
 {
-    using System.Data.Entity.ModelConfiguration;
-
     using Domain.Read.Entities;
+    using System.Data.Entity.ModelConfiguration;
 
     /// <summary>
     /// The registration configuration.

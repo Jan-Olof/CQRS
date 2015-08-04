@@ -1,11 +1,10 @@
 ﻿namespace Domain.Read.Entities
 {
+    using Common.DataAccess;
+    using Common.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Common.DataAccess;
-    using Common.Utilities;
 
     /// <summary>
     /// The registration.
@@ -23,6 +22,11 @@
         }
 
         /// <summary>
+        /// Gets or sets the created.
+        /// </summary>
+        public DateTime Created { get; set; }
+
+        /// <summary>
         /// Gets or sets the id.
         /// </summary>
         public int Id { get; set; }
@@ -33,29 +37,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the created.
-        /// </summary>
-        public DateTime Created { get; set; }
-
-        /// <summary>
-        /// Gets or sets the updated.
-        /// </summary>
-        public DateTime Updated { get; set; }
-
-        /// <summary>
         ///  Gets or sets the original write event id.
         /// </summary>
         public int OriginalWriteEventId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the registration type id.
-        /// </summary>
-        public int RegistrationTypeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the registration type.
-        /// </summary>
-        public virtual RegistrationType RegistrationType { get; set; }
 
         /// <summary>
         /// Gets or sets the properties.
@@ -63,32 +47,43 @@
         public virtual ICollection<Property> Properties { get; set; }
 
         /// <summary>
+        /// Gets or sets the registration type.
+        /// </summary>
+        public virtual RegistrationType RegistrationType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the registration type id.
+        /// </summary>
+        public int RegistrationTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the updated.
+        /// </summary>
+        public DateTime Updated { get; set; }
+
+        /// <summary>
         /// Create a registration object.
         /// </summary>
         public static Registration CreateRegistration(RegistrationType type, DateTime timestamp, string name, int originalWriteEventId)
         {
             return new Registration
-                       {
-                           RegistrationTypeId = type.Id,
-                           RegistrationType = type,
-                           Created = timestamp,
-                           Updated = timestamp,
-                           OriginalWriteEventId = originalWriteEventId,
-                           Name = name
-                       };
+            {
+                RegistrationTypeId = type.Id,
+                RegistrationType = type,
+                Created = timestamp,
+                Updated = timestamp,
+                OriginalWriteEventId = originalWriteEventId,
+                Name = name
+            };
         }
 
         /// <summary>
-        /// Update a registration.
+        /// Get registration from OriginalWriteEventId.
         /// </summary>
-        public static Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name)
+        public static Registration GetRegistration(IQueryable<Registration> dataSet, int originalWriteEventId)
         {
-            registration.RegistrationType = type;
-            registration.RegistrationTypeId = type.Id;
-            registration.Name = name;
-            registration.Updated = timestamp;
-
-            return registration;
+            return dataSet
+                .SingleOrDefault(r => r.OriginalWriteEventId == originalWriteEventId);
         }
 
         /// <summary>
@@ -102,12 +97,16 @@
         }
 
         /// <summary>
-        /// Get registration from OriginalWriteEventId.
+        /// Update a registration.
         /// </summary>
-        public static Registration GetRegistration(IQueryable<Registration> dataSet, int originalWriteEventId)
+        public static Registration UpdateRegistration(Registration registration, RegistrationType type, DateTime timestamp, string name)
         {
-            return dataSet
-                .SingleOrDefault(r => r.OriginalWriteEventId == originalWriteEventId);
+            registration.RegistrationType = type;
+            registration.RegistrationTypeId = type.Id;
+            registration.Name = name;
+            registration.Updated = timestamp;
+
+            return registration;
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿namespace DataAccess.Read.Dal.CodeFirst.DbContext
 {
-    using System.Data.Entity;
-
     using DataAccess.Read.Dal.CodeFirst.DbContext.Configurations;
-
     using Domain.Read.Entities;
+    using System.Data.Entity;
 
     /// <summary>
     /// The read context.
@@ -20,9 +18,9 @@
         }
 
         /// <summary>
-        /// Gets or sets the registrations.
+        /// Gets or sets the properties.
         /// </summary>
-        public IDbSet<Registration> Registrations { get; set; }
+        public IDbSet<Property> Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the property types.
@@ -30,9 +28,9 @@
         public IDbSet<PropertyType> PropertyTypes { get; set; }
 
         /// <summary>
-        /// Gets or sets the properties.
+        /// Gets or sets the registrations.
         /// </summary>
-        public IDbSet<Property> Properties { get; set; }
+        public IDbSet<Registration> Registrations { get; set; }
 
         /// <summary>
         /// Gets or sets the registration types.

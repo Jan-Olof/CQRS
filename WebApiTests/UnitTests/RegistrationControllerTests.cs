@@ -1,5 +1,14 @@
 ﻿namespace Tests.WebApiTests.UnitTests
 {
+    using Api.WebApi.Controllers;
+    using Common.DataTransferObjects;
+    using Common.Utilities;
+    using Domain.Read.Interfaces;
+    using Domain.Write.Interfaces;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Newtonsoft.Json;
+    using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
@@ -7,22 +16,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
-    using Api.WebApi.Controllers;
-
-    using Common.DataTransferObjects;
-    using Common.Utilities;
-
-    using Domain.Read.Interfaces;
-    using Domain.Write.Interfaces;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using Newtonsoft.Json;
-
-    using NSubstitute;
-    using NSubstitute.ExceptionExtensions;
-
     using Tests.TestCommon.SampleObjects;
 
     /// <summary>
@@ -65,6 +58,65 @@
         public void TearDown()
         {
             SystemTime.Reset();
+        }
+
+        /// <summary>
+        /// The test should delete registration.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldDeleteRegistration()
+        {
+            // Arrange
+            var sut = this.CreateRegistrationController();
+
+            this.commandService.Delete(SampleGdto.CreateGdto()).ReturnsForAnyArgs(11);
+
+            // Act
+            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+
+            var jsonString = result.Content.ReadAsStringAsync().Result;
+            var content = JsonConvert.DeserializeObject<int>(jsonString);
+
+            Assert.AreEqual(11, content);
+        }
+
+        /// <summary>
+        /// The test should delete registration and return bad request.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldDeleteRegistrationAndReturnBadRequest()
+        {
+            // Arrange
+            var sut = this.CreateRegistrationController();
+
+            this.commandService.Delete(SampleGdto.CreateGdto()).ReturnsForAnyArgs(0);
+
+            // Act
+            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        /// <summary>
+        /// The test should delete registration and throw exception.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldDeleteRegistrationAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateRegistrationController();
+
+            this.commandService.Delete(SampleGdto.CreateGdto()).ThrowsForAnyArgs<Exception>();
+
+            // Act
+            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         /// <summary>
@@ -350,65 +402,6 @@
 
             // Act
             var result = sut.PutRegistration(SampleGdto.CreateGdto());
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.InternalServerError, result.StatusCode);
-        }
-
-        /// <summary>
-        /// The test should delete registration.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldDeleteRegistration()
-        {
-            // Arrange
-            var sut = this.CreateRegistrationController();
-
-            this.commandService.Delete(SampleGdto.CreateGdto()).ReturnsForAnyArgs(11);
-
-            // Act
-            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-
-            var jsonString = result.Content.ReadAsStringAsync().Result;
-            var content = JsonConvert.DeserializeObject<int>(jsonString);
-
-            Assert.AreEqual(11, content);
-        }
-
-        /// <summary>
-        /// The test should delete registration and return bad request.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldDeleteRegistrationAndReturnBadRequest()
-        {
-            // Arrange
-            var sut = this.CreateRegistrationController();
-
-            this.commandService.Delete(SampleGdto.CreateGdto()).ReturnsForAnyArgs(0);
-
-            // Act
-            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-        }
-
-        /// <summary>
-        /// The test should delete registration and throw exception.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldDeleteRegistrationAndThrowException()
-        {
-            // Arrange
-            var sut = this.CreateRegistrationController();
-
-            this.commandService.Delete(SampleGdto.CreateGdto()).ThrowsForAnyArgs<Exception>();
-
-            // Act
-            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
 
             // Assert
             Assert.AreEqual(HttpStatusCode.InternalServerError, result.StatusCode);

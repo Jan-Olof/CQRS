@@ -8,6 +8,12 @@
     public interface ICommandService
     {
         /// <summary>
+        /// Delete a registration by inserting a Gdto into the event store.
+        /// Return an int with the regitered rvents id.
+        /// </summary>
+        int Delete(Gdto dto);
+
+        /// <summary>
         /// Insert a Gdto into the event store.
         /// Return an int with the regitered rvents id.
         /// </summary>
@@ -18,11 +24,5 @@
         /// Return an int with the regitered rvents id.
         /// </summary>
         int Update(Gdto dto);
-
-        /// <summary>
-        /// Delete a registration by inserting a Gdto into the event store.
-        /// Return an int with the regitered rvents id.
-        /// </summary>
-        int Delete(Gdto dto);
     }
 }

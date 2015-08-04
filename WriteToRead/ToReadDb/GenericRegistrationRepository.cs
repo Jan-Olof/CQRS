@@ -1,17 +1,12 @@
 ﻿namespace WriteToRead.ToReadDb
 {
+    using Common.DataTransferObjects;
+    using DataAccess.Read.Dal.CodeFirst.DbContext;
+    using Domain.Read.Entities;
+    using NLog;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
-    using Common.DataTransferObjects;
-
-    using DataAccess.Read.Dal.CodeFirst.DbContext;
-
-    using Domain.Read.Entities;
-
-    using NLog;
-
     using WriteToRead.Interfaces;
 
     /// <summary>
@@ -312,6 +307,7 @@
             }
             return registrationType;
         }
+
         /// <summary>
         /// The save all changes to the database.
         /// </summary>
@@ -376,6 +372,7 @@
                 throw;
             }
         }
+
         /// <summary>
         /// Check if a property exists in a registration.
         /// </summary>

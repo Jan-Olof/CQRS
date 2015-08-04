@@ -1,8 +1,7 @@
 ﻿namespace Tests.TestCommon.SampleObjects
 {
-    using System;
-
     using Domain.Write.Entities;
+    using System;
 
     /// <summary>
     /// The sample books.
@@ -15,13 +14,13 @@
         public static BookModel CreateBook()
         {
             return new BookModel
-                       {
-                           Id = 11,
-                           Name = "Sapiens",
-                           Author = "Yuval Noah Harari",
-                           Created = new DateTime(2015, 2, 5),
-                           Updated = new DateTime(2015, 4, 1)
-                       };
+            {
+                Id = 11,
+                Name = "Sapiens",
+                Author = "Yuval Noah Harari",
+                Created = new DateTime(2015, 2, 5),
+                Updated = new DateTime(2015, 4, 1)
+            };
         }
     }
 }

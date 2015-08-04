@@ -1,14 +1,13 @@
 ﻿namespace DataAccess.Read.Dal.CodeFirst.Initialize
 {
-    using System.Data.Entity;
-
     using DataAccess.Read.Dal.CodeFirst.DbContext;
+    using System.Data.Entity;
 
     /// <summary>
     /// The read initializer.
     /// </summary>
     public class ReadInitializer : DropCreateDatabaseAlways<ReadContext>
     {
-         // Seed the data here.
+        // Seed the data here.
     }
 }

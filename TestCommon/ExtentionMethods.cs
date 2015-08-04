@@ -1,9 +1,8 @@
 ﻿namespace Tests.TestCommon
 {
+    using NSubstitute;
     using System.Data.Entity;
     using System.Linq;
-
-    using NSubstitute;
 
     /// <summary>
     /// The extention methods.

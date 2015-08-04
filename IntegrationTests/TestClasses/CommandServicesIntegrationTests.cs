@@ -1,13 +1,9 @@
 ﻿namespace Tests.IntegrationTests.TestClasses
 {
-    using System.Linq;
-
     using Common.DataTransferObjects;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Newtonsoft.Json;
-
+    using System.Linq;
     using Tests.IntegrationTests.Initialize;
     using Tests.TestCommon.SampleObjects;
 

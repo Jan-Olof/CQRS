@@ -1,12 +1,10 @@
 ﻿namespace Domain.Write.Entities
 {
-    using System;
-    using System.Linq;
-
     using Common.DataAccess;
     using Common.Enums;
-
     using Domain.Write.Interfaces;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// The write event.
@@ -22,24 +20,14 @@
         }
 
         /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the command type.
         /// </summary>
         public CommandType CommandType { get; set; }
 
         /// <summary>
-        /// Gets or sets the version.
+        /// Gets or sets the id.
         /// </summary>
-        public int Version { get; set; }
-
-        /// <summary>
-        /// Gets or sets the timestamp.
-        /// </summary>
-        public DateTime Timestamp { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the payload.
@@ -50,6 +38,16 @@
         /// Gets or sets the sent to read.
         /// </summary>
         public int SentToRead { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timestamp.
+        /// </summary>
+        public DateTime Timestamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version.
+        /// </summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// Get write events not sent to read.

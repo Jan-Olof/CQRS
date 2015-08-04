@@ -1,15 +1,12 @@
 ﻿namespace Domain.Read.Queries
 {
+    using Common.DataAccess;
+    using Domain.Read.Entities;
+    using Domain.Read.Interfaces;
+    using NLog;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Common.DataAccess;
-
-    using Domain.Read.Entities;
-    using Domain.Read.Interfaces;
-
-    using NLog;
 
     /// <summary>
     /// The registration service.
@@ -56,13 +53,13 @@
         }
 
         /// <summary>
-        /// Get all registrations of a certain type.
+        /// Get one registration.
         /// </summary>
-        public IList<Registration> GetRegistrations(int type)
+        public Registration GetRegistration(int id)
         {
             try
             {
-                return Registration.GetRegistrationsOfOneType(this.repository, type).ToList();
+                return this.repository.GetOne(id);
             }
             catch (Exception ex)
             {
@@ -72,13 +69,13 @@
         }
 
         /// <summary>
-        /// Get one registration.
+        /// Get all registrations of a certain type.
         /// </summary>
-        public Registration GetRegistration(int id)
+        public IList<Registration> GetRegistrations(int type)
         {
             try
             {
-               return this.repository.GetOne(id);
+                return Registration.GetRegistrationsOfOneType(this.repository, type).ToList();
             }
             catch (Exception ex)
             {

@@ -1,18 +1,13 @@
 ﻿namespace Tests.WriteTests.UnitTests
 {
-    using System;
-
     using Common.DataAccess;
     using Common.Exceptions;
     using Common.Utilities;
-
     using Domain.Write.Entities;
     using Domain.Write.Store;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NSubstitute;
-
+    using System;
     using TestCommon;
     using TestCommon.SampleObjects;
 
@@ -30,7 +25,7 @@
         /// <summary>
         /// The repository.
         /// </summary>
-        private IRepository<WriteEvent> repository; 
+        private IRepository<WriteEvent> repository;
 
         /// <summary>
         /// The set up.

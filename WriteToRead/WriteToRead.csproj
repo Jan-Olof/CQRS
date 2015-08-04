@@ -55,11 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IGenericRegistrationRepository.cs" />
-    <Compile Include="Interfaces\IRegistrationRepository.cs" />
     <Compile Include="Interfaces\IWriteEventService.cs" />
     <Compile Include="Interfaces\IWriteToReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\RegistrationRepository.cs" />
     <Compile Include="ToReadDb\GenericRegistrationRepository.cs" />
     <Compile Include="FromWriteDb\WriteEventService.cs" />
     <Compile Include="WriteToReadService.cs" />

@@ -1,15 +1,11 @@
 ﻿namespace Tests.IntegrationTests.TestClasses
 {
+    using Common.DataTransferObjects;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
-
-    using Common.DataTransferObjects;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using Newtonsoft.Json;
-
     using Tests.IntegrationTests.Initialize;
     using Tests.TestCommon.SampleObjects;
 
@@ -19,6 +15,27 @@
     [TestClass]
     public class RegistrationControllerIntegrationTests : BaseTestDb
     {
+        /// <summary>
+        /// The test should delete registration.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldDeleteRegistration()
+        {
+            // Arrange
+            var sut = Factory.CreateRegistrationController();
+
+            // Act
+            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+
+            var jsonString = result.Content.ReadAsStringAsync().Result;
+            var content = JsonConvert.DeserializeObject<int>(jsonString);
+
+            Assert.AreEqual(1, content);
+        }
+
         /// <summary>
         /// The test should get all registrations.
         /// </summary>
@@ -125,27 +142,6 @@
 
             // Act
             var result = sut.PutRegistration(SampleGdto.CreateGdto());
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-
-            var jsonString = result.Content.ReadAsStringAsync().Result;
-            var content = JsonConvert.DeserializeObject<int>(jsonString);
-
-            Assert.AreEqual(1, content);
-        }
-
-        /// <summary>
-        /// The test should delete registration.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldDeleteRegistration()
-        {
-            // Arrange
-            var sut = Factory.CreateRegistrationController();
-
-            // Act
-            var result = sut.DeleteRegistration(SampleGdto.CreateGdto());
 
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);

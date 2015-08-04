@@ -1,8 +1,7 @@
 ﻿namespace Domain.Read.Interfaces
 {
-    using System.Collections.Generic;
-
     using Domain.Read.Entities;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The RegistrationService interface.
@@ -15,13 +14,13 @@
         IList<Registration> GetAllRegistrations();
 
         /// <summary>
-        /// Get all registrations of a certain type.
-        /// </summary>
-        IList<Registration> GetRegistrations(int type);
-
-        /// <summary>
         /// Get one registration.
         /// </summary>
         Registration GetRegistration(int id);
+
+        /// <summary>
+        /// Get all registrations of a certain type.
+        /// </summary>
+        IList<Registration> GetRegistrations(int type);
     }
 }

@@ -1,9 +1,8 @@
 ﻿namespace Domain.Read.Entities
 {
+    using Common.DataAccess;
     using System;
     using System.Collections.Generic;
-
-    using Common.DataAccess;
 
     /// <summary>
     /// The property type.
@@ -39,10 +38,10 @@
         public static PropertyType CreatePropertyType(int id, string propertyType)
         {
             return new PropertyType
-                       {
-                           Id = id,
-                           Name = propertyType
-                       };
+            {
+                Id = id,
+                Name = propertyType
+            };
         }
 
         /// <summary>

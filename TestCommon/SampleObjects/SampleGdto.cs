@@ -1,9 +1,8 @@
 ﻿namespace Tests.TestCommon.SampleObjects
 {
+    using Common.DataTransferObjects;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
-    using Common.DataTransferObjects;
 
     /// <summary>
     /// The sample gdto.
@@ -16,10 +15,34 @@
         public static Gdto CreateGdto()
         {
             return new Gdto
-                       {
-                           EntityType = "Book",
-                           Properties = CreateProperties()
-                       };
+            {
+                EntityType = "Book",
+                Properties = CreateProperties()
+            };
+        }
+
+        /// <summary>
+        /// The create gdto without name.
+        /// </summary>
+        public static Gdto CreateGdtoWithoutName()
+        {
+            return new Gdto
+            {
+                EntityType = "Book",
+                Properties = CreatePropertiesWithoutName()
+            };
+        }
+
+        /// <summary>
+        /// The create gdto with published.
+        /// </summary>
+        public static Gdto CreateGdtoWithPublished()
+        {
+            return new Gdto
+            {
+                EntityType = "Book",
+                Properties = CreatePropertiesWithPublished()
+            };
         }
 
         /// <summary>
@@ -71,30 +94,6 @@
         }
 
         /// <summary>
-        /// The create gdto with published.
-        /// </summary>
-        public static Gdto CreateGdtoWithPublished()
-        {
-            return new Gdto
-                    {
-                        EntityType = "Book",
-                        Properties = CreatePropertiesWithPublished()
-                    };
-        }
-
-        /// <summary>
-        /// The create gdto without name.
-        /// </summary>
-        public static Gdto CreateGdtoWithoutName()
-        {
-            return new Gdto
-                    {
-                        EntityType = "Book",
-                        Properties = CreatePropertiesWithoutName()
-                    };
-        }
-
-        /// <summary>
         /// The create payload.
         /// </summary>
         public static string CreatePayload()
@@ -111,6 +110,35 @@
                                     {
                                         new KeyValuePair<string, string>("Name", "Sapiens"),
                                         new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
+                                    };
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// The create properties without name.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithoutName()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Published", "2014"),
+                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
+                                    };
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// The create properties with published.
+        /// </summary>
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithPublished()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        new KeyValuePair<string, string>("Name", "Sapiens"),
+                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari"),
+                                        new KeyValuePair<string, string>("Published", "2014")
                                     };
 
             return keyValuePairs;
@@ -173,35 +201,6 @@
                                         new KeyValuePair<string, string>("Name", "2001: A Space Odyssey"),
                                         new KeyValuePair<string, string>("OriginalWriteEventId", "2"),
                                         new KeyValuePair<string, string>("Author", "DeleteProperty")
-                                    };
-
-            return keyValuePairs;
-        }
-
-        /// <summary>
-        /// The create properties with published.
-        /// </summary>
-        private static IList<KeyValuePair<string, string>> CreatePropertiesWithPublished()
-        {
-            var keyValuePairs = new Collection<KeyValuePair<string, string>>
-                                    {
-                                        new KeyValuePair<string, string>("Name", "Sapiens"),
-                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari"),
-                                        new KeyValuePair<string, string>("Published", "2014")
-                                    };
-
-            return keyValuePairs;
-        }
-
-        /// <summary>
-        /// The create properties without name.
-        /// </summary>
-        private static IList<KeyValuePair<string, string>> CreatePropertiesWithoutName()
-        {
-            var keyValuePairs = new Collection<KeyValuePair<string, string>>
-                                    {
-                                        new KeyValuePair<string, string>("Published", "2014"),
-                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
                                     };
 
             return keyValuePairs;

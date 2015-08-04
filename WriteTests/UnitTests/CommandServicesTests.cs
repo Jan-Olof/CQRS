@@ -1,19 +1,14 @@
 ﻿namespace Tests.WriteTests.UnitTests
 {
-    using System;
-
     using Common.DataTransferObjects;
     using Common.Enums;
     using Common.Exceptions;
     using Common.Utilities;
-
     using Domain.Write.Commands;
     using Domain.Write.Interfaces;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NSubstitute;
-
+    using System;
     using TestCommon;
     using TestCommon.SampleObjects;
 
@@ -57,6 +52,48 @@
         public void TearDown()
         {
             SystemTime.Reset();
+        }
+
+        /// <summary>
+        /// The test should delete.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldDelete()
+        {
+            // Arrange
+            var sut = this.CreateCommandServices();
+
+            this.createStoreObject.CreateWriteEvent(SampleGdto.CreateGdto(), CommandType.Delete)
+                .ReturnsForAnyArgs(SampleWriteEvents.CreateWriteEvent(0, "sample payload"));
+
+            this.writeToStore.InsertIntoEventStore(SampleWriteEvents.CreateWriteEvent(0, "sample payload"))
+                .ReturnsForAnyArgs(SampleWriteEvents.CreateWriteEvent(14, "sample payload"));
+
+            // Act
+            var result = sut.Delete(SampleGdto.CreateGdto());
+
+            // Assert
+            Assert.AreEqual(14, result);
+            this.createStoreObject.Received().CreateWriteEvent(Arg.Any<Gdto>(), CommandType.Delete);
+        }
+
+        /// <summary>
+        /// The test should delete and throw exception.
+        /// </summary>
+        [TestMethod]
+        public void TestShouldDeleteAndThrowException()
+        {
+            // Arrange
+            var sut = this.CreateCommandServices();
+
+            this.createStoreObject.CreateWriteEvent(SampleGdto.CreateGdto(), CommandType.Delete)
+                .ReturnsForAnyArgs(x => { throw new Exception(); });
+
+            this.writeToStore.InsertIntoEventStore(SampleWriteEvents.CreateWriteEvent(0, "sample payload"))
+                .ReturnsForAnyArgs(SampleWriteEvents.CreateWriteEvent(12, "sample payload"));
+
+            // Act & Assert
+            MyAssert.Throws<DeleteException>(() => sut.Delete(SampleGdto.CreateGdto()));
         }
 
         /// <summary>
@@ -141,48 +178,6 @@
 
             // Act & Assert
             MyAssert.Throws<UpdateException>(() => sut.Update(SampleGdto.CreateGdto()));
-        }
-
-        /// <summary>
-        /// The test should delete.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldDelete()
-        {
-            // Arrange
-            var sut = this.CreateCommandServices();
-
-            this.createStoreObject.CreateWriteEvent(SampleGdto.CreateGdto(), CommandType.Delete)
-                .ReturnsForAnyArgs(SampleWriteEvents.CreateWriteEvent(0, "sample payload"));
-
-            this.writeToStore.InsertIntoEventStore(SampleWriteEvents.CreateWriteEvent(0, "sample payload"))
-                .ReturnsForAnyArgs(SampleWriteEvents.CreateWriteEvent(14, "sample payload"));
-
-            // Act
-            var result = sut.Delete(SampleGdto.CreateGdto());
-
-            // Assert
-            Assert.AreEqual(14, result);
-            this.createStoreObject.Received().CreateWriteEvent(Arg.Any<Gdto>(), CommandType.Delete);
-        }
-
-        /// <summary>
-        /// The test should delete and throw exception.
-        /// </summary>
-        [TestMethod]
-        public void TestShouldDeleteAndThrowException()
-        {
-            // Arrange
-            var sut = this.CreateCommandServices();
-
-            this.createStoreObject.CreateWriteEvent(SampleGdto.CreateGdto(), CommandType.Delete)
-                .ReturnsForAnyArgs(x => { throw new Exception(); });
-
-            this.writeToStore.InsertIntoEventStore(SampleWriteEvents.CreateWriteEvent(0, "sample payload"))
-                .ReturnsForAnyArgs(SampleWriteEvents.CreateWriteEvent(12, "sample payload"));
-
-            // Act & Assert
-            MyAssert.Throws<DeleteException>(() => sut.Delete(SampleGdto.CreateGdto()));
         }
 
         /// <summary>

@@ -1,10 +1,8 @@
 ﻿namespace Tests.IntegrationTests.TestClasses
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Tests.IntegrationTests.Initialize;
     using Tests.TestCommon.SampleObjects;
 

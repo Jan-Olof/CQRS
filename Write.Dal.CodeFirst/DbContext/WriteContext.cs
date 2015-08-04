@@ -1,8 +1,7 @@
 ﻿namespace DataAccess.Write.Dal.CodeFirst.DbContext
 {
-    using System.Data.Entity;
-
     using Domain.Write.Entities;
+    using System.Data.Entity;
 
     /// <summary>
     /// The write context.
