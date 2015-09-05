@@ -520,7 +520,8 @@
             var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovieRemoveProp());
 
             // Assert
-            Assert.IsNull(result.Properties.SingleOrDefault(p => p.PropertyType.Name == "Author"));
+            Assert.IsNull(result.Properties.SingleOrDefault(p => p.PropertyType.Name == "Published"));
+            Assert.AreEqual(1, result.Properties.Count);
         }
 
         [TestMethod]

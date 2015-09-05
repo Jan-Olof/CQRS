@@ -347,6 +347,8 @@
                 registration = UpdateExistingProperties(registration, gdto);
 
                 registration = this.AddNewProperties(registration, gdto);
+
+                registration = DeleteNonExistingProperties(registration, gdto);
             }
             catch (Exception ex)
             {
@@ -374,6 +376,43 @@
         }
 
         /// <summary>
+        /// Delete properties that does not exist in the GDTO.
+        /// </summary>
+        private static Registration DeleteNonExistingProperties(Registration registration, Gdto gdto)
+        {
+            if (registration.Properties == null || gdto.Properties == null)
+            {
+                return registration;
+            }
+
+            var toDelete = GetPropertiesToDelete(registration, gdto);
+
+            foreach (var property in toDelete)
+            {
+                registration.Properties.Remove(property);
+            }
+
+            return registration;
+        }
+
+        /// <summary>
+        /// Check if a property exists in a GDTO.
+        /// </summary>
+        private static bool DoesPropertyExistInGdto(IList<KeyValuePair<string, string>> keyValuePairs, Property property)
+        {
+            bool exists = false;
+            foreach (var keyValuePair in keyValuePairs)
+            {
+                if (string.Equals(keyValuePair.Key, property.PropertyType.Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    exists = true;
+                }
+            }
+
+            return exists;
+        }
+
+        /// <summary>
         /// Check if a property exists in a registration.
         /// </summary>
         private static bool DoesPropertyExistInRegistration(Registration registration, KeyValuePair<string, string> keyValuePair)
@@ -393,6 +432,26 @@
         }
 
         /// <summary>
+        /// Get the properties that should be deleted.
+        /// </summary>
+        private static IList<Property> GetPropertiesToDelete(Registration registration, Gdto gdto)
+        {
+            var toDelete = new List<Property>();
+
+            foreach (var property in registration.Properties)
+            {
+                bool exists = DoesPropertyExistInGdto(gdto.Properties, property);
+
+                if (!exists)
+                {
+                    toDelete.Add(property);
+                }
+            }
+
+            return toDelete;
+        }
+
+        /// <summary>
         /// Update the values of existing properties with new values from the Gdto.
         /// </summary>
         private static Registration UpdateExistingProperties(Registration registration, Gdto gdto)
@@ -404,16 +463,24 @@
 
             foreach (var property in registration.Properties)
             {
-                foreach (var keyValuePair in gdto.Properties)
-                {
-                    if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        property.Value = keyValuePair.Value;
-                    }
-                }
+                UpdateProperty(gdto, property);
             }
 
             return registration;
+        }
+
+        /// <summary>
+        /// Update the value of one existing property with new value from the Gdto.
+        /// </summary>
+        private static void UpdateProperty(Gdto gdto, Property property)
+        {
+            foreach (var keyValuePair in gdto.Properties)
+            {
+                if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    property.Value = keyValuePair.Value;
+                }
+            }
         }
 
         /// <summary>
