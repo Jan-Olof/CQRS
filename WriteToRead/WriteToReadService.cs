@@ -10,7 +10,7 @@
     using WriteToRead.Interfaces;
 
     /// <summary>
-    /// The write to read service is like an ETL from the write database to one or more read databases.
+    /// The write to read service is like an ETL from the write database to the read database.
     /// </summary>
     public class WriteToReadService : IWriteToReadService
     {

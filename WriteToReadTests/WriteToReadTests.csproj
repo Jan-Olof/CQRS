@@ -63,8 +63,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests\GenericRegistrationRepositoryTests.cs" />
+    <Compile Include="UnitTests\WriteToReadRepositoryTests.cs" />
     <Compile Include="UnitTests\WriteEventServiceTests.cs" />
+    <Compile Include="UnitTests\WriteToReadServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

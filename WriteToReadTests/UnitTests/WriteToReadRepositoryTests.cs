@@ -13,11 +13,8 @@
     using Tests.TestCommon.SampleObjects;
     using WriteToRead.ToReadDb;
 
-    /// <summary>
-    /// The generic registration repository tests.
-    /// </summary>
     [TestClass]
-    public class GenericRegistrationRepositoryTests
+    public class WriteToReadRepositoryTests
     {
         /// <summary>
         /// The time stamp.
@@ -88,7 +85,7 @@
         public void TestShouldAddRegistrationToProperty()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Properties.Returns(this.properties);
 
@@ -107,7 +104,7 @@
         public void TestShouldAddRegistrationToPropertyAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             // Act & Assert
             MyAssert.Throws<Exception>(() => sut.AddRegistrationToProperty(null, null));
@@ -120,7 +117,7 @@
         public void TestShouldCheckProperty()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Properties.Returns(this.properties);
 
@@ -138,7 +135,7 @@
         public void TestShouldCheckPropertyAndNotFindAny()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Properties.Returns(this.properties);
 
@@ -156,7 +153,7 @@
         public void TestShouldCheckPropertyAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Properties.Throws<Exception>();
 
@@ -171,7 +168,7 @@
         public void TestShouldCheckPropertyType()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.PropertyTypes.Returns(this.propertyTypes);
 
@@ -189,7 +186,7 @@
         public void TestShouldCheckPropertyTypeAndNotFindAny()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.PropertyTypes.Returns(this.propertyTypes);
 
@@ -207,7 +204,7 @@
         public void TestShouldCheckPropertyTypeAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.PropertyTypes.Throws<Exception>();
 
@@ -222,7 +219,7 @@
         public void TestShouldCheckRegistrationType()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Returns(this.registrationTypes);
 
@@ -240,7 +237,7 @@
         public void TestShouldCheckRegistrationTypeAndNotFindAny()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Returns(this.registrationTypes);
 
@@ -258,7 +255,7 @@
         public void TestShouldCheckRegistrationTypeAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Throws<Exception>();
 
@@ -270,7 +267,9 @@
         public void TestShouldDeleteRegistration()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
+
+            this.readContext.Registrations.Returns(this.registrations);
 
             // Act
             var result = sut.DeleteRegistration(SampleRegistrations.CreateRegistration2001());
@@ -283,7 +282,7 @@
         public void TestShouldGetRegistration()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Registrations.Returns(this.registrations);
 
@@ -298,7 +297,7 @@
         public void TestShouldGetRegistrationAndReturnsNull()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Registrations.Returns(this.registrations);
 
@@ -316,7 +315,7 @@
         public void TestShouldGetRegistrationType()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Returns(this.registrationTypes);
 
@@ -334,7 +333,7 @@
         public void TestShouldInsertProperty()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Properties.Returns(this.properties);
 
@@ -353,7 +352,7 @@
         public void TestShouldInsertPropertyAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Properties.Throws<Exception>();
 
@@ -370,7 +369,7 @@
         public void TestShouldInsertPropertyType()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.PropertyTypes.Returns(this.propertyTypes);
 
@@ -388,7 +387,7 @@
         public void TestShouldInsertPropertyTypeAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.PropertyTypes.Throws<Exception>();
 
@@ -403,7 +402,7 @@
         public void TestShouldInsertRegistration()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Registrations.Returns(this.registrations);
 
@@ -421,7 +420,7 @@
         public void TestShouldInsertRegistrationAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.Registrations.Throws<Exception>();
 
@@ -437,7 +436,7 @@
         public void TestShouldInsertRegistrationType()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Returns(this.registrationTypes);
 
@@ -455,7 +454,7 @@
         public void TestShouldInsertRegistrationTypeAndThrowException()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Throws<Exception>();
 
@@ -467,7 +466,7 @@
         public void TestShouldUpdateProperties()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             // Act
             var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), SampleGdto.CreateGdtoWithWriteEventIdMovie());
@@ -480,7 +479,7 @@
         public void TestShouldUpdatePropertiesAddingOneProperty()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.RegistrationTypes.Returns(this.registrationTypes);
             this.readContext.Registrations.Returns(this.registrations);
@@ -498,7 +497,7 @@
         public void TestShouldUpdatePropertiesAndReturnNull()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             // Act
             var result = sut.UpdateProperties(null, SampleGdto.CreateGdtoWithWriteEventIdMovie());
@@ -511,7 +510,7 @@
         public void TestShouldUpdatePropertiesRemovingOneProperty()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             this.readContext.PropertyTypes.Returns(this.propertyTypes);
             this.readContext.Properties.Returns(this.properties);
@@ -528,7 +527,7 @@
         public void TestShouldUpdatePropertiesWhenGdtoIsNull()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             // Act
             var result = sut.UpdateProperties(SampleRegistrations.CreateRegistration2001(), null);
@@ -541,7 +540,7 @@
         public void TestShouldUpdateRegistration()
         {
             // Arrange
-            var sut = this.CreateGenericRegistrationService();
+            var sut = this.CreateWriteToReadRepository();
 
             // Act
             var result = sut.UpdateRegistration(
@@ -551,10 +550,7 @@
             Assert.AreEqual("20001: A Space Odyssey", result.Name);
         }
 
-        /// <summary>
-        /// The create generic registration service.
-        /// </summary>
-        private WriteToReadRepository CreateGenericRegistrationService()
+        private WriteToReadRepository CreateWriteToReadRepository()
         {
             return new WriteToReadRepository(this.readContext);
         }

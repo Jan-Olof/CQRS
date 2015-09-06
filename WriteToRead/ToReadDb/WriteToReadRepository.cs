@@ -204,9 +204,16 @@
         /// </summary>
         public bool DeleteRegistration(Registration registration)
         {
-            this.readContext.Registrations.Remove(registration);
-
-            throw new NotImplementedException();
+            try
+            {
+                this.readContext.Registrations.Remove(registration);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                return false;
+            }
         }
 
         /// <summary>
