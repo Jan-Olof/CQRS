@@ -12,26 +12,18 @@
     /// <summary>
     /// Class that is used to transfer data from the Write database to the Read database.
     /// </summary>
-    public class GenericRegistrationRepository : IGenericRegistrationRepository
+    public class WriteToReadRepository : IWriteToReadRepository
     {
         private const string Name = "Name";
-
         private const string OriginalWriteEventId = "OriginalWriteEventId";
 
-        /// <summary>
-        /// The logger.
-        /// </summary>
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
-        /// <summary>
-        /// The read context.
-        /// </summary>
         private readonly IReadContext readContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericRegistrationRepository"/> class.
+        /// Initializes a new instance of the <see cref="WriteToReadRepository"/> class.
         /// </summary>
-        public GenericRegistrationRepository(IReadContext readContext)
+        public WriteToReadRepository(IReadContext readContext)
         {
             if (readContext == null)
             {
@@ -42,22 +34,11 @@
         }
 
         /// <summary>
-        /// Add properties to a registration.
-        /// </summary>
-        public void AddProperties(Gdto gdto, Registration registration)
-        {
-            foreach (var property in gdto.Properties)
-            {
-                this.AddPropertyTypeAndProperty(registration, property);
-            }
-        }
-
-        /// <summary>
         /// Add a property to a registration.
         /// </summary>
         public void AddProperty(PropertyType propertyType, KeyValuePair<string, string> property, Registration registration)
         {
-            var registrationProperty = this.CheckProperty(propertyType, property.Value);
+            var registrationProperty = this.CheckIfPropertyIsRegistered(propertyType, property.Value);
 
             if (registrationProperty.Id == 0)
             {
@@ -91,7 +72,7 @@
         }
 
         /// <summary>
-        /// Add propert type to db set.
+        /// Add property type to db set.
         /// </summary>
         public PropertyType AddPropertyTypeToDbSet(string type)
         {
@@ -107,6 +88,17 @@
             {
                 this.logger.Error(ex);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Add properties to a registration.
+        /// </summary>
+        public void AddRegistrationProperties(Gdto gdto, Registration registration)
+        {
+            foreach (var property in gdto.Properties)
+            {
+                this.AddPropertyTypeAndProperty(registration, property);
             }
         }
 
@@ -176,7 +168,7 @@
         /// <summary>
         /// Check if a property is already registered and return the id.
         /// </summary>
-        public Property CheckProperty(PropertyType type, string value)
+        public Property CheckIfPropertyIsRegistered(PropertyType type, string value)
         {
             try
             {
@@ -208,9 +200,19 @@
         }
 
         /// <summary>
+        /// Delete a registration.
+        /// </summary>
+        public bool DeleteRegistration(Registration registration)
+        {
+            this.readContext.Registrations.Remove(registration);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Check which property type a property is and return the type.
         /// </summary>
-        public PropertyType CheckPropertyType(string type)
+        public PropertyType GetPropertyType(string type)
         {
             try
             {
@@ -242,9 +244,25 @@
         }
 
         /// <summary>
+        /// Get registration from OriginalWriteEventId.
+        /// </summary>
+        public Registration GetRegistration(int originalWriteEventId)
+        {
+            try
+            {
+                return Registration.GetRegistration(this.readContext.Registrations, originalWriteEventId);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Check which registration type a registration is and return the type.
         /// </summary>
-        public RegistrationType CheckRegistrationType(string entityType)
+        public RegistrationType GetRegistrationType(string entityType)
         {
             try
             {
@@ -271,40 +289,17 @@
         }
 
         /// <summary>
-        /// Delete a registration.
-        /// </summary>
-        public bool DeleteRegistration(string namePropertyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Get registration from OriginalWriteEventId.
-        /// </summary>
-        public Registration GetRegistration(int originalWriteEventId)
-        {
-            try
-            {
-                return Registration.GetRegistration(this.readContext.Registrations, originalWriteEventId);
-            }
-            catch (Exception ex)
-            {
-                this.logger.Error(ex);
-                throw;
-            }
-        }
-
-        /// <summary>
         /// Get RegistrationType from a Gdto.
         /// </summary>
         public RegistrationType GetRegistrationType(Gdto gdto)
         {
-            var registrationType = this.CheckRegistrationType(gdto.EntityType);
+            var registrationType = this.GetRegistrationType(gdto.EntityType);
 
             if (registrationType.Id == 0)
             {
                 registrationType = this.AddRegistrationTypeToDbSet(gdto.EntityType);
             }
+
             return registrationType;
         }
 
@@ -376,6 +371,42 @@
         }
 
         /// <summary>
+        /// Check if a property exists in a GDTO.
+        /// </summary>
+        private static bool CheckIfPropertyExistInGdto(IList<KeyValuePair<string, string>> gdtoProperties, Property registrationProperty)
+        {
+            bool exists = false;
+            foreach (var gdtoProperty in gdtoProperties)
+            {
+                if (string.Equals(gdtoProperty.Key, registrationProperty.PropertyType.Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    exists = true;
+                }
+            }
+
+            return exists;
+        }
+
+        /// <summary>
+        /// Check if a property exists in a registration.
+        /// </summary>
+        private static bool CheckIfPropertyExistInRegistration(Registration registration, KeyValuePair<string, string> gdtoProperty)
+        {
+            bool exists = false;
+            foreach (var property in registration.Properties)
+            {
+                if (string.Equals(property.PropertyType.Name, gdtoProperty.Key, StringComparison.CurrentCultureIgnoreCase)
+                    || string.Equals(Name, gdtoProperty.Key, StringComparison.CurrentCultureIgnoreCase)
+                    || string.Equals(OriginalWriteEventId, gdtoProperty.Key, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    exists = true;
+                }
+            }
+
+            return exists;
+        }
+
+        /// <summary>
         /// Delete properties that does not exist in the GDTO.
         /// </summary>
         private static Registration DeleteNonExistingProperties(Registration registration, Gdto gdto)
@@ -396,42 +427,6 @@
         }
 
         /// <summary>
-        /// Check if a property exists in a GDTO.
-        /// </summary>
-        private static bool DoesPropertyExistInGdto(IList<KeyValuePair<string, string>> keyValuePairs, Property property)
-        {
-            bool exists = false;
-            foreach (var keyValuePair in keyValuePairs)
-            {
-                if (string.Equals(keyValuePair.Key, property.PropertyType.Name, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    exists = true;
-                }
-            }
-
-            return exists;
-        }
-
-        /// <summary>
-        /// Check if a property exists in a registration.
-        /// </summary>
-        private static bool DoesPropertyExistInRegistration(Registration registration, KeyValuePair<string, string> keyValuePair)
-        {
-            bool exists = false;
-            foreach (var property in registration.Properties)
-            {
-                if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
-                    || string.Equals(Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase)
-                    || string.Equals(OriginalWriteEventId, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    exists = true;
-                }
-            }
-
-            return exists;
-        }
-
-        /// <summary>
         /// Get the properties that should be deleted.
         /// </summary>
         private static IList<Property> GetPropertiesToDelete(Registration registration, Gdto gdto)
@@ -440,7 +435,7 @@
 
             foreach (var property in registration.Properties)
             {
-                bool exists = DoesPropertyExistInGdto(gdto.Properties, property);
+                bool exists = CheckIfPropertyExistInGdto(gdto.Properties, property);
 
                 if (!exists)
                 {
@@ -472,13 +467,13 @@
         /// <summary>
         /// Update the value of one existing property with new value from the Gdto.
         /// </summary>
-        private static void UpdateProperty(Gdto gdto, Property property)
+        private static void UpdateProperty(Gdto gdto, Property registrationProperty)
         {
-            foreach (var keyValuePair in gdto.Properties)
+            foreach (var gdtoProperty in gdto.Properties)
             {
-                if (string.Equals(property.PropertyType.Name, keyValuePair.Key, StringComparison.CurrentCultureIgnoreCase))
+                if (string.Equals(registrationProperty.PropertyType.Name, gdtoProperty.Key, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    property.Value = keyValuePair.Value;
+                    registrationProperty.Value = gdtoProperty.Value;
                 }
             }
         }
@@ -495,7 +490,7 @@
 
             foreach (var keyValuePair in gdto.Properties)
             {
-                bool exists = DoesPropertyExistInRegistration(registration, keyValuePair);
+                bool exists = CheckIfPropertyExistInRegistration(registration, keyValuePair);
 
                 if (!exists)
                 {
@@ -509,18 +504,18 @@
         /// <summary>
         /// Add both property type and property to a registration.
         /// </summary>
-        private void AddPropertyTypeAndProperty(Registration registration, KeyValuePair<string, string> property)
+        private void AddPropertyTypeAndProperty(Registration registration, KeyValuePair<string, string> gdtoProperty)
         {
-            var propertyType = this.CheckPropertyType(property.Key);
+            var propertyType = this.GetPropertyType(gdtoProperty.Key);
 
             if (propertyType.Id == 0)
             {
-                propertyType = this.AddPropertyTypeToDbSet(property.Key);
+                propertyType = this.AddPropertyTypeToDbSet(gdtoProperty.Key);
             }
 
             if (propertyType.Id > -1)
             {
-                this.AddProperty(propertyType, property, registration);
+                this.AddProperty(propertyType, gdtoProperty, registration);
             }
         }
     }

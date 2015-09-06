@@ -25,7 +25,7 @@
         /// <summary>
         /// Get the value of the name property in a Gdto.
         /// </summary>
-        string GetPropertyValue(Gdto gdto, string propertyName);
+        string GetPropertyValue(IList<KeyValuePair<string, string>> properties, string propertyName);
 
         /// <summary>
         /// Set sent to read to a new number.
@@ -35,6 +35,6 @@
         /// <summary>
         /// Get the OriginalWriteEventId from the Gdto and parse it.
         /// </summary>
-        int GetOriginalWriteEventId(Gdto gdto);
+        int GetOriginalWriteEventId(IList<KeyValuePair<string, string>> gdtoProperties);
     }
 }

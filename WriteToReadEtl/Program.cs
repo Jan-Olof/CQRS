@@ -12,7 +12,7 @@
         /// </summary>
         public static void Main(string[] args)
         {
-            Console.WriteLine(WorkClass.DoTheWork());
+            Console.WriteLine(FromWriteDbToReadDb.LoadTheReadDb());
 
             Console.ReadKey();
         }

@@ -6,15 +6,10 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// The GenericRegistrationRepository interface.
+    /// The WriteToReadRepository interface.
     /// </summary>
-    public interface IGenericRegistrationRepository
+    public interface IWriteToReadRepository
     {
-        /// <summary>
-        /// Add properties to a registration.
-        /// </summary>
-        void AddProperties(Gdto gdto, Registration registration);
-
         /// <summary>
         /// Add a property to a registration.
         /// </summary>
@@ -29,6 +24,11 @@
         /// Add property type to db set.
         /// </summary>
         PropertyType AddPropertyTypeToDbSet(string type);
+
+        /// <summary>
+        /// Add properties to a registration.
+        /// </summary>
+        void AddRegistrationProperties(Gdto gdto, Registration registration);
 
         /// <summary>
         /// Add registration to db set.
@@ -48,27 +48,27 @@
         /// <summary>
         /// Check if a property is already registered and return the id.
         /// </summary>
-        Property CheckProperty(PropertyType type, string value);
-
-        /// <summary>
-        /// Check which property type a property is and return the type.
-        /// </summary>
-        PropertyType CheckPropertyType(string type);
-
-        /// <summary>
-        /// Check which registration type a registration is and return the type.
-        /// </summary>
-        RegistrationType CheckRegistrationType(string entityType);
+        Property CheckIfPropertyIsRegistered(PropertyType type, string value);
 
         /// <summary>
         /// Delete a registration.
         /// </summary>
-        bool DeleteRegistration(string namePropertyValue);
+        bool DeleteRegistration(Registration registration);
+
+        /// <summary>
+        /// Check which property type a property is and return the type.
+        /// </summary>
+        PropertyType GetPropertyType(string type);
 
         /// <summary>
         /// Get registration from OriginalWriteEventId.
         /// </summary>
         Registration GetRegistration(int originalWriteEventId);
+
+        /// <summary>
+        /// Check which registration type a registration is and return the type.
+        /// </summary>
+        RegistrationType GetRegistrationType(string entityType);
 
         /// <summary>
         /// Get RegistrationType from a Gdto.

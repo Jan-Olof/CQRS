@@ -34,7 +34,7 @@
         {
             if (repository == null)
             {
-                throw new ArgumentNullException("repository");
+                throw new ArgumentNullException(nameof(repository));
             }
 
             this.repository = repository;
@@ -59,9 +59,9 @@
         /// <summary>
         /// Get the OriginalWriteEventId from the Gdto and parse it.
         /// </summary>
-        public int GetOriginalWriteEventId(Gdto gdto)
+        public int GetOriginalWriteEventId(IList<KeyValuePair<string, string>> gdtoProperties)
         {
-            string originalWriteEventIdString = this.GetPropertyValue(gdto, "OriginalWriteEventId");
+            string originalWriteEventIdString = this.GetPropertyValue(gdtoProperties, "OriginalWriteEventId");
 
             int originalWriteEventId;
 
@@ -78,16 +78,16 @@
         /// <summary>
         /// Get the value of a property in a Gdto.
         /// </summary>
-        public string GetPropertyValue(Gdto gdto, string propertyName)
+        public string GetPropertyValue(IList<KeyValuePair<string, string>> properties, string propertyName)
         {
             try
             {
-                if (gdto.Properties == null)
+                if (properties == null)
                 {
                     return string.Empty;
                 }
 
-                var namePropertyValue = gdto.Properties
+                var namePropertyValue = properties
                     .SingleOrDefault(p => string.Equals(p.Key, propertyName, StringComparison.CurrentCultureIgnoreCase))
                     .Value;
 
@@ -109,9 +109,7 @@
             {
                 var writeEvents = WriteEvent.GetWriteEventsNotSentToRead(this.repository, timesSent);
 
-                return writeEvents == null
-                    ? new List<WriteEvent>()
-                    : writeEvents.ToList();
+                return writeEvents?.ToList() ?? new List<WriteEvent>();
             }
             catch (Exception ex)
             {

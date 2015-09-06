@@ -13,10 +13,10 @@
     public class WriteToReadServiceIntegrationTests : BaseTestDb
     {
         /// <summary>
-        /// The test should add to generic registration read db.
+        /// The test should perform ETL from Write db to Read db.
         /// </summary>
         [TestMethod]
-        public void TestShouldAddToGenericRegistrationReadDb()
+        public void TestShouldEtlFromWriteDbToReadDb()
         {
             // Arrange
             var repository = Factory.CreateWriteEventRepository();
@@ -25,7 +25,7 @@
             var sut = Factory.CreateWriteToReadService();
 
             // Act
-            var result = sut.AddToGenericRegistrationReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
+            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
 
             // Assert
             Assert.AreEqual(2, result);

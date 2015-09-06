@@ -36,9 +36,9 @@
         /// <summary>
         /// The create generic registration service.
         /// </summary>
-        public static GenericRegistrationRepository CreateGenericRegistrationService()
+        public static WriteToReadRepository CreateGenericRegistrationService()
         {
-            return new GenericRegistrationRepository(new ReadContext());
+            return new WriteToReadRepository(new ReadContext());
         }
 
         /// <summary>

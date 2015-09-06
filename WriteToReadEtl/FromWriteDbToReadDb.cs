@@ -15,24 +15,24 @@
     using WriteToRead.ToReadDb;
 
     /// <summary>
-    /// The work class.
+    /// Extract data from Write db, tranform it and load it in the Read db.
     /// </summary>
-    public static class WorkClass
+    public static class FromWriteDbToReadDb
     {
         /// <summary>
-        /// The do the work.
+        /// Load the read db.
         /// </summary>
-        public static string DoTheWork()
+        public static string LoadTheReadDb()
         {
             var logger = LogManager.GetCurrentClassLogger();
 
             var writeToReadService = new WriteToReadService(
                 new WriteEventService(new Repository<WriteEvent>(new WriteContext())),
-                new GenericRegistrationRepository(new ReadContext()));
+                new WriteToReadRepository(new ReadContext()));
 
-            var eventsRegistered = writeToReadService.AddToGenericRegistrationReadDb(SystemTime.UtcNow);
+            var eventsRegistered = writeToReadService.EtlFromWriteDbToReadDb(SystemTime.UtcNow);
 
-            string infoMsg = string.Format("Saved {0} new events to ReadDb.", eventsRegistered);
+            string infoMsg = $"Saved {eventsRegistered} new events to ReadDb.";
             logger.Info(infoMsg);
             return infoMsg;
         }

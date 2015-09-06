@@ -54,11 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IGenericRegistrationRepository.cs" />
+    <Compile Include="Interfaces\IWriteToReadRepository.cs" />
     <Compile Include="Interfaces\IWriteEventService.cs" />
     <Compile Include="Interfaces\IWriteToReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToReadDb\GenericRegistrationRepository.cs" />
+    <Compile Include="ToReadDb\WriteToReadRepository.cs" />
     <Compile Include="FromWriteDb\WriteEventService.cs" />
     <Compile Include="WriteToReadService.cs" />
   </ItemGroup>

@@ -73,7 +73,7 @@
             var sut = this.CreateWriteEventService();
 
             // Act
-            var result = sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithWriteEventId());
+            var result = sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithWriteEventId().Properties);
 
             // Assert
             Assert.AreEqual(1, result);
@@ -86,7 +86,7 @@
             var sut = this.CreateWriteEventService();
 
             // Act & Assert
-            MyAssert.Throws<NoWriteEventIdException>(() => sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithPublished()));
+            MyAssert.Throws<NoWriteEventIdException>(() => sut.GetOriginalWriteEventId(SampleGdto.CreateGdtoWithPublished().Properties));
         }
 
         /// <summary>
@@ -99,7 +99,7 @@
             var sut = this.CreateWriteEventService();
 
             // Act
-            var result = sut.GetPropertyValue(SampleGdto.CreateGdtoWithPublished(), "Name");
+            var result = sut.GetPropertyValue(SampleGdto.CreateGdtoWithPublished().Properties, "Name");
 
             // Assert
             Assert.AreEqual("Sapiens", result);
@@ -115,7 +115,7 @@
             var sut = this.CreateWriteEventService();
 
             // Act
-            var result = sut.GetPropertyValue(SampleGdto.CreateGdtoWithoutName(), "Name");
+            var result = sut.GetPropertyValue(SampleGdto.CreateGdtoWithoutName().Properties, "Name");
 
             // Assert
             Assert.AreEqual(string.Empty, result);

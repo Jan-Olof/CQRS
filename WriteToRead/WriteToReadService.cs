@@ -5,6 +5,7 @@
     using Domain.Write.Interfaces;
     using NLog;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using WriteToRead.Interfaces;
 
@@ -13,11 +14,6 @@
     /// </summary>
     public class WriteToReadService : IWriteToReadService
     {
-        /// <summary>
-        /// The generic registration service.
-        /// </summary>
-        private readonly IGenericRegistrationRepository genericRegistrationRepository;
-
         /// <summary>
         /// The logger.
         /// </summary>
@@ -29,36 +25,41 @@
         private readonly IWriteEventService writeEventService;
 
         /// <summary>
+        /// The generic registration service.
+        /// </summary>
+        private readonly IWriteToReadRepository writeToReadRepository;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteToReadService"/> class.
         /// </summary>
-        public WriteToReadService(IWriteEventService writeEventService, IGenericRegistrationRepository genericRegistrationRepository)
+        public WriteToReadService(IWriteEventService writeEventService, IWriteToReadRepository writeToReadRepository)
         {
             if (writeEventService == null)
             {
                 throw new ArgumentNullException(nameof(writeEventService));
             }
 
-            if (genericRegistrationRepository == null)
+            if (writeToReadRepository == null)
             {
-                throw new ArgumentNullException(nameof(genericRegistrationRepository));
+                throw new ArgumentNullException(nameof(writeToReadRepository));
             }
 
             this.writeEventService = writeEventService;
-            this.genericRegistrationRepository = genericRegistrationRepository;
+            this.writeToReadRepository = writeToReadRepository;
         }
 
         /// <summary>
         /// Add to the generic registration read database.
         /// </summary>
-        public int AddToGenericRegistrationReadDb(DateTime timestamp)
+        public int EtlFromWriteDbToReadDb(DateTime timestamp)
         {
             try
             {
                 var writeEvents = this.writeEventService.GetWriteEventsToProcess(0);
 
-                return writeEvents == null
-                    ? 0
-                    : writeEvents.Aggregate(0, (current, writeEvent) => this.RegisterOneEvent(timestamp, writeEvent, current));
+                return writeEvents?
+                    .Aggregate(0, (current, writeEvent) => this.RegisterOneEvent(timestamp, writeEvent, current))
+                    ?? 0;
             }
             catch (Exception ex)
             {
@@ -67,8 +68,12 @@
             }
         }
 
-        private void DeleteRegistration(string namePropertyValue)
+        private void DeleteRegistration(IList<KeyValuePair<string, string>> gdtoProperties)
         {
+            int originalWriteEventId = this.writeEventService.GetOriginalWriteEventId(gdtoProperties);
+
+            var registration = this.writeToReadRepository.GetRegistration(originalWriteEventId);
+
             throw new NotImplementedException();
         }
 
@@ -77,12 +82,12 @@
         /// </summary>
         private void InsertRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue, int originalWriteEventId)
         {
-            var registrationType = this.genericRegistrationRepository.GetRegistrationType(gdto);
+            var registrationType = this.writeToReadRepository.GetRegistrationType(gdto);
 
-            var registration = this.genericRegistrationRepository.AddRegistrationToDbSet(
+            var registration = this.writeToReadRepository.AddRegistrationToDbSet(
                 registrationType, timestamp, namePropertyValue, originalWriteEventId);
 
-            this.genericRegistrationRepository.AddProperties(gdto, registration);
+            this.writeToReadRepository.AddRegistrationProperties(gdto, registration);
         }
 
         /// <summary>
@@ -92,7 +97,7 @@
         {
             var gdto = this.writeEventService.DeserializeGdto(writeEvent.Payload);
 
-            var namePropertyValue = this.writeEventService.GetPropertyValue(gdto, "Name");
+            var namePropertyValue = this.writeEventService.GetPropertyValue(gdto.Properties, "Name");
 
             if (string.IsNullOrWhiteSpace(namePropertyValue))
             {
@@ -110,14 +115,14 @@
                     break;
 
                 case CommandType.Delete:
-                    this.DeleteRegistration(namePropertyValue);
+                    this.DeleteRegistration(gdto.Properties);
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (this.genericRegistrationRepository.SaveAllChanges())
+            if (this.writeToReadRepository.SaveAllChanges())
             {
                 result++;
                 this.writeEventService.SetSentToRead(writeEvent, 1);
@@ -128,15 +133,15 @@
 
         private void UpdateRegistration(DateTime timestamp, Gdto gdto, string namePropertyValue)
         {
-            int originalWriteEventId = this.writeEventService.GetOriginalWriteEventId(gdto);
+            int originalWriteEventId = this.writeEventService.GetOriginalWriteEventId(gdto.Properties);
 
-            var registration = this.genericRegistrationRepository.GetRegistration(originalWriteEventId);
-            var registrationType = this.genericRegistrationRepository.GetRegistrationType(gdto);
+            var registration = this.writeToReadRepository.GetRegistration(originalWriteEventId);
+            var registrationType = this.writeToReadRepository.GetRegistrationType(gdto);
 
-            registration = this.genericRegistrationRepository.UpdateRegistration(
+            registration = this.writeToReadRepository.UpdateRegistration(
                 registration, registrationType, timestamp, namePropertyValue);
 
-            this.genericRegistrationRepository.UpdateProperties(registration, gdto);
+            this.writeToReadRepository.UpdateProperties(registration, gdto);
         }
     }
 }

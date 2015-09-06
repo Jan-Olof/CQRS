@@ -10,6 +10,6 @@
         /// <summary>
         /// Add to the generic registration read database.
         /// </summary>
-        int AddToGenericRegistrationReadDb(DateTime timestamp);
+        int EtlFromWriteDbToReadDb(DateTime timestamp);
     }
 }
