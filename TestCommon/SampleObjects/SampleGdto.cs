@@ -93,12 +93,33 @@
             };
         }
 
-        /// <summary>
-        /// The create payload.
-        /// </summary>
-        public static string CreatePayload()
+        public static Gdto CreateGdtoWithWritePublishedMovie()
         {
-            return "{\"EntityType\": \"Book\",\"Properties\": [{\"Key\": \"Name\",\"Value\": \"Sapiens\"},{\"Key\": \"Author\",\"Value\": \"Yuval Noah Harari\"},{\"Key\": \"Published\",\"Value\": \"2014\"}	]}";
+            return new Gdto
+            {
+                EntityType = "Movie",
+                Properties = CreatePropertiesWithPublishedMovie()
+            };
+        }
+
+        public static KeyValuePair<string, string> CreateKeyValuePairSapiensName()
+        {
+            return new KeyValuePair<string, string>("Name", "Sapiens");
+        }
+
+        /// <summary>
+        /// The create properties with published.
+        /// </summary>
+        public static IList<KeyValuePair<string, string>> CreatePropertiesWithPublished()
+        {
+            var keyValuePairs = new Collection<KeyValuePair<string, string>>
+                                    {
+                                        CreateKeyValuePairSapiensName(),
+                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari"),
+                                        new KeyValuePair<string, string>("Published", "2014")
+                                    };
+
+            return keyValuePairs;
         }
 
         /// <summary>
@@ -108,7 +129,7 @@
         {
             var keyValuePairs = new Collection<KeyValuePair<string, string>>
                                     {
-                                        new KeyValuePair<string, string>("Name", "Sapiens"),
+                                        CreateKeyValuePairSapiensName(),
                                         new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
                                     };
 
@@ -129,16 +150,13 @@
             return keyValuePairs;
         }
 
-        /// <summary>
-        /// The create properties with published.
-        /// </summary>
-        private static IList<KeyValuePair<string, string>> CreatePropertiesWithPublished()
+        private static IList<KeyValuePair<string, string>> CreatePropertiesWithPublishedMovie()
         {
             var keyValuePairs = new Collection<KeyValuePair<string, string>>
                                     {
-                                        new KeyValuePair<string, string>("Name", "Sapiens"),
-                                        new KeyValuePair<string, string>("Author", "Yuval Noah Harari"),
-                                        new KeyValuePair<string, string>("Published", "2014")
+                                        new KeyValuePair<string, string>("Name", "2001: A Space Odyssey"),
+                                        new KeyValuePair<string, string>("Published", "1968"),
+                                        new KeyValuePair<string, string>("Author", "Stanley Kubrikk")
                                     };
 
             return keyValuePairs;
@@ -151,7 +169,7 @@
         {
             var keyValuePairs = new Collection<KeyValuePair<string, string>>
                                     {
-                                        new KeyValuePair<string, string>("Name", "Sapiens"),
+                                        CreateKeyValuePairSapiensName(),
                                         new KeyValuePair<string, string>("OriginalWriteEventId", "1"),
                                         new KeyValuePair<string, string>("Author", "Yuval Noah Harari")
                                     };

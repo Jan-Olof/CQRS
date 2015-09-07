@@ -4,6 +4,9 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
     using System;
+
+    using Tests.TestCommon.SampleObjects;
+
     using WriteToRead;
     using WriteToRead.Interfaces;
 
@@ -32,9 +35,16 @@
         }
 
         [TestMethod]
-        public void TestShouldDeserializeGdto()
+        public void TestShouldEtlFromWriteDbToReadDb()
         {
             // Arrange
+            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEvents());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens()).Returns(SampleGdto.CreateGdtoWithPublished());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001()).Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
+            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name").ReturnsForAnyArgs("Sapiens");
+
+            // Stub this.writeToReadRepository.GetRegistrationType(gdto);
+
             var sut = this.CreateWriteToReadService();
 
             // Act

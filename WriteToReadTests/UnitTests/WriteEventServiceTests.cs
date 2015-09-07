@@ -59,7 +59,7 @@
             var sut = this.CreateWriteEventService();
 
             // Act
-            var result = sut.DeserializeGdto(SampleGdto.CreatePayload());
+            var result = sut.DeserializeGdto(SampleWriteEvents.PayloadSapiens());
 
             // Assert
             Assert.AreEqual("Book", result.EntityType);
