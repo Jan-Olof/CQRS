@@ -2,6 +2,7 @@
 {
     using Common.DataTransferObjects;
     using Common.Enums;
+    using Common.Exceptions;
     using Domain.Write.Interfaces;
     using NLog;
     using System;
@@ -74,7 +75,10 @@
 
             var registration = this.writeToReadRepository.GetRegistration(originalWriteEventId);
 
-            throw new NotImplementedException();
+            if (!this.writeToReadRepository.DeleteRegistration(registration))
+            {
+                throw new DeleteException("Delete failed.");
+            }
         }
 
         /// <summary>

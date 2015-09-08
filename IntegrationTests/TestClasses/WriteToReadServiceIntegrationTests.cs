@@ -40,5 +40,31 @@
             Assert.AreEqual("Yuval Noah Harari", sapiens.Properties.Single(p => p.PropertyType.Name == "Author").Value);
             Assert.AreEqual("Stanley Kubrick", two001.Properties.Single(p => p.PropertyType.Name == "Author").Value);
         }
+
+        [TestMethod]
+        public void TestShouldEtlFromWriteDbToReadDbDelete()
+        {
+            // Arrange
+            var sut = Factory.CreateWriteToReadService();
+
+            // Act
+            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
+
+            // Assert
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestShouldEtlFromWriteDbToReadDbUpdate()
+        {
+            // Arrange
+            var sut = Factory.CreateWriteToReadService();
+
+            // Act
+            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
+
+            // Assert
+            Assert.AreEqual(1, result);
+        }
     }
 }

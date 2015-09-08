@@ -25,6 +25,18 @@
             };
         }
 
+        public static WriteEvent CreateWriteEventDeleteMovie()
+        {
+            return new WriteEvent
+            {
+                Id = 4,
+                CommandType = CommandType.Delete,
+                Timestamp = SystemTime.UtcNow,
+                Version = 1,
+                Payload = Payload2001()
+            };
+        }
+
         /// <summary>
         /// The create write events.
         /// </summary>
@@ -35,6 +47,34 @@
                            CreateWriteEvent(1, PayloadSapiens()),
                            CreateWriteEvent(2, Payload2001()),
                        };
+        }
+
+        public static IList<WriteEvent> CreateWriteEventsDelete()
+        {
+            return new List<WriteEvent>
+                       {
+                          CreateWriteEventDeleteMovie()
+                       };
+        }
+
+        public static IList<WriteEvent> CreateWriteEventsUpdate()
+        {
+            return new List<WriteEvent>
+                       {
+                          CreateWriteEventUpdateBook()
+                       };
+        }
+
+        public static WriteEvent CreateWriteEventUpdateBook()
+        {
+            return new WriteEvent
+            {
+                Id = 3,
+                CommandType = CommandType.Update,
+                Timestamp = SystemTime.UtcNow,
+                Version = 1,
+                Payload = PayloadSapiens()
+            };
         }
 
         public static string Payload2001()
