@@ -60,7 +60,7 @@
         private static bool CheckDatabase(string database)
         {
             bool exists;
-            string selectDatabase = string.Format("SELECT database_id FROM sys.databases WHERE Name=\'{0}\'", database);
+            string selectDatabase = $"SELECT database_id FROM sys.databases WHERE Name=\'{database}\'";
 
             using (var masterConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Master"].ConnectionString))
             {

@@ -56,7 +56,8 @@
         {
             return repository
                 .GetAll()
-                .Where(w => w.SentToRead <= timesSent);
+                .Where(w => w.SentToRead <= timesSent)
+                .OrderBy(w => w.SentToRead);
         }
     }
 }

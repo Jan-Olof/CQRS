@@ -40,14 +40,7 @@
             // Arrange
             var timestamp = new DateTime(2015, 9, 6, 21, 14, 15);
 
-            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEventsDelete());
-            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens()).Returns(SampleGdto.CreateGdtoWithPublished());
-            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001()).Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
-            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name").ReturnsForAnyArgs("Sapiens");
-            this.writeEventService.GetOriginalWriteEventId(SampleGdto.CreatePropertiesWithPublished()).ReturnsForAnyArgs(1);
-            this.writeToReadRepository.GetRegistration(1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
-            this.writeToReadRepository.DeleteRegistration(SampleRegistrations.CreateRegistrationSapiens()).ReturnsForAnyArgs(true);
-            this.writeToReadRepository.SaveAllChanges().Returns(true);
+            this.StubDelete();
 
             var sut = this.CreateWriteToReadService();
 
@@ -64,13 +57,7 @@
             // Arrange
             var timestamp = new DateTime(2015, 9, 6, 21, 14, 15);
 
-            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEvents());
-            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens()).Returns(SampleGdto.CreateGdtoWithPublished());
-            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001()).Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
-            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name").ReturnsForAnyArgs("Sapiens");
-            this.writeToReadRepository.GetRegistrationType(SampleGdto.CreateGdtoWithPublished()).ReturnsForAnyArgs(SampleRegistrationTypes.CreateRegistrationTypeBook());
-            this.writeToReadRepository.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeBook(), timestamp, "Sapiens", 1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
-            this.writeToReadRepository.SaveAllChanges().Returns(true);
+            this.StubInsert(timestamp);
 
             var sut = this.CreateWriteToReadService();
 
@@ -87,17 +74,7 @@
             // Arrange
             var timestamp = new DateTime(2015, 9, 6, 21, 14, 15);
 
-            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEventsUpdate());
-            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens()).Returns(SampleGdto.CreateGdtoWithPublished());
-            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001()).Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
-            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name").ReturnsForAnyArgs("Sapiens");
-            this.writeEventService.GetOriginalWriteEventId(SampleGdto.CreatePropertiesWithPublished()).ReturnsForAnyArgs(1);
-            this.writeToReadRepository.GetRegistrationType(SampleGdto.CreateGdtoWithPublished()).ReturnsForAnyArgs(SampleRegistrationTypes.CreateRegistrationTypeBook());
-            this.writeToReadRepository.GetRegistration(1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
-            this.writeToReadRepository.AddRegistrationToDbSet(SampleRegistrationTypes.CreateRegistrationTypeBook(), timestamp, "Sapiens", 1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
-            this.writeToReadRepository.UpdateRegistration(SampleRegistrations.CreateRegistrationSapiens(), SampleRegistrationTypes.CreateRegistrationTypeBook(), timestamp, "Sapiens").Returns(SampleRegistrations.CreateRegistrationSapiens());
-            this.writeToReadRepository.UpdateProperties(SampleRegistrations.CreateRegistrationSapiens(), SampleGdto.CreateGdtoWithPublished()).Returns(SampleRegistrations.CreateRegistrationSapiens());
-            this.writeToReadRepository.SaveAllChanges().Returns(true);
+            this.StubUpdate(timestamp);
 
             var sut = this.CreateWriteToReadService();
 
@@ -111,6 +88,70 @@
         private WriteToReadService CreateWriteToReadService()
         {
             return new WriteToReadService(this.writeEventService, this.writeToReadRepository);
+        }
+
+        private void StubDelete()
+        {
+            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEventsDelete());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens())
+                .Returns(SampleGdto.CreateGdtoWithPublished());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001())
+                .Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
+            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name")
+                .ReturnsForAnyArgs("Sapiens");
+            this.writeEventService.GetOriginalWriteEventId(SampleGdto.CreatePropertiesWithPublished()).ReturnsForAnyArgs(1);
+            this.writeToReadRepository.GetRegistration(1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
+            this.writeToReadRepository.DeleteRegistration(SampleRegistrations.CreateRegistrationSapiens())
+                .ReturnsForAnyArgs(true);
+            this.writeToReadRepository.SaveAllChanges().Returns(true);
+        }
+
+        private void StubInsert(DateTime timestamp)
+        {
+            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEvents());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens())
+                .Returns(SampleGdto.CreateGdtoWithPublished());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001())
+                .Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
+            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name")
+                .ReturnsForAnyArgs("Sapiens");
+            this.writeToReadRepository.GetRegistrationType(SampleGdto.CreateGdtoWithPublished())
+                .ReturnsForAnyArgs(SampleRegistrationTypes.CreateRegistrationTypeBook());
+            this.writeToReadRepository.AddRegistrationToDbSet(
+                SampleRegistrationTypes.CreateRegistrationTypeBook(),
+                timestamp,
+                "Sapiens",
+                1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
+            this.writeToReadRepository.SaveAllChanges().Returns(true);
+        }
+
+        private void StubUpdate(DateTime timestamp)
+        {
+            this.writeEventService.GetWriteEventsToProcess(0).Returns(SampleWriteEvents.CreateWriteEventsUpdate());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.PayloadSapiens())
+                .Returns(SampleGdto.CreateGdtoWithPublished());
+            this.writeEventService.DeserializeGdto(SampleWriteEvents.Payload2001())
+                .Returns(SampleGdto.CreateGdtoWithWritePublishedMovie());
+            this.writeEventService.GetPropertyValue(SampleGdto.CreatePropertiesWithPublished(), "Name")
+                .ReturnsForAnyArgs("Sapiens");
+            this.writeEventService.GetOriginalWriteEventId(SampleGdto.CreatePropertiesWithPublished()).ReturnsForAnyArgs(1);
+            this.writeToReadRepository.GetRegistrationType(SampleGdto.CreateGdtoWithPublished())
+                .ReturnsForAnyArgs(SampleRegistrationTypes.CreateRegistrationTypeBook());
+            this.writeToReadRepository.GetRegistration(1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
+            this.writeToReadRepository.AddRegistrationToDbSet(
+                SampleRegistrationTypes.CreateRegistrationTypeBook(),
+                timestamp,
+                "Sapiens",
+                1).ReturnsForAnyArgs(SampleRegistrations.CreateRegistrationSapiens());
+            this.writeToReadRepository.UpdateRegistration(
+                SampleRegistrations.CreateRegistrationSapiens(),
+                SampleRegistrationTypes.CreateRegistrationTypeBook(),
+                timestamp,
+                "Sapiens").Returns(SampleRegistrations.CreateRegistrationSapiens());
+            this.writeToReadRepository.UpdateProperties(
+                SampleRegistrations.CreateRegistrationSapiens(),
+                SampleGdto.CreateGdtoWithPublished()).Returns(SampleRegistrations.CreateRegistrationSapiens());
+            this.writeToReadRepository.SaveAllChanges().Returns(true);
         }
     }
 }

@@ -19,8 +19,7 @@
         public void TestShouldEtlFromWriteDbToReadDb()
         {
             // Arrange
-            var repository = Factory.CreateWriteEventRepository();
-            repository.Insert(SampleWriteEvents.CreateWriteEvents());
+            InsertWriteEventsIntoDb();
 
             var sut = Factory.CreateWriteToReadService();
 
@@ -45,26 +44,64 @@
         public void TestShouldEtlFromWriteDbToReadDbDelete()
         {
             // Arrange
+            DoInsertEtl();
+            InsertWriteEventsIntoDbForDelete();
             var sut = Factory.CreateWriteToReadService();
 
             // Act
-            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
+            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 9, 15, 17, 37, 17));
 
             // Assert
             Assert.AreEqual(1, result);
+
+            var registrations = Factory.CreateRegistrationRepository().GetAll().ToList();
+            var two001 = registrations.SingleOrDefault(r => r.Name == "2001: A Space Odyssey");
+
+            Assert.IsNull(two001);
         }
 
         [TestMethod]
         public void TestShouldEtlFromWriteDbToReadDbUpdate()
         {
             // Arrange
+            DoInsertEtl();
+            InsertWriteEventsIntoDbForUpdate();
             var sut = Factory.CreateWriteToReadService();
 
             // Act
-            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
+            var result = sut.EtlFromWriteDbToReadDb(new DateTime(2015, 8, 15, 17, 37, 17));
 
             // Assert
             Assert.AreEqual(1, result);
+
+            var registrations = Factory.CreateRegistrationRepository().GetAll().ToList();
+            var sapiens = registrations.Single(r => r.Name == "Sapiens 2");
+
+            Assert.AreEqual("Book", sapiens.RegistrationType.Name);
+            Assert.AreEqual("Yuval Noah Harari", sapiens.Properties.Single(p => p.PropertyType.Name == "Author").Value);
+            Assert.AreEqual("2016", sapiens.Properties.Single(p => p.PropertyType.Name == "Published").Value);
+        }
+
+        private static void DoInsertEtl()
+        {
+            InsertWriteEventsIntoDb();
+
+            Factory.CreateWriteToReadService().EtlFromWriteDbToReadDb(new DateTime(2015, 7, 15, 17, 37, 17));
+        }
+
+        private static void InsertWriteEventsIntoDb()
+        {
+            Factory.CreateWriteEventRepository().Insert(SampleWriteEvents.CreateWriteEvents());
+        }
+
+        private static void InsertWriteEventsIntoDbForDelete()
+        {
+            Factory.CreateWriteEventRepository().Insert(SampleWriteEvents.CreateWriteEventDeleteMovie());
+        }
+
+        private static void InsertWriteEventsIntoDbForUpdate()
+        {
+            Factory.CreateWriteEventRepository().Insert(SampleWriteEvents.CreateWriteEventUpdateBook());
         }
     }
 }
