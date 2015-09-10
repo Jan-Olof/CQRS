@@ -206,6 +206,14 @@
         {
             try
             {
+                var properties = new List<Property>();
+                properties.AddRange(registration.Properties);
+
+                foreach (var property in properties)
+                {
+                    this.readContext.Properties.Remove(property);
+                }
+
                 this.readContext.Registrations.Remove(registration);
                 return true;
             }
